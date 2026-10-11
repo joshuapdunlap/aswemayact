@@ -1,0 +1,37 @@
+---
+// Essay-variant specimen: measure on columns 3–9, sidenotes in the margin. Not indexed.
+import Periodical from "../layouts/Periodical.astro";
+import Kicker from "../components/Kicker.astro";
+import Sidenote from "../components/Sidenote.astro";
+import SidenoteRef from "../components/SidenoteRef.astro";
+
+const today = new Date(Date.UTC(2026, 9, 11));
+---
+
+<Periodical
+  title="Essay specimen · As We May Act"
+  section="Styleguide"
+  description="The essay layout with sidenotes, as a specimen."
+  variant="essay"
+  noindex
+>
+  <Kicker date={today} />
+  <h1>Essay specimen</h1>
+  <p>
+    Essays set their measure two columns in, so the margin to the right is narrower and the notes run
+    tighter. Bush closed his 1945 essay on the record and whether we learn to use it.<SidenoteRef n={1} />
+  </p>
+  <Sidenote n={1}>
+    Vannevar Bush, “As We May Think,” <i>The Atlantic Monthly</i>, July 1945, p. 108.
+  </Sidenote>
+  <p>
+    A records request is one way to use it. The law gives a citizen the right to inspect and copy public
+    records during the custodian's regular business hours.<SidenoteRef n={2} />
+  </p>
+  <Sidenote n={2}>
+    <span class="mono">§ 25-19-105(a)(1)(A)</span>.
+  </Sidenote>
+  <p>
+    This page exists to show the layout; its text is sample copy.
+  </p>
+</Periodical>

@@ -1,0 +1,160 @@
+---
+// Component specimens. Built at /styleguide/ and kept out of search indexes.
+import Periodical from "../layouts/Periodical.astro";
+import SectionLabel from "../components/SectionLabel.astro";
+import Kicker from "../components/Kicker.astro";
+import StepList from "../components/StepList.astro";
+import Callout from "../components/Callout.astro";
+import SourceCard from "../components/SourceCard.astro";
+import RecordCite from "../components/RecordCite.astro";
+import TrailStop from "../components/TrailStop.astro";
+import Sidenote from "../components/Sidenote.astro";
+import SidenoteRef from "../components/SidenoteRef.astro";
+import Figure from "../components/Figure.astro";
+import CorrectionEntry from "../components/CorrectionEntry.astro";
+
+const today = new Date(Date.UTC(2026, 9, 11));
+---
+
+<Periodical
+  title="Styleguide · As We May Act"
+  section="Styleguide"
+  reviewed={today}
+  description="Specimens of every component on As We May Act."
+  noindex
+>
+  <Kicker date={today} />
+  <h1>Styleguide</h1>
+  <p>
+    One of every component, set with sample copy. Nothing on this page is a finding or a correction; it
+    shows how those things look.
+  </p>
+
+  <h2>Labels and type</h2>
+  <p><SectionLabel>Field manual</SectionLabel></p>
+  <p>
+    Body text is Newsreader at 18px on a phone and 19px on a desk, in a measure of about 66 characters.
+    Statute citations such as <span class="mono">§ 25-19-105(a)(1)(A)</span> are set in Plex Mono. An agency
+    that cannot hand over a record in active use must say so in writing.<SidenoteRef n={1} />
+  </p>
+  <Sidenote n={1}>
+    <span class="mono">§ 25-19-105(e)</span>. The certification names a date and hour within three working days.
+  </Sidenote>
+  <p>
+    Links are underlined, never color alone. Footnotes become sidenotes in the margin on a wide screen and
+    open at the foot of the screen on a phone.<SidenoteRef n={2} />
+  </p>
+  <Sidenote n={2}>
+    Spec §4.5: popovers are keyboard-operable and close on Esc. Without JavaScript the number is a plain link
+    to this note.
+  </Sidenote>
+
+  <h2>Manual step list</h2>
+  <StepList>
+    <li>
+      <p>Ask for the record. Any Arkansas citizen may inspect and copy public records during the custodian's
+        regular business hours.</p>
+      <p class="law">§ 25-19-105(a)(1)(A): “all public records shall be open to inspection and copying by any
+        citizen of the State of Arkansas”</p>
+    </li>
+    <li>
+      <p>If the record is in active use or storage, expect a written certification with a date and hour.</p>
+      <p class="law">§ 25-19-105(e): “the custodian shall certify this fact in writing to the applicant and set
+        a date and hour within three (3) working days”</p>
+    </li>
+    <li>
+      <p>On the fourth working day with no record and no certification, read <a href="/manual/denied/">Denied,
+        now what</a>.</p>
+    </li>
+  </StepList>
+
+  <h2>Essay variant</h2>
+  <p>Essays set the measure on columns 3–9 with notes on 10–12: <a href="/styleguide-essay/">essay specimen</a>.</p>
+
+  <h2>Callouts</h2>
+  <Callout kind="note">
+    <p>Advance payment may be required only when the estimated fee is more than $25.</p>
+  </Callout>
+  <Callout kind="warning">
+    <p>Attorney-client privilege is not an exemption under the FOIA. An agency that cites it should name the
+      exemption it relies on.</p>
+  </Callout>
+
+  <h2>Record citation</h2>
+  <RecordCite
+    statute="§ 25-19-105(b)(7)"
+    source="Arkansas Code Annotated, Title 25, Chapter 19"
+    locator="subsection (b)(7)"
+  />
+  <RecordCite
+    source="The Atlantic Monthly, July 1945"
+    locator="p. 108"
+    archived="https://web.archive.org/web/20240726075337/https://cdn.theatlantic.com/media/archives/1945/07/176-1/132407932.pdf"
+  />
+
+  <h2>Source card</h2>
+  <SourceCard
+    level={3}
+    name="Acts of the General Assembly"
+    holder="Bureau of Legislative Research"
+    whatItHolds="Bills and Acts as passed, with their histories."
+    cost="Free online."
+    limits="An Act shows the law as passed; the codified section may read differently after later amendments."
+    url="https://arkleg.state.ar.us/"
+    checked={today}
+  />
+
+  <h2>Trail stops</h2>
+  <TrailStop
+    level={3}
+    n={1}
+    type="passage"
+    title="Bush on tying records together"
+    source="The Atlantic Monthly, July 1945"
+    locator="p. 107"
+    archived="https://web.archive.org/web/20240726075337/https://cdn.theatlantic.com/media/archives/1945/07/176-1/132407932.pdf"
+  >
+    <p>“The process of tying two items together is the important thing.”</p>
+  </TrailStop>
+  <TrailStop
+    level={3}
+    n={2}
+    type="record"
+    title="A written certification"
+    source="Ark. Code Ann. § 25-19-105(e)"
+    locator="subsection (e)"
+  >
+    <p>The record a custodian must produce when a requested record is in active use or storage.</p>
+  </TrailStop>
+  <TrailStop level={3} n={3} type="concept" title="Working papers follow the office" source="Ark. Code Ann. § 25-19-105(b)(7)">
+    <p>The exemption binds the office that holds the papers, not every copy of the record.</p>
+  </TrailStop>
+  <TrailStop level={3} n={4} type="finding" title="The clock needs a certificate" source="Ark. Code Ann. § 25-19-105(e)">
+    <p>Three working days apply only when the custodian certifies the delay in writing.</p>
+  </TrailStop>
+  <TrailStop level={3} n={5} type="action" title="Write the request" source="Field manual, Writing a request">
+    <p>Name the document types, the dates and the format. <a href="/manual/write/">Open the letter builder</a>.</p>
+  </TrailStop>
+
+  <h2>Figure</h2>
+  <Figure n={1} caption="The three-day certification, § 25-19-105(e)">
+    <table>
+      <thead>
+        <tr><th scope="col">When</th><th scope="col">What happens</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Day 0</td><td>You ask to inspect or copy a record.</td></tr>
+        <tr><td>Day 0</td><td>If it is in active use or storage, the custodian certifies that in writing and sets a date and hour.</td></tr>
+        <tr><td>By day&nbsp;3</td><td>The record is available at the date and hour set, counted in working days.</td></tr>
+      </tbody>
+    </table>
+  </Figure>
+
+  <h2>Corrections entry</h2>
+  <CorrectionEntry
+    page="/manual/the-clock/"
+    date={today}
+    was="Three days."
+    now="Three working days."
+  />
+</Periodical>

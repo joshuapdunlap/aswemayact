@@ -1,0 +1,53 @@
+---
+// About: the name essay (essay layout, footnotes as margin sidenotes), then the editor in
+// two sentences, the licenses and the imprint.
+import { getEntry, render } from "astro:content";
+import Periodical from "../layouts/Periodical.astro";
+import Kicker from "../components/Kicker.astro";
+
+const essay = await getEntry("essays", "why-as-we-may-act");
+if (!essay) throw new Error("missing essay: why-as-we-may-act");
+const { Content } = await render(essay);
+const { title, author, dateline, summary, reviewed } = essay.data;
+---
+
+<Periodical title="About · As We May Act" section="About" reviewed={reviewed} description={summary} variant="essay">
+  <Kicker date={new Date(dateline)} />
+  <h1 class="essay-title">{title}</h1>
+  <Content />
+  <p class="signature">— {author}</p>
+
+  <section class="colophon" aria-labelledby="editor">
+    <h2 id="editor">The editor</h2>
+    <p>
+      The editor is Joshua Dunlap. He files public records requests in Arkansas and edits this site.
+    </p>
+
+    <h2 id="licenses">Licenses</h2>
+    <p>
+      The field manual, the source cards and the letter builder’s text are published under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>: you may republish and adapt them, with credit.
+      The essays and trails are published under <a href="https://creativecommons.org/licenses/by-nd/4.0/">CC BY-ND 4.0</a>: you may republish them unchanged, with credit.
+      Quotations from other works stay under their own terms.
+    </p>
+
+    <h2 id="imprint">Imprint</h2>
+    <p>As We May Act · <a href="mailto:editor@aswemayact.org">editor@aswemayact.org</a></p>
+  </section>
+</Periodical>
+
+<style>
+  .signature {
+    margin-top: 1.5rem;
+    font-style: italic;
+  }
+
+  .colophon {
+    margin-top: 3rem;
+    padding-top: 0.5rem;
+    border-top: 1px solid var(--rule);
+  }
+
+  .colophon h2 {
+    font-size: var(--step-1);
+  }
+</style>

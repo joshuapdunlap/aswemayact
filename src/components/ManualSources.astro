@@ -1,0 +1,54 @@
+---
+// The sources list beside a manual page. Entries are "Label https://url" strings from
+// the page's frontmatter (see lib/cite.ts parseSource).
+import { parseSource } from "../lib/cite";
+
+interface Props {
+  sources: string[];
+  /** Heading level; 2 beside a page, 3 inside a printable sheet. */
+  level?: 2 | 3;
+}
+
+const { sources, level = 2 } = Astro.props;
+const Heading = `h${level}` as "h2" | "h3";
+const items = sources.map(parseSource);
+---
+
+<section class="manual-sources">
+  <Heading class="manual-sources__title small-caps">Sources</Heading>
+  <ol>
+    {items.map((s) => <li>{s.url ? <a href={s.url}>{s.label}</a> : s.label}</li>)}
+  </ol>
+</section>
+
+<style>
+  .manual-sources {
+    font-size: var(--step--1);
+    line-height: 1.45;
+  }
+
+  .manual-sources__title {
+    margin: 0 0 0.5rem;
+    font-family: var(--font-grotesque);
+    font-size: var(--step--1);
+    font-weight: 700;
+    letter-spacing: 0.06em;
+  }
+
+  .manual-sources ol {
+    margin: 0;
+    padding-left: 1.5em;
+  }
+
+  /* Each source is a link standing alone, not a link in a sentence, so it gets the
+     24px target (WCAG 2.2 SC 2.5.8); the padding replaces the gap between items. */
+  .manual-sources a {
+    display: inline-block;
+    min-height: 24px;
+    padding-block: 0.1875rem;
+  }
+
+  .manual-sources li + li {
+    margin-top: 0;
+  }
+</style>

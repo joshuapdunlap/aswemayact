@@ -1,0 +1,41 @@
+---
+// Numbered, captioned figure: "Fig. 3. The three-day certification, § 25-19-105(e)".
+// The default slot is the figure body (table, image with alt text, or SVG).
+interface Props {
+  n: number;
+  caption: string;
+}
+
+const { n, caption } = Astro.props;
+---
+
+<figure class="figure" id={`fig-${n}`}>
+  <slot />
+  <figcaption><span class="figure__n">Fig. {n}.</span> {caption}</figcaption>
+</figure>
+
+<style>
+  .figure {
+    margin: 2rem 0;
+  }
+
+  .figure :global(img),
+  .figure :global(svg) {
+    display: block;
+    max-width: 100%;
+    height: auto;
+  }
+
+  figcaption {
+    margin-top: 0.5rem;
+    color: var(--ink-light);
+    font-family: var(--font-grotesque);
+    font-size: var(--step--2);
+    line-height: 1.4;
+  }
+
+  .figure__n {
+    color: var(--ink);
+    font-weight: 700;
+  }
+</style>

@@ -1,0 +1,92 @@
+---
+// Field manual index: the nine pages in order, each with its summary and review date.
+import { getCollection } from "astro:content";
+import Periodical from "../../layouts/Periodical.astro";
+import { formatFolio } from "../../lib/dates";
+
+const pages = (await getCollection("manual")).sort((a, b) => a.data.order - b.data.order);
+const latest = new Date(Math.max(...pages.map((p) => p.data.reviewed.getTime())));
+---
+
+<Periodical
+  title="Field manual · As We May Act"
+  section="Field manual"
+  reviewed={latest}
+  description="A plain-language guide to getting public records under the Arkansas Freedom of Information Act."
+>
+  <h1>Field manual</h1>
+  <p class="manual-summary">
+    How to get a public record in Arkansas, in nine short pages. Each one quotes the statute it relies on and
+    shows the date it was last checked against the law.
+  </p>
+  <p class="manual-lead">
+    <strong>Ready to write?</strong> The <a href="/manual/write/">letter builder</a> drafts a request with you in
+    your browser, citing the statute behind each sentence. Nothing you type is stored or sent.
+  </p>
+  <ol class="manual-index" role="list">
+    {
+      pages.map((p) => (
+        <li>
+          <h2 class="manual-index__title">
+            <a href={`/manual/${p.id}/`}>{p.data.title}</a>
+          </h2>
+          <p class="manual-index__summary">{p.data.summary}</p>
+          <p class="manual-index__reviewed mono">Reviewed {formatFolio(p.data.reviewed)}</p>
+        </li>
+      ))
+    }
+  </ol>
+</Periodical>
+
+<style>
+  .manual-lead {
+    margin: 1.5rem 0 0;
+    padding-top: 0.75rem;
+    border-top: 1px solid var(--rule);
+  }
+
+  .manual-lead strong {
+    font-family: var(--font-grotesque);
+  }
+
+  .manual-index {
+    margin: 1.5rem 0 0;
+    padding: 0;
+    list-style: none;
+    counter-reset: page;
+  }
+
+  .manual-index > li {
+    counter-increment: page;
+    position: relative;
+    padding: 1rem 0 1rem 2.5rem;
+    border-top: 1px solid var(--rule);
+  }
+
+  .manual-index > li::before {
+    content: counter(page);
+    position: absolute;
+    left: 0;
+    top: 1rem;
+    font-family: var(--font-grotesque);
+    font-weight: 700;
+    font-size: var(--step-1);
+    line-height: 1.3;
+  }
+
+  .manual-index__title {
+    margin: 0;
+    font-size: var(--step-1);
+    line-height: 1.3;
+  }
+
+  .manual-index__summary {
+    margin: 0.25rem 0;
+  }
+
+  .manual-index__reviewed {
+    margin: 0;
+    color: var(--ink-light);
+    font-size: var(--step--1);
+  }
+</style>

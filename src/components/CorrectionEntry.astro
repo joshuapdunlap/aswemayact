@@ -1,0 +1,64 @@
+---
+// One entry in the corrections log: date, the page corrected, what it said, what it says now.
+import { formatFolio } from "../lib/dates";
+import { isLinkable } from "../lib/cite";
+
+interface Props {
+  page: string;
+  date: Date;
+  was: string;
+  now: string;
+}
+
+const { page, date, was, now } = Astro.props;
+---
+
+<article class="correction-entry">
+  <p class="correction-entry__head">
+    <time class="mono" datetime={date.toISOString().slice(0, 10)}>{formatFolio(date)}</time>
+    <span class="correction-entry__page">{isLinkable(page) ? <a href={page}>{page}</a> : page}</span>
+  </p>
+  <dl class="correction-entry__change">
+    <dt class="small-caps">Was</dt>
+    <dd>{was}</dd>
+    <dt class="small-caps">Now</dt>
+    <dd>{now}</dd>
+  </dl>
+</article>
+
+<style>
+  .correction-entry {
+    padding-block: 0.75rem 1rem;
+    border-top: 1px solid var(--rule);
+  }
+
+  .correction-entry__head {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 var(--gutter);
+    margin: 0 0 0.5rem;
+    font-family: var(--font-grotesque);
+    font-size: var(--step--1);
+  }
+
+  .correction-entry__head .mono {
+    color: var(--ink-light);
+  }
+
+  .correction-entry__change {
+    display: grid;
+    grid-template-columns: 3.5rem minmax(0, 1fr);
+    gap: 0.25rem var(--gutter);
+    align-items: baseline;
+    margin: 0;
+  }
+
+  .correction-entry__change dt {
+    color: var(--ink-light);
+    font-size: var(--step--1);
+  }
+
+  .correction-entry__change dd {
+    margin: 0;
+  }
+</style>

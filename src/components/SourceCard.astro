@@ -1,0 +1,102 @@
+---
+// Source card: where a kind of record lives, what it costs, its limits, and when
+// the editor last checked the link.
+import { formatFolio } from "../lib/dates";
+import { hostLabel } from "../lib/cite";
+
+interface Props {
+  name: string;
+  holder: string;
+  whatItHolds: string;
+  cost: string;
+  limits: string;
+  url: string;
+  checked: Date;
+  /** Heading level for the card's name; 2 on a page of cards, 3 under a section. */
+  level?: 2 | 3 | 4;
+}
+
+const { name, holder, whatItHolds, cost, limits, url, checked, level = 2 } = Astro.props;
+const Heading = `h${level}` as "h2" | "h3" | "h4";
+---
+
+<article class="source-card">
+  <Heading class="source-card__name">{name}</Heading>
+  <dl class="source-card__facts">
+    <div>
+      <dt class="small-caps">Held by</dt>
+      <dd>{holder}</dd>
+    </div>
+    <div>
+      <dt class="small-caps">What it holds</dt>
+      <dd>{whatItHolds}</dd>
+    </div>
+    <div>
+      <dt class="small-caps">Cost</dt>
+      <dd>{cost}</dd>
+    </div>
+    <div>
+      <dt class="small-caps">Limits</dt>
+      <dd>{limits}</dd>
+    </div>
+  </dl>
+  <p class="source-card__foot">
+    <a href={url}>{hostLabel(url)}</a>
+    <span class="mono">Checked {formatFolio(checked)}</span>
+  </p>
+</article>
+
+<style>
+  .source-card {
+    margin: 1.5rem 0;
+    padding-top: 0.75rem;
+    border-top: 1px solid var(--ink);
+  }
+
+  .source-card__name {
+    margin: 0 0 0.75rem;
+    font-size: var(--step-1);
+  }
+
+  .source-card__facts {
+    margin: 0;
+  }
+
+  .source-card__facts > div {
+    padding-block: 0.375rem;
+    border-top: 1px solid var(--rule);
+  }
+
+  .source-card__facts dt {
+    color: var(--ink-light);
+    font-size: var(--step--1);
+  }
+
+  .source-card__facts dd {
+    margin: 0;
+  }
+
+  .source-card__foot {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 0.25rem var(--gutter);
+    margin: 0;
+    padding-top: 0.5rem;
+    border-top: 1px solid var(--rule);
+    font-size: var(--step--1);
+  }
+
+  .source-card__foot .mono {
+    color: var(--ink-light);
+  }
+
+  @media (min-width: 900px) {
+    .source-card__facts > div {
+      display: grid;
+      grid-template-columns: 9rem 1fr;
+      gap: var(--gutter);
+      align-items: baseline;
+    }
+  }
+</style>

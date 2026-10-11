@@ -1,0 +1,47 @@
+---
+// Corrections log, newest first, and how to ask for a correction or reply.
+import { getCollection } from "astro:content";
+import Periodical from "../layouts/Periodical.astro";
+import CorrectionEntry from "../components/CorrectionEntry.astro";
+
+const entries = (await getCollection("corrections")).sort(
+  (a, b) => b.data.date.getTime() - a.data.date.getTime() || b.id.localeCompare(a.id),
+);
+---
+
+<Periodical
+  title="Corrections · As We May Act"
+  section="Corrections"
+  description="Every correction to As We May Act, dated, with what each page said and what it says now."
+>
+  <h1>Corrections</h1>
+  <p class="corrections-summary">
+    Every change that corrects this site is logged here, newest first: the date, the page, what it said and what
+    it says now.
+  </p>
+  <div class="corrections-log">
+    {entries.map(({ data }) => <CorrectionEntry {...data} />)}
+  </div>
+
+  <h2>Asking for a correction or a reply</h2>
+  <p>
+    If something on this site is wrong, write to <a href="mailto:editor@aswemayact.org">editor@aswemayact.org</a>.
+    Name the page and the sentence, and send whatever shows the error, such as a record, a ruling or a published
+    report. If you or your agency appears in a trail and you want to respond, write to the same address. Once a
+    correction is confirmed, it is posted here within 48 hours, and a reply that bears on the record is linked
+    from the trail it answers.
+  </p>
+</Periodical>
+
+<style>
+  .corrections-summary {
+    font-size: var(--step-1);
+    line-height: 1.4;
+    color: var(--ink-light);
+  }
+
+  .corrections-log {
+    margin-top: 2rem;
+    border-bottom: 1px solid var(--rule);
+  }
+</style>

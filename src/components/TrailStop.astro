@@ -1,0 +1,110 @@
+---
+// One stop on a trail. A 2rem mark column holds the stop's type mark — passage ❝,
+// record ▭, concept ○, finding →, action ■ (action in Rubric, record in Stamp) —
+// and a small-caps label names the type in words, so it is never carried by the
+// mark or its color alone. The default slot is the editor's narration.
+import type { StopType } from "../lib/content-rules";
+import { isUrl, hostLabel } from "../lib/cite";
+
+interface Props {
+  n: number;
+  type: StopType;
+  title: string;
+  source: string;
+  locator?: string;
+  archived?: string;
+  /** Heading level for the stop title; 2 on a trail page, 3 under a section. */
+  level?: 2 | 3 | 4;
+}
+
+const MARKS: Record<StopType, string> = {
+  passage: "❝",
+  record: "▭",
+  concept: "○",
+  finding: "→",
+  action: "■",
+};
+
+const { n, type, title, source, locator, archived, level = 2 } = Astro.props;
+const Heading = `h${level}` as "h2" | "h3" | "h4";
+const typeName = type[0].toUpperCase() + type.slice(1);
+---
+
+<article class:list={["trail-stop", `trail-stop--${type}`]} id={`stop-${n}`} aria-labelledby={`stop-${n}-title`}>
+  <span class="mark" aria-hidden="true">{MARKS[type]}</span>
+  <div class="trail-stop__body">
+    <p class="trail-stop__label small-caps">Stop {n} · {typeName}</p>
+    <Heading class="trail-stop__title" id={`stop-${n}-title`}>{title}</Heading>
+    {Astro.slots.has("default") && (
+      <div class="trail-stop__narration">
+        <slot />
+      </div>
+    )}
+    <p class="trail-stop__source mono">
+      <cite>{isUrl(source) ? <a href={source}>{hostLabel(source)}</a> : source}</cite>
+      {locator && <span>{locator}</span>}
+      {archived && <span><a href={archived}>Archived copy</a></span>}
+    </p>
+  </div>
+</article>
+
+<style>
+  .trail-stop {
+    display: grid;
+    grid-template-columns: 2rem minmax(0, 1fr);
+    align-items: baseline; /* the mark sits on the label's baseline */
+    margin: 0;
+    padding-block: 1rem 1.25rem;
+    border-top: 1px solid var(--rule);
+  }
+
+  .mark {
+    font-family: var(--font-grotesque);
+    font-size: var(--step-0);
+    line-height: 1;
+    color: var(--ink);
+  }
+
+  /* ❝ draws small beside the other marks; set it larger on the same baseline. */
+  .trail-stop--passage .mark {
+    font-size: var(--step-2);
+  }
+
+  .trail-stop--record .mark {
+    color: var(--stamp);
+  }
+
+  .trail-stop--action .mark {
+    color: var(--rubric);
+  }
+
+  .trail-stop__label {
+    margin: 0;
+    color: var(--ink-light);
+    font-size: var(--step--1);
+    font-weight: 600;
+  }
+
+  .trail-stop__title {
+    margin: 0.125rem 0 0.5rem;
+    font-size: var(--step-1);
+  }
+
+  .trail-stop__narration > :global(:last-child) {
+    margin-bottom: 0.75rem;
+  }
+
+  .trail-stop__source {
+    margin: 0;
+    color: var(--ink-light);
+  }
+
+  .trail-stop__source cite {
+    font-style: normal;
+    color: var(--ink);
+  }
+
+  .trail-stop__source > * + *::before {
+    content: " · " / "";
+  }
+</style>

@@ -1,0 +1,126 @@
+---
+import "../styles/fonts.css";
+// The two faces every page sets in, preloaded so they arrive with the stylesheet and the
+// swap from the fallback does not shift the layout. Same files as fonts.css (same hash).
+import newsreaderRoman from "../fonts/newsreader-latin-roman.woff2?url";
+import franklin from "../fonts/libre-franklin-latin.woff2?url";
+import "../styles/tokens.css";
+import "../styles/base.css";
+import "../styles/type.css";
+import "../styles/grid.css";
+import "../styles/components.css";
+import "../styles/print.css";
+import Folio from "../components/Folio.astro";
+import ThemeToggle from "../components/ThemeToggle.astro";
+import SectionLabel from "../components/SectionLabel.astro";
+
+interface Props {
+  title: string;
+  section: string;
+  reviewed?: Date;
+  description?: string;
+  wide?: boolean;
+  /** "essay" sets the measure on columns 3–9 (spec §4.3); default is columns 1–7. */
+  variant?: "default" | "essay";
+  /** Keep the page out of search engines and out of the site's own Pagefind index (the styleguide, search). */
+  noindex?: boolean;
+}
+
+const {
+  title,
+  section,
+  reviewed,
+  description,
+  wide = false,
+  variant = "default",
+  noindex = false,
+} = Astro.props;
+const hasAside = Astro.slots.has("aside");
+// The front door carries the site name as its section; every other page names the site
+// beside its section, as a link home.
+const isFront = Astro.url.pathname === "/";
+const SITE_NAME = "As We May Act";
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="light dark" />
+    <title>{title}</title>
+    {description && <meta name="description" content={description} />}
+    {noindex && <meta name="robots" content="noindex" />}
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="preload" href={newsreaderRoman} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={franklin} as="font" type="font/woff2" crossorigin />
+    <slot name="head" />
+    <script is:inline>
+      document.documentElement.classList.add("js");
+      try {
+        const theme = localStorage.getItem("theme");
+        if (theme === "light" || theme === "dark") document.documentElement.dataset.theme = theme;
+      } catch (e) {}
+    </script>
+  </head>
+  <body>
+    <a class="skip-link no-print" href="#main">Skip to content</a>
+    <div class="page">
+      <header class="running-head">
+        {
+          isFront ? (
+            <SectionLabel>{SITE_NAME}</SectionLabel>
+          ) : (
+            <span class="running-head__title">
+              <a class="running-head__home small-caps" href="/">{SITE_NAME}</a>
+              <span class="running-head__sep" aria-hidden="true">·</span>
+              <SectionLabel>{section}</SectionLabel>
+            </span>
+          )
+        }
+        {reviewed && <Folio reviewed={reviewed} />}
+        <nav class="running-head__nav no-print" aria-label="Site">
+          <a href="/search/" aria-current={Astro.url.pathname === "/search/" ? "page" : undefined}>Search</a>
+        </nav>
+      </header>
+      <main
+        id="main"
+        data-pagefind-body={noindex ? undefined : ""}
+        data-pagefind-ignore={noindex ? "all" : undefined}
+        class:list={["grid", { wide, essay: variant === "essay" }]}>
+        <div class="measure">
+          <slot />
+        </div>
+        {hasAside && (
+          <aside class="aside">
+            <slot name="aside" />
+          </aside>
+        )}
+      </main>
+      <footer class="site-footer">
+        <p>Manual, source cards and letter-builder text: CC BY 4.0. Essays and trails: CC BY-ND 4.0.</p>
+        <p>Contact: <a href="mailto:editor@aswemayact.org">editor@aswemayact.org</a></p>
+        <nav class="site-footer__nav no-print" aria-label="Footer">
+          <a href="/about/">About</a>
+          <span aria-hidden="true">·</span>
+          <a href="/corrections/">Corrections</a>
+          <span aria-hidden="true">·</span>
+          <a href="/search/">Search</a>
+        </nav>
+        <ThemeToggle />
+      </footer>
+    </div>
+    <script>
+      // Sidenote popovers below 900px (see components/Sidenote.astro). On every page so
+      // notes produced from Markdown work without importing a component.
+      import { enhancePopovers } from "../components/Popover";
+      enhancePopovers();
+    </script>
+    {/*
+      CLOUDFLARE WEB ANALYTICS BEACON — PLACEHOLDER, NOT YET ACTIVE (docs/DEPLOY.md, step 5).
+      Replace REPLACE_WITH_BEACON_TOKEN with the token from the dashboard and uncomment.
+      The beacon is the only third-party request the site makes; it sets no cookies.
+      <script is:inline defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "REPLACE_WITH_BEACON_TOKEN"}'></script>
+    */}
+  </body>
+</html>

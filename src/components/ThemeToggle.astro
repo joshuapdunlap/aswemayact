@@ -1,0 +1,49 @@
+---
+// Switches between light paper and dark microfilm; the choice is kept in localStorage.
+---
+
+<button class="theme-toggle no-print" type="button" aria-pressed="false" data-theme-toggle>
+  Dark theme
+</button>
+
+<style>
+  .theme-toggle {
+    padding: 0.125rem 0.5rem;
+    border: 1px solid var(--ink-light);
+    border-radius: 0;
+    background: transparent;
+    color: var(--ink);
+    font-family: var(--font-grotesque);
+    font-size: var(--step--2);
+    cursor: pointer;
+  }
+
+  /* Without JavaScript the button could do nothing, so it is not shown. */
+  :global(html:not(.js)) .theme-toggle {
+    display: none;
+  }
+</style>
+
+<script>
+  const root = document.documentElement;
+
+  function currentTheme(): "light" | "dark" {
+    const chosen = root.dataset.theme;
+    if (chosen === "light" || chosen === "dark") return chosen;
+    return matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+  }
+
+  for (const button of document.querySelectorAll<HTMLButtonElement>("[data-theme-toggle]")) {
+    button.setAttribute("aria-pressed", String(currentTheme() === "dark"));
+    button.addEventListener("click", () => {
+      const next = currentTheme() === "dark" ? "light" : "dark";
+      root.dataset.theme = next;
+      button.setAttribute("aria-pressed", String(next === "dark"));
+      try {
+        localStorage.setItem("theme", next);
+      } catch {
+        // Storage unavailable: the choice lasts for this page only.
+      }
+    });
+  }
+</script>

@@ -1,0 +1,59 @@
+/* Design tokens: spec §4.1–4.3. Colors are verified by scripts/contrast.ts. */
+
+:root {
+  color-scheme: light;
+
+  /* Light ("paper") */
+  --paper: #F3EEE4;
+  --paper-2: #EAE3D6;
+  --ink: #1A1915;
+  --ink-light: #5B574E;
+  --rule: #C9C1B2;
+  --rubric: #B9331F;
+  --stamp: #1E4E78;
+
+  /* Type */
+  --font-text: "Newsreader Variable", "Newsreader Fallback", "Newsreader Fallback Times", Georgia, "Times New Roman", serif;
+  --font-grotesque: "Libre Franklin Variable", "Libre Franklin Fallback", "Helvetica Neue", Arial, sans-serif;
+  --font-mono: "IBM Plex Mono", "IBM Plex Mono Fallback", ui-monospace, Menlo, Consolas, monospace;
+
+  --step--2: 0.8125rem; /* caption */
+  --step--1: 0.9375rem; /* small */
+  --step-0: 1.125rem;   /* body */
+  --step-1: 1.375rem;   /* h3 */
+  --step-2: 1.75rem;    /* h2 */
+  --step-3: 2.5rem;     /* h1 */
+  --step-4: 3.5rem;     /* display, front door only */
+
+  /* Layout */
+  --measure: 66ch;
+  --gutter: 16px;
+  --bp-grid: 900px; /* reference only: custom properties cannot be used in media queries */
+  --max-width: 1120px;
+}
+
+/* Dark ("microfilm"): follows the system unless the reader chose light. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --paper: #15140F;
+    --paper-2: #1F1D17;
+    --ink: #EDE6D6;
+    --ink-light: #A89F8C;
+    --rule: #3A362D;
+    --rubric: #D9513B;
+    --stamp: #6FA3D6;
+  }
+}
+
+/* Dark chosen explicitly by the reader. */
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --paper: #15140F;
+  --paper-2: #1F1D17;
+  --ink: #EDE6D6;
+  --ink-light: #A89F8C;
+  --rule: #3A362D;
+  --rubric: #D9513B;
+  --stamp: #6FA3D6;
+}

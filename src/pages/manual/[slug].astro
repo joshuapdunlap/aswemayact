@@ -1,0 +1,69 @@
+---
+// One field-manual page: the Markdown body in the measure, its sources in the aside; the
+// sources page also gets the source-card grid below its introduction.
+// /manual/printables/ has its own page (printables.astro), so it is not generated here.
+import { getCollection, render } from "astro:content";
+import Periodical from "../../layouts/Periodical.astro";
+import ManualSources from "../../components/ManualSources.astro";
+import PrintButton from "../../components/PrintButton.astro";
+import SourceCard from "../../components/SourceCard.astro";
+
+// Card order on /manual/sources/: guides first, then helpers, data sites and maps.
+const SOURCE_ORDER = [
+  "ag-foia-handbook",
+  "ag-opinions",
+  "rcfp-arkansas",
+  "apa-hotline",
+  "muckrock-arkansas",
+  "arkleg-acts",
+  "legiscan-arkansas",
+  "transparency-arkansas",
+  "sos-ethics-filings",
+  "county-clerks",
+  "deflock",
+  "atlas-of-surveillance",
+];
+const rank = (id: string) => {
+  const i = SOURCE_ORDER.indexOf(id);
+  return i === -1 ? SOURCE_ORDER.length : i;
+};
+
+export async function getStaticPaths() {
+  const pages = await getCollection("manual");
+  return pages
+    .filter((p) => p.id !== "printables")
+    .map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const { title, summary, reviewed, sources, printable } = entry.data;
+const isSources = entry.id === "sources";
+const cards = isSources
+  ? (await getCollection("sources")).sort((a, b) => rank(a.id) - rank(b.id) || a.id.localeCompare(b.id))
+  : [];
+---
+
+<Periodical
+  title={`${title} · Field manual · As We May Act`}
+  section="Field manual"
+  reviewed={reviewed}
+  description={summary}
+  wide={isSources}
+>
+  <div class="manual-text">
+    <p class="manual-back no-print"><a href="/manual/">Field manual</a></p>
+    <h1>{title}</h1>
+    <p class="manual-summary">{summary}</p>
+    {printable && <PrintButton />}
+    <div class="manual-body">
+      <Content />
+    </div>
+  </div>
+  {cards.length > 0 && (
+    <div class="source-grid">
+      {cards.map(({ data }) => <SourceCard {...data} />)}
+    </div>
+  )}
+  {sources.length > 0 && <ManualSources slot="aside" sources={sources} />}
+</Periodical>

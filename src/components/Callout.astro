@@ -1,0 +1,16 @@
+---
+// Note or warning callout: a left rule in Stamp (note) or Rubric (warning) and a
+// small-caps label, so the kind is never carried by color alone. Styles live in
+// styles/components.css so Markdown pages can write the same markup.
+interface Props {
+  kind: "note" | "warning";
+}
+
+const { kind } = Astro.props;
+const label = kind === "warning" ? "Warning" : "Note";
+---
+
+<div class:list={["callout", `callout--${kind}`]} role="note">
+  <p class="callout__label small-caps">{label}</p>
+  <slot />
+</div>

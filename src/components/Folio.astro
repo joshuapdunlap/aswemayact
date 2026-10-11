@@ -1,0 +1,13 @@
+---
+import { formatFolio } from "../lib/dates";
+import { isUnderReview } from "../lib/content-rules";
+
+interface Props {
+  reviewed: Date;
+}
+
+const { reviewed } = Astro.props;
+const underReview = isUnderReview(reviewed, new Date());
+---
+
+<span class="folio mono">Last reviewed {formatFolio(reviewed)}{underReview && " · Under review"}</span>

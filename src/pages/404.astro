@@ -1,0 +1,15 @@
+---
+// Served by Workers static assets for any unknown path (wrangler.jsonc:
+// not_found_handling "404-page"), with status 404. Kept out of search and the sitemap.
+import Periodical from "../layouts/Periodical.astro";
+---
+
+<Periodical title="Not in the record" section="Not found" noindex>
+  <h1>Not in the record</h1>
+  <p>This page is not in the record.</p>
+  <ul>
+    <li><a href="/manual/">The field manual</a></li>
+    <li><a href="/trails/">The trails</a></li>
+    <li><a href="/search/">Search the site</a></li>
+  </ul>
+</Periodical>

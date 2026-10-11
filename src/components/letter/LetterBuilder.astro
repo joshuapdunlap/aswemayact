@@ -1,0 +1,633 @@
+---
+// Letter builder (spec §6, §4.4): five form steps on columns 1–6, the letter typesetting
+// itself on columns 7–12 from 900px; stacked below that, the letter after the form.
+// The default letter is rendered here at build time; LetterBuilder.ts re-renders it from
+// the form on every input. Nothing is stored or sent.
+import Callout from "../Callout.astro";
+import { DEFAULTS, DOCUMENT_TYPES, LETTER_VERSION } from "../../lib/letter/model";
+import { generateLetter, generateFollowUp, generateDeadlineCard } from "../../lib/letter/generate";
+import { letterHtml } from "./render";
+
+const letter = letterHtml(generateLetter(DEFAULTS));
+const silent = letterHtml(generateFollowUp(DEFAULTS, "silent"));
+const equivocal = letterHtml(generateFollowUp(DEFAULTS, "equivocal"));
+const dayFour = generateDeadlineCard(DEFAULTS).dayFour;
+---
+
+<noscript>
+  <div class="nojs-notice">
+    <p>
+      The letter builder needs JavaScript, which is off in this browser. The sample letter below
+      shows what it writes. <a href="/manual/write-a-request/">Write a request</a> explains each
+      part, and the <a href="/manual/printables/">printable sheets</a> work on paper.
+    </p>
+  </div>
+</noscript>
+
+{/* The builder and its outputs are templates filled by script: kept out of site search. */}
+<div class="builder" data-pagefind-ignore="all">
+  <form id="builder" class="builder__form needs-js" autocomplete="off" novalidate aria-label="Letter builder">
+    <fieldset>
+      <legend><span class="step-n">1.</span> Who holds it</legend>
+      <div class="field">
+        <label for="agency">Agency or office</label>
+        <input id="agency" name="agency" type="text" autocomplete="off" aria-describedby="agency-hint" />
+      </div>
+      <div class="field">
+        <label for="contact">Records contact <span class="optional">(optional)</span></label>
+        <input id="contact" name="contact" type="text" autocomplete="off" aria-describedby="agency-hint" />
+      </div>
+      <p class="hint" id="agency-hint">
+        If a record also exists at a city, county or school district, it is not covered by the
+        working-papers exemption there.
+      </p>
+    </fieldset>
+
+    <fieldset>
+      <legend><span class="step-n">2.</span> What exactly</legend>
+      <fieldset class="group">
+        <legend>Kinds of documents</legend>
+        <div class="checks">
+          {
+            DOCUMENT_TYPES.map((t) => (
+              <div class="check">
+                <input id={`type-${t.id}`} name="documentTypes" type="checkbox" value={t.id} />
+                <label for={`type-${t.id}`}>{t.label}</label>
+              </div>
+            ))
+          }
+        </div>
+      </fieldset>
+      <div class="field">
+        <label for="other-type">If other, what kind <span class="optional">(optional)</span></label>
+        <input id="other-type" name="otherType" type="text" autocomplete="off" />
+      </div>
+      <div class="field">
+        <label for="subject">What the records are about</label>
+        <input id="subject" name="subject" type="text" autocomplete="off" aria-describedby="subject-hint" />
+        <p class="hint" id="subject-hint">For example: the license-plate reader cameras on Main Street.</p>
+      </div>
+      <div class="live" aria-live="polite">
+        <div id="vague-warning" hidden>
+          <Callout kind="warning">
+            <p>
+              “Communications” may not reach a contract. In Fayetteville in June 2026, a judge ruled
+              that a request for communications about a drone maker’s facility did not reach the
+              non-disclosure agreement itself. Tick the kinds of documents you want above.
+            </p>
+          </Callout>
+        </div>
+      </div>
+      <div class="field">
+        <label for="parties">People, companies or offices involved <span class="optional">(optional, one per line)</span></label>
+        <textarea id="parties" name="parties" rows="3" autocomplete="off"></textarea>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend><span class="step-n">3.</span> Dates and format</legend>
+      <fieldset class="group">
+        <legend>Records dated <span class="optional">(optional)</span></legend>
+        <div class="dates">
+          <div class="field">
+            <label for="date-from">From</label>
+            <input id="date-from" name="dateFrom" type="date" autocomplete="off" />
+          </div>
+          <div class="field">
+            <label for="date-to">Through</label>
+            <input id="date-to" name="dateTo" type="date" autocomplete="off" />
+          </div>
+        </div>
+      </fieldset>
+      <div class="check">
+        <input id="electronic-format" name="electronicFormat" type="checkbox" checked />
+        <label for="electronic-format">Ask for the readily available electronic format in which the records are kept</label>
+      </div>
+      <div class="check">
+        <input id="original-media" name="originalMedia" type="checkbox" />
+        <label for="original-media">For audio or video, ask for the original files, with device identifiers and metadata</label>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend><span class="step-n">4.</span> Your standing</legend>
+      <fieldset class="group">
+        <legend>Whose request is it</legend>
+        <div class="check">
+          <input id="standing-citizen" name="standing" type="radio" value="citizen" checked />
+          <label for="standing-citizen">Mine: I am an Arkansas citizen</label>
+        </div>
+        <div class="check">
+          <input id="standing-proxy" name="standing" type="radio" value="proxy" />
+          <label for="standing-proxy">I am an Arkansas citizen asking for someone who is not</label>
+        </div>
+      </fieldset>
+      <div class="field">
+        <label for="proxy-for">Name of the person you are asking for <span class="optional">(optional)</span></label>
+        <input id="proxy-for" name="proxyFor" type="text" autocomplete="off" />
+      </div>
+      <div class="field">
+        <label for="requester-name">Your name</label>
+        <input id="requester-name" name="requesterName" type="text" autocomplete="name" />
+      </div>
+      <div class="field">
+        <label for="requester-email">Email for the reply <span class="optional">(optional)</span></label>
+        <input id="requester-email" name="requesterEmail" type="email" autocomplete="email" />
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend><span class="step-n">5.</span> Fees and response</legend>
+      <p>Every letter asks the custodian to:</p>
+      <ul class="asks">
+        <li>send a fee estimate before copying, since payment in advance may be required only above $25 <span class="cite">§ 25-19-105(d)(3)(A)(iii)</span></li>
+        <li>itemize every charge <span class="cite">§ 25-19-105(d)(3)(B)</span></li>
+        <li>answer each numbered item in writing, saying whether records exist, are withheld under a named exemption, or do not exist <span class="cite">§ 25-19-105(a)(3)</span></li>
+        <li>certify in writing, with a date and hour within three working days, any record that is in active use or storage <span class="cite">§ 25-19-105(e)</span></li>
+      </ul>
+      <div class="field">
+        <label for="request-date">Date on the letter</label>
+        <input id="request-date" name="requestDate" type="date" autocomplete="off" aria-describedby="request-date-hint" />
+        <p class="hint" id="request-date-hint">The deadline card below counts from this date.</p>
+      </div>
+    </fieldset>
+  </form>
+
+  <div class="builder__letter">
+    <div class="toolbar needs-js">
+      <button type="button" id="copy">Copy</button>
+      <button type="button" id="download">Download .txt</button>
+      <button type="button" id="print">Print</button>
+      <button type="button" id="clear">Clear everything</button>
+      <p id="builder-status" class="status" role="status"></p>
+    </div>
+    <div id="placeholder-note" class="needs-js">
+      <Callout kind="note">
+        <p>The numbered item is still a placeholder. Name the kinds of documents or the subject in step 2; do not send the letter as is.</p>
+      </Callout>
+    </div>
+    <div id="preview" class="mono letter" role="region" aria-label="Your letter" aria-live="off">
+      <div class="letter__body" set:html={letter} />
+      <p class="letter__footer">
+        Prepared with the As We May Act letter builder, v{LETTER_VERSION}. Nothing you typed was stored or sent.
+      </p>
+    </div>
+  </div>
+</div>
+
+<section id="follow-up" class="outputs needs-js" data-pagefind-ignore="all" aria-labelledby="follow-up-title">
+  <h2 id="follow-up-title">Follow-up letters</h2>
+  <p>If you got neither the records nor a written certificate with a date and hour, they are already late, and you can send one of these; do not wait past the third working day. Send one too if the answer does not say plainly what exists. They follow what you typed above.</p>
+  <div class="tabs" role="tablist" aria-label="Follow-up letters">
+    <button type="button" role="tab" id="fu-tab-silent" aria-controls="fu-silent" aria-selected="true">If they stay silent</button>
+    <button type="button" role="tab" id="fu-tab-equivocal" aria-controls="fu-equivocal" aria-selected="false" tabindex="-1">If the answer is equivocal</button>
+  </div>
+  <div id="fu-silent" class="mono letter" role="tabpanel" aria-labelledby="fu-tab-silent" set:html={silent} />
+  <div id="fu-equivocal" class="mono letter" role="tabpanel" aria-labelledby="fu-tab-equivocal" hidden set:html={equivocal} />
+  <div class="toolbar">
+    <button type="button" id="copy-follow-up">Copy this follow-up</button>
+    <p id="follow-up-status" class="status" role="status"></p>
+  </div>
+</section>
+
+<section id="deadline" class="outputs needs-js" data-pagefind-ignore="all" aria-labelledby="deadline-title">
+  <h2 id="deadline-title">Deadline card</h2>
+  <div class="card mono">
+    <dl>
+      <div><dt>Request sent</dt><dd data-deadline="request">—</dd></div>
+      <div><dt>Third working day</dt><dd data-deadline="third">—</dd></div>
+    </dl>
+    <p class="card__label">Day four, if nothing has come</p>
+    <ol class="card__list">{dayFour.map((d) => <li>{d}</li>)}</ol>
+  </div>
+  <p class="card__note">
+    Weekends are skipped; state holidays are not, so if one falls in the window, count one day more.
+    If the answer is no, read <a href="/manual/denied/">Denied, now what</a>.
+  </p>
+</section>
+
+<script>
+  import { initLetterBuilder } from "./LetterBuilder";
+  initLetterBuilder();
+</script>
+
+<style>
+  /* ---- Two panes from 900px; stacked (letter after form) below ---- */
+  .builder {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: 2rem;
+    margin-top: 1.5rem;
+  }
+
+  @media (min-width: 900px) {
+    .builder {
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      column-gap: var(--gutter);
+      align-items: start;
+    }
+
+    .builder__form {
+      grid-column: 1 / span 6;
+    }
+
+    .builder__letter {
+      grid-column: 7 / span 6;
+      position: sticky;
+      top: 1rem;
+      max-height: calc(100vh - 2rem);
+      overflow-y: auto;
+      padding-left: var(--gutter);
+      border-left: 1px solid var(--rule);
+    }
+  }
+
+  :global(html:not(.js)) .needs-js {
+    display: none;
+  }
+
+  .nojs-notice {
+    margin: 1.5rem 0;
+    padding: 0.25rem 0 0.25rem var(--gutter);
+    border-left: 3px solid var(--stamp);
+    max-width: var(--measure);
+  }
+
+  /* ---- Form ---- */
+  .builder__form fieldset {
+    margin: 0 0 1.5rem;
+    padding: 0.75rem 0 0;
+    border: 0;
+    border-top: 2px solid var(--ink);
+    min-width: 0;
+  }
+
+  .builder__form > fieldset > legend {
+    padding: 0 0.5rem 0 0;
+    font-family: var(--font-grotesque);
+    font-weight: 700;
+    font-size: var(--step-1);
+    letter-spacing: -0.01em;
+  }
+
+  .step-n {
+    color: var(--rubric);
+  }
+
+  .builder__form fieldset.group {
+    margin: 0.75rem 0 1rem;
+    padding: 0;
+    border: 0;
+  }
+
+  .group > legend,
+  .field > label {
+    display: block;
+    margin-bottom: 0.25rem;
+    padding: 0;
+    font-family: var(--font-grotesque);
+    font-size: var(--step--1);
+    font-weight: 600;
+  }
+
+  .optional {
+    font-weight: 400;
+    color: var(--ink-light);
+  }
+
+  .field {
+    margin: 0.75rem 0 1rem;
+  }
+
+  input[type="text"],
+  input[type="email"],
+  input[type="date"],
+  textarea {
+    display: block;
+    width: 100%;
+    min-height: 44px;
+    padding: 0.5rem 0.625rem;
+    border: 1px solid var(--ink-light);
+    border-radius: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font: inherit;
+    font-size: 1rem;
+  }
+
+  textarea {
+    resize: vertical;
+  }
+
+  .checks {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0 var(--gutter);
+  }
+
+  @media (min-width: 480px) {
+    .checks {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  .check {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+    margin: 0.25rem 0;
+    font-size: var(--step--1);
+    line-height: 1.4;
+  }
+
+  .check input {
+    flex: none;
+    width: 24px;
+    height: 24px;
+    margin: 0;
+    accent-color: var(--ink);
+  }
+
+  .check label {
+    padding-top: 2px;
+    font-family: var(--font-grotesque);
+  }
+
+  .dates {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--gutter);
+  }
+
+  .dates .field {
+    margin: 0;
+  }
+
+  .hint {
+    margin: 0.25rem 0 0.75rem;
+    color: var(--ink-light);
+    font-size: var(--step--1);
+    line-height: 1.45;
+  }
+
+  .asks {
+    padding-left: 1.25em;
+    font-size: var(--step--1);
+  }
+
+  .asks li {
+    margin-bottom: 0.5rem;
+  }
+
+  .cite {
+    font-family: var(--font-mono);
+    font-size: 0.875em;
+    color: var(--stamp);
+    white-space: nowrap;
+  }
+
+  .live :global(.callout) {
+    margin: 0.5rem 0 1rem;
+  }
+
+  /* ---- Toolbar ---- */
+  .toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .toolbar button,
+  .tabs button {
+    min-height: 44px;
+    padding: 0.5rem 0.875rem;
+    border: 1px solid var(--ink);
+    border-radius: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--font-grotesque);
+    font-size: var(--step--1);
+    font-weight: 600;
+    cursor: pointer;
+  }
+
+  .toolbar button:hover,
+  .tabs button:hover {
+    background: var(--paper-2);
+  }
+
+  #copy {
+    background: var(--rubric);
+    border-color: var(--rubric);
+    color: var(--paper);
+  }
+
+  #copy:hover {
+    background: var(--ink);
+    border-color: var(--ink);
+  }
+
+  #clear {
+    margin-left: auto;
+  }
+
+  .status {
+    flex-basis: 100%;
+    min-height: 1.25em;
+    margin: 0;
+    color: var(--ink-light);
+    font-family: var(--font-grotesque);
+    font-size: var(--step--1);
+  }
+
+  #placeholder-note :global(.callout) {
+    margin-top: 0;
+  }
+
+  /* ---- The letter ---- */
+  .letter {
+    padding: 1.25rem var(--gutter) 1rem;
+    border: 1px solid var(--rule);
+    background: var(--paper);
+    line-height: 1.55;
+    overflow-wrap: break-word;
+  }
+
+  .letter :global(p) {
+    margin: 0 0 1em;
+  }
+
+  .letter :global(.letter__date) {
+    margin-bottom: 1.5em;
+  }
+
+  .letter :global(.letter__items) {
+    margin: 0 0 1em;
+    padding: 0;
+    list-style: none;
+  }
+
+  .letter :global(.letter__items li) {
+    margin-bottom: 0.25em;
+    padding-left: 2.5ch;
+    text-indent: -2.5ch;
+  }
+
+  .letter :global(.letter__signature) {
+    margin-top: 1.5em;
+  }
+
+  .letter :global(.sentence) {
+    border-radius: 1px;
+  }
+
+  .letter :global(.sentence:hover) {
+    background: var(--paper-2);
+  }
+
+  .letter :global(.sentence:focus-visible) {
+    outline: 2px solid var(--stamp);
+    outline-offset: 2px;
+    background: var(--paper-2);
+  }
+
+  .letter :global(.basis) {
+    display: none;
+  }
+
+  .letter :global(.sentence:focus .basis) {
+    display: block;
+    margin: 0.125rem 0 0.25rem;
+    text-indent: 0;
+    color: var(--stamp);
+    font-family: var(--font-grotesque);
+    font-size: var(--step--2);
+    font-weight: 600;
+    letter-spacing: 0.02em;
+  }
+
+  .letter__footer {
+    margin: 1.5rem 0 0;
+    padding-top: 0.5rem;
+    border-top: 1px solid var(--rule);
+    color: var(--ink-light);
+    font-family: var(--font-grotesque);
+    font-size: var(--step--2);
+  }
+
+  /* ---- Follow-ups and deadline card ---- */
+  .outputs {
+    max-width: var(--measure);
+    margin-top: 3rem;
+    padding-top: 0.5rem;
+    border-top: 2px solid var(--ink);
+  }
+
+  .outputs h2 {
+    margin-top: 0.5rem;
+  }
+
+  .tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .tabs button[aria-selected="true"] {
+    background: var(--ink);
+    color: var(--paper);
+  }
+
+  .outputs .letter {
+    margin-bottom: 1rem;
+  }
+
+  .card {
+    padding: 1rem var(--gutter);
+    background: var(--paper-2);
+  }
+
+  .card dl {
+    margin: 0 0 1rem;
+  }
+
+  .card dl div {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 1rem;
+    padding: 0.25rem 0;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .card dt,
+  .card__label {
+    min-width: 12em;
+    color: var(--ink-light);
+    font-family: var(--font-grotesque);
+    font-variant-caps: all-small-caps;
+    letter-spacing: 0.08em;
+    font-weight: 600;
+  }
+
+  .card dd {
+    margin: 0;
+  }
+
+  .card__label {
+    margin: 0 0 0.25rem;
+  }
+
+  .card__list {
+    margin: 0;
+    padding-left: 1.5em;
+  }
+
+  .card__note {
+    margin-top: 0.75rem;
+    font-size: var(--step--1);
+  }
+
+  /* ---- Print: the letter only, black on white (print.css sets the colours) ---- */
+  @media print {
+    :global(.running-head),
+    :global(.site-footer),
+    :global(.skip-link),
+    :global(.builder-intro),
+    .builder__form,
+    .toolbar,
+    #placeholder-note,
+    .outputs,
+    .letter__footer,
+    .letter :global(.basis) {
+      display: none !important;
+    }
+
+    .builder {
+      display: block;
+      margin: 0;
+    }
+
+    .builder__letter {
+      position: static;
+      max-height: none;
+      overflow: visible;
+      padding: 0;
+      border: 0;
+    }
+
+    #preview {
+      padding: 0;
+      border: 0;
+      font-size: 11pt;
+      line-height: 1.45;
+    }
+
+    .letter :global(.sentence) {
+      background: none !important;
+      outline: 0 !important;
+    }
+  }
+</style>

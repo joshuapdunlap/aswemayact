@@ -1,0 +1,37 @@
+---
+// Site search (spec §3): the Pagefind UI over the index built by `postbuild`. The index and
+// UI files exist only in a built site, so under `astro dev` this page has no search box.
+// Pagefind's look is mapped to the periodical tokens in components.css (#search).
+import Periodical from "../layouts/Periodical.astro";
+---
+
+<Periodical
+  title="Search · As We May Act"
+  section="Search"
+  description="Search the field manual, the trails and the rest of As We May Act."
+  noindex
+>
+  <link slot="head" rel="stylesheet" href="/pagefind/pagefind-ui.css" />
+  <h1>Search</h1>
+  <label class="search-summary" for="search-input">
+    Search the field manual, the trails and the rest of the site.
+  </label>
+  <div id="search" class="search"></div>
+  <noscript>
+    <p>Search needs JavaScript. The <a href="/manual/">field manual</a> lists every page.</p>
+  </noscript>
+  <script is:inline src="/pagefind/pagefind-ui.js"></script>
+  <script is:inline>
+    if (window.PagefindUI) {
+      new PagefindUI({ element: "#search", showSubResults: true, showImages: false, resetStyles: false });
+      // Pagefind's input carries only a title; tie it to the visible label above the box.
+      document.querySelector("#search input")?.setAttribute("id", "search-input");
+    }
+  </script>
+</Periodical>
+
+<style>
+  .search-summary {
+    display: block;
+  }
+</style>

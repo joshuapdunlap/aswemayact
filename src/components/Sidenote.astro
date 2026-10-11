@@ -1,0 +1,37 @@
+---
+// A sidenote's text. Place it after the paragraph that holds its <SidenoteRef n={n} />
+// (an <aside> may not sit inside a <p>):
+//
+//   <p>The custodian must certify the delay in writing.<SidenoteRef n={1} /></p>
+//   <Sidenote n={1}>§ 25-19-105(e); the certification sets a date and hour.</Sidenote>
+//
+// MARKUP CONTRACT — anything that emits sidenotes (including the Markdown rehype
+// transform for essays) must produce exactly this, with matching n on both halves:
+//
+//   Reference, inside the text:
+//     <sup class="sidenote-ref"><a href="#fn-{n}" id="fnref-{n}"
+//          data-popover-target="fn-{n}" data-popover-media="(max-width: 899.98px)"
+//        ><span class="visually-hidden">Note </span>{n}</a></sup>
+//   Note, a block after the paragraph, a direct child of the .measure flow:
+//     <aside class="sidenote" id="fn-{n}" role="note" aria-label="Note {n}">
+//       <a class="sidenote__n" href="#fnref-{n}" aria-label="Back to the text of note {n}">{n}</a>
+//       …note content…
+//     </aside>
+//
+// Behavior: Popover.ts (loaded on every page by Periodical.astro) enhances each
+// [data-popover-target] while its data-popover-media matches: below 900px the aside
+// becomes a popover (native popover="auto", or [hidden] + aria-expanded fallback) and the
+// anchor its trigger. With no JavaScript the anchor jumps to the aside, shown inline.
+// At ≥ 900px styles/components.css floats the aside into the margin columns, using the
+// --measure-start / --note-start properties that Periodical.astro's .grid variant sets.
+interface Props {
+  n: number;
+}
+
+const { n } = Astro.props;
+---
+
+<aside class="sidenote" id={`fn-${n}`} role="note" aria-label={`Note ${n}`}>
+  <a class="sidenote__n" href={`#fnref-${n}`} aria-label={`Back to the text of note ${n}`}>{n}</a>
+  <slot />
+</aside>

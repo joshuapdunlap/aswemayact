@@ -1,0 +1,58 @@
+---
+// One trail: kicker, title, summary, then each stop as a TrailStop holding its narration
+// (the body's `## Stop n` section), and the editor's signature.
+import { getCollection } from "astro:content";
+import Periodical from "../../layouts/Periodical.astro";
+import Kicker from "../../components/Kicker.astro";
+import TrailStop from "../../components/TrailStop.astro";
+import { splitStopsHtml } from "../../lib/trail";
+
+export async function getStaticPaths() {
+  const trails = await getCollection("trails");
+  return trails.map((entry) => ({ params: { slug: entry.data.slug }, props: { entry } }));
+}
+
+const { entry } = Astro.props;
+const { title, dateline, author, summary, stops } = entry.data;
+const { intro, stops: narration } = splitStopsHtml(entry.rendered?.html ?? "");
+---
+
+<Periodical title={`${title} · Trails · As We May Act`} section="Trails" description={summary}>
+  <p class="manual-back no-print"><a href="/trails/">Trails</a></p>
+  <Kicker date={new Date(dateline)} />
+  <h1>{title}</h1>
+  <p class="trail-summary">{summary}</p>
+  {intro && <div class="trail-intro" set:html={intro} />}
+  <ol class="trail-stops" role="list">
+    {
+      stops.map((stop, i) => (
+        <li>
+          <TrailStop n={i + 1} {...stop}>
+            {narration[i + 1] && <Fragment set:html={narration[i + 1]} />}
+          </TrailStop>
+        </li>
+      ))
+    }
+  </ol>
+  <p class="signature">— {author}</p>
+</Periodical>
+
+<style>
+  .trail-summary {
+    font-size: var(--step-1);
+    line-height: 1.4;
+    color: var(--ink-light);
+  }
+
+  .trail-stops {
+    margin: 2rem 0 0;
+    padding: 0;
+    list-style: none;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .signature {
+    margin-top: 1.5rem;
+    font-style: italic;
+  }
+</style>

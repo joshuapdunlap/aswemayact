@@ -1,0 +1,133 @@
+/* Grid and running furniture: spec §4.3. Phone first; 12 columns from 900px. */
+
+.page {
+  max-width: var(--max-width);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.measure {
+  max-width: var(--measure);
+  min-width: 0;
+}
+
+.aside {
+  min-width: 0;
+  font-size: var(--step--1);
+}
+
+.running-head {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 0.25rem var(--gutter);
+  padding-block: 0.75rem;
+  border-bottom: 1px solid var(--rule);
+  margin-bottom: 2rem;
+  color: var(--ink-light);
+  font-size: var(--step--1);
+}
+
+.site-footer {
+  border-top: 1px solid var(--rule);
+  margin-top: 3rem;
+  padding-block: 1.5rem 2rem;
+  color: var(--ink-light);
+  font-family: var(--font-grotesque);
+  font-size: var(--step--2);
+}
+
+.site-footer p {
+  margin: 0 0 0.5rem;
+}
+
+@media (min-width: 900px) {
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: var(--gutter);
+    align-items: start;
+    container-type: inline-size; /* lets sidenotes measure columns in cqi */
+    /* Where the measure starts and where sidenotes start (grid columns, 1-based).
+       Sidenotes run from --note-start to column 12; see components.css. */
+    --measure-start: 1;
+    --note-start: 9;
+  }
+
+  /* Essays: measure on columns 3–9, notes on 10–12. */
+  .grid.essay {
+    --measure-start: 3;
+    --note-start: 10;
+  }
+
+  .grid.essay > .measure {
+    grid-column: 3 / span 7;
+  }
+
+  .grid > .measure {
+    grid-column: 1 / span 7;
+  }
+
+  .grid > .aside {
+    grid-column: 9 / -1;
+    border-left: 1px solid var(--rule);
+    padding-left: var(--gutter);
+  }
+
+  .grid.wide > .measure {
+    grid-column: 1 / -1;
+    max-width: none;
+  }
+
+  .grid.wide > .aside {
+    grid-column: 1 / -1;
+    border-left: 0;
+    padding-left: 0;
+  }
+}
+
+/* The running head's section label holds the left; folio and site nav pack to the right. */
+.running-head > .section-label,
+.running-head__title {
+  margin-inline-end: auto;
+}
+
+.running-head__title {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0 0.5em;
+}
+
+.running-head__home {
+  display: inline-block;
+  min-height: 24px;
+  line-height: 24px;
+  font-weight: 600;
+}
+
+.running-head__sep {
+  color: var(--ink-light);
+}
+
+.site-footer__nav {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0 0.5em;
+  margin: 0 0 0.75rem;
+}
+
+.site-footer__nav a {
+  display: inline-block;
+  min-height: 24px;
+  line-height: 24px;
+}
+
+.running-head__nav a {
+  display: inline-block;
+  min-height: 24px;
+  line-height: 24px;
+  font-family: var(--font-grotesque);
+}

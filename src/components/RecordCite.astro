@@ -1,0 +1,47 @@
+---
+// Record citation block: statute (optional), source, locator and archived copy,
+// set in Plex Mono under a hairline.
+import { isUrl, hostLabel } from "../lib/cite";
+
+interface Props {
+  statute?: string;
+  source: string;
+  locator?: string;
+  archived?: string;
+}
+
+const { statute, source, locator, archived } = Astro.props;
+---
+
+<p class="record-cite mono">
+  {statute && <span class="record-cite__statute">{statute}</span>}
+  <cite class="record-cite__source">{isUrl(source) ? <a href={source}>{hostLabel(source)}</a> : source}</cite>
+  {locator && <span class="record-cite__locator">{locator}</span>}
+  {archived && <span class="record-cite__archived"><a href={archived}>Archived copy</a></span>}
+</p>
+
+<style>
+  .record-cite {
+    display: block;
+    margin: 1rem 0;
+    padding-top: 0.5rem;
+    border-top: 1px solid var(--rule);
+    color: var(--ink-light);
+    line-height: 1.6;
+  }
+
+  /* Separators sit on wrapper spans, never on links, so they are not underlined. */
+  .record-cite > * + *::before {
+    content: " · " / "";
+    color: var(--ink-light);
+  }
+
+  .record-cite__statute {
+    color: var(--stamp);
+  }
+
+  .record-cite__source {
+    font-style: normal;
+    color: var(--ink);
+  }
+</style>

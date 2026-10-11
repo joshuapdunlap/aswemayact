@@ -1,0 +1,71 @@
+---
+// Trails index: every trail, newest dateline first, with its summary and stop count.
+import { getCollection } from "astro:content";
+import Periodical from "../../layouts/Periodical.astro";
+import { formatFolio } from "../../lib/dates";
+
+const trails = (await getCollection("trails")).sort(
+  (a, b) => b.data.dateline.localeCompare(a.data.dateline) || a.data.title.localeCompare(b.data.title),
+);
+---
+
+<Periodical
+  title="Trails · As We May Act"
+  section="Trails"
+  description="Signed trails through Arkansas public records, each ending in something you can do."
+>
+  <h1>Trails</h1>
+  <p class="trails-summary">
+    A trail is a short path through the public record. Each stop is a passage, a record, an idea or a reported
+    finding, and every trail ends with something you can do. Each one is signed by the editor who wrote it.
+  </p>
+  <ol class="trail-index" role="list">
+    {
+      trails.map((t) => (
+        <li>
+          <h2 class="trail-index__title">
+            <a href={`/trails/${t.data.slug}/`}>{t.data.title}</a>
+          </h2>
+          <p class="trail-index__summary">{t.data.summary}</p>
+          <p class="trail-index__meta mono">
+            {t.data.stops.length} stops · {formatFolio(new Date(t.data.dateline))}
+          </p>
+        </li>
+      ))
+    }
+  </ol>
+</Periodical>
+
+<style>
+  .trails-summary {
+    font-size: var(--step-1);
+    line-height: 1.4;
+    color: var(--ink-light);
+  }
+
+  .trail-index {
+    margin: 2rem 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .trail-index > li {
+    padding-block: 1rem;
+    border-top: 1px solid var(--rule);
+  }
+
+  .trail-index__title {
+    margin: 0;
+    font-size: var(--step-1);
+  }
+
+  .trail-index__summary {
+    margin: 0.25rem 0;
+  }
+
+  .trail-index__meta {
+    margin: 0;
+    color: var(--ink-light);
+    font-size: var(--step--1);
+  }
+</style>

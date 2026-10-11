@@ -1,0 +1,101 @@
+---
+// Printables: the printable manual pages set as sheets on one page. Each Print
+// button prints its own sheet; the browser's Print command prints all of them.
+import { getCollection, getEntry, render } from "astro:content";
+import Periodical from "../../layouts/Periodical.astro";
+import ManualSources from "../../components/ManualSources.astro";
+import PrintButton from "../../components/PrintButton.astro";
+
+const intro = (await getEntry("manual", "printables"))!;
+const { Content: Intro } = await render(intro);
+const sheets = await Promise.all(
+  (await getCollection("manual", (p) => p.data.printable))
+    .sort((a, b) => a.data.order - b.data.order)
+    .map(async (entry) => ({ entry, Content: (await render(entry)).Content })),
+);
+---
+
+<Periodical
+  title={`${intro.data.title} · Field manual · As We May Act`}
+  section="Field manual"
+  reviewed={intro.data.reviewed}
+  description={intro.data.summary}
+>
+  <div class="no-print">
+    <p class="manual-back"><a href="/manual/">Field manual</a></p>
+    <h1>{intro.data.title}</h1>
+    <p class="manual-summary">{intro.data.summary}</p>
+    <div class="manual-body"><Intro /></div>
+    <ol class="printables-list">
+      {
+        sheets.map(({ entry }) => (
+          <li>
+            <a href={`#sheet-${entry.id}`}>{entry.data.title}</a>
+            <PrintButton label={`Print “${entry.data.title}”`} sheet={`sheet-${entry.id}`} />
+          </li>
+        ))
+      }
+    </ol>
+  </div>
+  {
+    sheets.map(({ entry, Content }) => (
+      <section class="printable-sheet" id={`sheet-${entry.id}`} aria-labelledby={`sheet-${entry.id}-title`}>
+        <h2 id={`sheet-${entry.id}-title`} class="printable-sheet__title">{entry.data.title}</h2>
+        <p class="manual-summary">{entry.data.summary}</p>
+        <div class="manual-body">
+          <Content />
+        </div>
+        <ManualSources sources={entry.data.sources} level={3} />
+        <p class="printable-sheet__foot mono">
+          aswemayact.org/manual/{entry.id}/ · CC BY 4.0
+        </p>
+      </section>
+    ))
+  }
+</Periodical>
+
+<style>
+  .printables-list {
+    padding-left: 1.5em;
+  }
+
+  .printables-list li {
+    margin-bottom: 0.5rem;
+  }
+
+  .printables-list li :global(.print-button) {
+    margin: 0.25rem 0 0;
+    display: none;
+  }
+
+  :global(html.js) .printables-list li :global(.print-button) {
+    display: block;
+  }
+
+  .printable-sheet {
+    margin-top: 3rem;
+    padding-top: 1rem;
+    border-top: 2px solid var(--ink);
+  }
+
+  .printable-sheet__foot {
+    margin-top: 1rem;
+    color: var(--ink-light);
+    font-size: var(--step--1);
+  }
+
+  @media print {
+    .printable-sheet {
+      margin-top: 0;
+      border-top: 0;
+    }
+
+    .printable-sheet + .printable-sheet {
+      break-before: page;
+    }
+
+    :global(.print-skip) {
+      display: none !important;
+    }
+  }
+</style>

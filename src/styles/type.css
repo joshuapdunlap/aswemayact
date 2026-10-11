@@ -1,0 +1,50 @@
+/* Type roles: spec §4.1. */
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-grotesque);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+  margin: 1.5em 0 0.5em;
+}
+
+h1 {
+  font-size: var(--step-3);
+  margin-top: 0;
+}
+
+h2 {
+  font-size: var(--step-2);
+}
+
+h3 {
+  font-size: var(--step-1);
+}
+
+p {
+  margin: 0 0 1em;
+}
+
+.small-caps {
+  font-family: var(--font-grotesque);
+  font-variant-caps: all-small-caps;
+  letter-spacing: 0.08em;
+}
+
+.mono,
+code,
+kbd,
+samp {
+  font-family: var(--font-mono);
+  font-size: 0.875em;
+}
+
+.rule,
+hr {
+  border: 0;
+  border-top: 1px solid var(--rule);
+  margin: 1.5rem 0;
+}

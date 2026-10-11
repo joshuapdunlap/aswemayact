@@ -1,0 +1,53 @@
+---
+// "Print" button: calls window.print(). Hidden until JavaScript runs (html.js), so a
+// reader without scripts is never offered a dead control; they use the browser's Print.
+interface Props {
+  /** Visible label; defaults to "Print this page". */
+  label?: string;
+  /** With a sheet id, prints only that .printable-sheet on a page of several. */
+  sheet?: string;
+}
+
+const { label = "Print this page", sheet } = Astro.props;
+---
+
+<button type="button" class="print-button no-print" data-sheet={sheet}>{label}</button>
+
+<script>
+  document.addEventListener("click", (event) => {
+    const button = (event.target as Element | null)?.closest<HTMLButtonElement>("button.print-button");
+    if (!button) return;
+    const sheet = button.dataset.sheet;
+    const others = sheet
+      ? [...document.querySelectorAll<HTMLElement>(".printable-sheet")].filter((s) => s.id !== sheet)
+      : [];
+    others.forEach((s) => s.classList.add("print-skip"));
+    window.addEventListener("afterprint", () => others.forEach((s) => s.classList.remove("print-skip")), { once: true });
+    window.print();
+  });
+</script>
+
+<style>
+  .print-button {
+    display: none;
+    min-height: 44px;
+    margin: 0.5rem 0 1rem;
+    padding: 0.5rem 1rem;
+    border: 1px solid var(--ink);
+    border-radius: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--font-grotesque);
+    font-size: var(--step--1);
+    font-weight: 600;
+    cursor: pointer;
+  }
+
+  :global(html.js) .print-button {
+    display: inline-block;
+  }
+
+  .print-button:hover {
+    background: var(--paper-2);
+  }
+</style>

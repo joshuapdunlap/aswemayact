@@ -1,0 +1,33 @@
+---
+// The letter builder (spec §6). Static page; the builder runs in the browser.
+import Periodical from "../../layouts/Periodical.astro";
+import LetterBuilder from "../../components/letter/LetterBuilder.astro";
+---
+
+<Periodical
+  title="Letter builder · Field manual · As We May Act"
+  section="Field manual"
+  reviewed={new Date("2026-10-11T00:00:00Z")}
+  description="Build an Arkansas Freedom of Information Act request letter. Every sentence names the part of the law it rests on. Nothing you type is stored or sent."
+  wide
+>
+  <div class="builder-intro">
+    <p class="manual-back"><a href="/manual/">Field manual</a></p>
+    <h1>Letter builder</h1>
+    <p class="manual-summary">
+      Fill in the five steps and the letter sets itself as you type. Each sentence names the part
+      of the law it rests on: point at it, or tab to it. Nothing you type is stored or sent, and
+      reloading the page clears it.
+    </p>
+    <p>
+      <a href="/manual/write-a-request/">Write a request</a> explains why each sentence is there.
+    </p>
+  </div>
+  <LetterBuilder />
+</Periodical>
+
+<style>
+  .builder-intro {
+    max-width: var(--measure);
+  }
+</style>

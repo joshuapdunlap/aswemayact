@@ -1,0 +1,23 @@
+---
+// Kicker/dateline above essays and trails: "LITTLE ROCK · OCTOBER 2026".
+import { formatDateline } from "../lib/dates";
+
+interface Props {
+  place?: string;
+  date: Date;
+}
+
+const { place = "Little Rock", date } = Astro.props;
+const iso = date.toISOString().slice(0, 7);
+---
+
+<p class="kicker small-caps"><time datetime={iso}>{formatDateline(place, date)}</time></p>
+
+<style>
+  .kicker {
+    margin: 0 0 0.5rem;
+    color: var(--ink-light);
+    font-size: var(--step--1);
+    font-weight: 600;
+  }
+</style>

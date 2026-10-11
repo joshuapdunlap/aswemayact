@@ -1,0 +1,70 @@
+/* Print: black on white, URLs expanded after every link (internal ones with the site's
+   address in front, fragment-only links left alone). Spec §4.6. */
+
+@media print {
+  /* Same specificity as the dark selectors in tokens.css; loaded later, so it wins. */
+  :root,
+  :root[data-theme],
+  :root:not([data-theme="light"]) {
+    color-scheme: light;
+    --paper: #fff;
+    --paper-2: #fff;
+    --ink: #000;
+    --ink-light: #000;
+    --rule: #000;
+    --rubric: #000;
+    --stamp: #000;
+  }
+
+  html,
+  body {
+    background: #fff;
+    color: #000;
+  }
+
+  a {
+    color: #000;
+  }
+
+  a[href^="http"]::after,
+  a[href^="/"]:not(.no-print)::after {
+    content: " (" attr(href) ")";
+    font-size: 0.875em;
+    word-break: break-all;
+  }
+
+  a[href^="/"]:not(.no-print)::after {
+    content: " (aswemayact.org" attr(href) ")";
+  }
+
+  /* The site name in the running head is the imprint on paper, not a link to follow. */
+  .running-head a.running-head__home[href]::after {
+    content: none;
+  }
+
+  .no-print {
+    display: none !important;
+  }
+}
+
+/* Field manual sheets: tighter type so a page fits as little paper as it can. */
+@media print {
+  .manual-body,
+  .manual-summary {
+    font-size: 10.5pt;
+    line-height: 1.4;
+  }
+
+  .manual-body .law {
+    font-size: 9pt;
+    break-inside: avoid;
+  }
+
+  .manual-body .step-list > li {
+    break-inside: avoid;
+  }
+
+  .manual-sources {
+    font-size: 8.5pt;
+  }
+}

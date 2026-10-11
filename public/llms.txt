@@ -1,0 +1,36 @@
+# As We May Act
+
+> A field manual for the Arkansas Freedom of Information Act (Ark. Code Ann. § 25-19-101 et seq.), with a client-side letter builder and short signed trails that run from a public passage or record to something a reader can do.
+
+As We May Act explains, in plain words, what Arkansas public records a citizen may see, what copies may cost, how fast an agency must answer, which exemptions matter, and what to do after a denial. Every rule names the subsection of the law it rests on, and each manual page shows the date it was last reviewed. The letter builder drafts a request in the browser; nothing typed into it is stored or sent. The site describes the law and the paths it offers; it gives no individual legal advice.
+
+## Field manual
+
+- [Field manual](https://aswemayact.org/manual/): the nine manual pages, with summaries and review dates.
+- [Your rights in plain words](https://aswemayact.org/manual/your-rights/): any Arkansas citizen may see and copy public records, in any form, without saying why; what the law covers and what the custodian owes in writing.
+- [Who may request](https://aswemayact.org/manual/who-may-request/): the right belongs to Arkansas citizens; what counts as a citizen, and how someone outside the state can still get a record.
+- [What it costs](https://aswemayact.org/manual/what-it-costs/): looking is free, copies cost only actual reproduction, staff time is not billable, and advance payment applies only above $25.
+- [The clock](https://aswemayact.org/manual/the-clock/): records are due when asked; three working days needs a written certificate; meeting-notice and bond-challenge deadlines.
+- [Exemptions that matter](https://aswemayact.org/manual/exemptions/): the exemptions agencies most often cite, what each covers, and common claims that are not exemptions.
+- [Writing a request that can't be dodged](https://aswemayact.org/manual/write-a-request/): name the document types, the format and the files, and ask for a plain statement of what exists.
+- [Denied, now what](https://aswemayact.org/manual/denied/): the moves that cost nothing, then the fast hearing, fee shifting and the service deadline.
+- [Source cards](https://aswemayact.org/manual/sources/): where common Arkansas public records are kept, who holds them, what they cost and their limits.
+- [Printables](https://aswemayact.org/manual/printables/): your rights, writing a request and what to do after a denial, set for paper.
+- [Letter builder](https://aswemayact.org/manual/write/): drafts an Arkansas FOIA request letter in the browser, each sentence tied to its subsection.
+
+## Trails
+
+- [Trails](https://aswemayact.org/trails/): short, signed paths from a passage or public record to an action.
+- [The lectern](https://aswemayact.org/trails/the-lectern/): a $19,029 lectern, an exemption that follows the office that holds a record, and the agencies it does not reach.
+- [The meeting](https://aswemayact.org/trails/the-meeting/): where a public body has to post its agenda, what a meeting leaves on the record, and how to ask for it.
+- [The camera](https://aswemayact.org/trails/the-camera/): license-plate cameras in Arkansas cities, the records behind them, and how to bring those records to the board that decides.
+
+## About
+
+- [Why "As We May Act"](https://aswemayact.org/about/): the name finishes a sentence Vannevar Bush left open in 1945, about what we do with the common record once we can find our way through it.
+- [Corrections](https://aswemayact.org/corrections/): a dated log of every correction, and the address for corrections and replies.
+
+## License
+
+- Field manual, source cards and letter-builder text: CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/).
+- Essays and trails: CC BY-ND 4.0 (https://creativecommons.org/licenses/by-nd/4.0/).
