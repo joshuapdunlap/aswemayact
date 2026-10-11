@@ -100,6 +100,11 @@ export function extractUrls(text: string): string[] {
  * True when a 403 is a Cloudflare bot challenge (`cf-mitigated: challenge`): the page is
  * live for a browser but refuses a link checker, so it is not evidence of a dead link.
  */
+/** 429 (rate limited) and 503 (temporarily unavailable) say nothing about whether a page exists. */
+export function isTransientStatus(status: number): boolean {
+  return status === 429 || status === 503;
+}
+
 export function isBotChallenge(status: number, headers: { get(name: string): string | null }): boolean {
   return status === 403 && headers.get("cf-mitigated")?.toLowerCase() === "challenge";
 }

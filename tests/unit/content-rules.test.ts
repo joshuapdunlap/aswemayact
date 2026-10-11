@@ -7,6 +7,7 @@ import {
   extractQuotedPassage,
   extractUrls,
   isBotChallenge,
+  isTransientStatus,
   excludedNameScanFiles,
 } from "../../src/lib/content-rules";
 
@@ -61,6 +62,12 @@ test("a Cloudflare challenge is a bot wall, not a dead link", () => {
   expect(isBotChallenge(403, h("challenge"))).toBe(true);
   expect(isBotChallenge(403, h(null))).toBe(false);
   expect(isBotChallenge(404, h("challenge"))).toBe(false);
+});
+test("a rate limit or service hiccup is unverified, not a dead link", () => {
+  expect(isTransientStatus(429)).toBe(true);
+  expect(isTransientStatus(503)).toBe(true);
+  expect(isTransientStatus(404)).toBe(false);
+  expect(isTransientStatus(500)).toBe(false);
 });
 
 test("excluded-name scan covers every tracked text file plus public/llms.txt", () => {

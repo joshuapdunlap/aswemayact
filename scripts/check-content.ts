@@ -19,6 +19,7 @@ import {
   findExcludedNames,
   extractUrls,
   isBotChallenge,
+  isTransientStatus,
   excludedNameScanFiles,
 } from "../src/lib/content-rules";
 
@@ -117,6 +118,7 @@ async function probe(url: string, method: "HEAD" | "GET"): Promise<LinkResult> {
     await res.body?.cancel();
     // A bot challenge says nothing about whether the page exists; report it like a network error.
     if (isBotChallenge(res.status, res.headers)) return { error: "bot challenge" };
+    if (isTransientStatus(res.status)) return { error: `HTTP ${res.status}, try again later` };
     return { status: res.status };
   } catch (e) {
     const err = e as Error & { cause?: { code?: string } };

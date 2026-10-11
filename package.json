@@ -9,6 +9,7 @@
   "scripts": {
     "dev": "astro dev",
     "build": "npm run check && astro build",
+    "build:test": "npm run prebuild && npm run check -- --skip-links && astro build && npm run postbuild",
     "preview": "astro preview",
     "astro": "astro",
     "test:unit": "vitest run",

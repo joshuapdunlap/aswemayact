@@ -44,8 +44,10 @@ export default defineConfig({
       url: "http://127.0.0.1:4321",
       reuseExistingServer: !process.env.CI,
     },
+    // build:test skips the external link probe: the real build already ran it, and probing
+    // the same hosts twice in a minute earns 429s from the Wayback Machine.
     {
-      command: "npm run build && npx astro preview --host 127.0.0.1 --port 4322 --ignore-lock",
+      command: "npm run build:test && npx astro preview --host 127.0.0.1 --port 4322 --ignore-lock",
       url: PREVIEW,
       reuseExistingServer: !process.env.CI,
       timeout: 300_000,
