@@ -21,7 +21,7 @@ Status on 2026-10-11: the site is built, reviewed and in `C:\Users\Joshu\Desktop
 - The search page fetches ~215 KB of Pagefind index after a query (page load itself is ~106 KB).
 - The archive script's 200 from Save Page Now does not prove a capture; check the log after the first run.
 - Local builds rewrite `src/data/recent.json` — commit it with content changes.
-- `docs/superpowers` (spec, plan, ledger) are no longer in the repo; copies are in this project and in `_to_delete\superpowers-planning-docs` on your machine.
+- The design spec, implementation plan and decision ledger are kept outside the repo.
 
 ## Release 2 and 3 (from the spec)
 
