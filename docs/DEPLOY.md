@@ -211,4 +211,4 @@ Before-every-deploy checklist, then `npm run deploy`, then step 6 (archive and t
 
 | Date (UTC) | Tag | Pagefind range request (206/200) | Font cache-control | Notes |
 | ---------- | --- | -------------------------------- | ------------------ | ----- |
-|            |     |                                  |                    |       |
+| 2026-10-11 | `deployed-2026-10-11` (pending archive) | 200 | `public, max-age=31536000, immutable` | HTML served without `etag` or `; charset=utf-8` (same on workers.dev; pages declare `<meta charset="utf-8">`). Always Use HTTPS turned on. DMARC not yet added. HSTS deliberately left off. First `npm run archive` stopped on a 429 at the first URL; re-run before tagging. |
