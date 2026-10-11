@@ -8,3 +8,4 @@ playwright-report/
 tests/e2e/__screenshots__/
 .lighthouseci/
 .wrangler/
+_to_delete/
