@@ -144,7 +144,8 @@ test("copy puts the plain-text letter on the clipboard", async ({ page, context 
   await page.fill("#requester-name", "Pat Requester");
   await page.click("#copy");
   await expect(page.locator("#builder-status")).toContainText("Copied");
-  const text = await page.evaluate(() => navigator.clipboard.readText());
+  // Windows hands clipboard text back with CRLF line endings; compare on LF.
+  const text = (await page.evaluate(() => navigator.clipboard.readText())).replace(/\r\n/g, "\n");
   expect(text).toContain("City of Example\n\nTo the custodian of records,\n\nI am a citizen");
   expect(text).toContain("\n1. All records concerning the subject of this request.\n");
   expect(text).toMatch(/Sincerely,\nPat Requester\n$/);
