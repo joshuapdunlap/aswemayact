@@ -1,18 +1,20 @@
 ---
-// A sidenote's text. Place it after the paragraph that holds its <SidenoteRef n={n} />
-// (an <aside> may not sit inside a <p>):
+// A sidenote's text. Place it just before the paragraph that holds its <SidenoteRef n={n} />
+// (an <aside> may not sit inside a <p>), so in the margin it starts level with that paragraph:
 //
-//   <p>The custodian must certify the delay in writing.<SidenoteRef n={1} /></p>
 //   <Sidenote n={1}>§ 25-19-105(e); the certification sets a date and hour.</Sidenote>
+//   <p>The custodian must certify the delay in writing.<SidenoteRef n={1} /></p>
 //
 // MARKUP CONTRACT — anything that emits sidenotes (including the Markdown rehype
 // transform for essays) must produce exactly this, with matching n on both halves:
 //
-//   Reference, inside the text:
+//   Reference, inside the text, wrapped with the word before it in
+//   <span class="sidenote-anchor"> so the number never wraps alone (the rehype transform
+//   does this; by hand, wrap it yourself); class "sidenote-ref sidenote-ref--2" from note 10:
 //     <sup class="sidenote-ref"><a href="#fn-{n}" id="fnref-{n}"
 //          data-popover-target="fn-{n}" data-popover-media="(max-width: 899.98px)"
 //        ><span class="visually-hidden">Note </span>{n}</a></sup>
-//   Note, a block after the paragraph, a direct child of the .measure flow:
+//   Note, a block before the paragraph, a direct child of the .measure flow:
 //     <aside class="sidenote" id="fn-{n}" role="note" aria-label="Note {n}">
 //       <a class="sidenote__n" href="#fnref-{n}" aria-label="Back to the text of note {n}">{n}</a>
 //       …note content…

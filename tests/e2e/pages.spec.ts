@@ -290,3 +290,29 @@ test("manual index points to the letter builder before the list", async ({ page 
   const listBox = (await page.locator(".manual-index").boundingBox())!;
   expect(leadBox.y).toBeLessThan(listBox.y);
 });
+
+test("every page carries a folio: a review date, or the date of the issue", async ({ page }) => {
+  const folios: Record<string, RegExp> = {
+    "/": /^Last reviewed \d{1,2} \w{3} \d{4}$/,
+    "/trails/": /^\w{3} \d{4}$/,
+    "/trails/the-lectern/": /^\w{3} \d{4}$/,
+    "/corrections/": /^\d{1,2} \w{3} \d{4}$/,
+  };
+  for (const [route, re] of Object.entries(folios)) {
+    await page.goto(route);
+    await expect(page.locator(".running-head .folio")).toHaveText(re);
+  }
+});
+
+test("manual pages and trails index their sections in the margin at 1280px", async ({ page }) => {
+  await page.setViewportSize({ width: 1280, height: 800 });
+  await page.goto("/manual/your-rights/");
+  const links = page.locator(".in-section a");
+  expect(await links.count()).toBeGreaterThan(1);
+  for (const href of await links.evaluateAll((els) => els.map((e) => e.getAttribute("href")))) {
+    await expect(page.locator(href!)).toHaveCount(1);
+  }
+  await page.goto("/trails/the-lectern/");
+  await expect(page.locator(".in-section li")).toHaveCount(await page.locator(".trail-stop").count());
+  await expect(page.locator(".in-section .mark--action")).toHaveCount(1);
+});

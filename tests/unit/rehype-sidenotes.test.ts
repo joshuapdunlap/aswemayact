@@ -23,6 +23,9 @@ const ref = (n: number, label = n) =>
   `<sup class="sidenote-ref"><a href="#fn-${n}" id="fnref-${n}" data-popover-target="fn-${n}" ` +
   `data-popover-media="${MEDIA}"><span class="visually-hidden">Note </span>${label}</a></sup>`;
 
+/** A reference joined to the word before it. */
+const anchored = (word: string, n: number) => `<span class="sidenote-anchor">${word}${ref(n)}</span>`;
+
 const note = (n: number, body: string) =>
   `<aside class="sidenote" id="fn-${n}" role="note" aria-label="Note ${n}">` +
   `<a class="sidenote__n" href="#fnref-${n}" aria-label="Back to the text of note ${n}">${n}</a> ${body}</aside>`;
@@ -43,9 +46,9 @@ const INPUT = `
 </section>`;
 
 const EXPECTED =
-  `<p>First.${ref(1)} Second.${ref(2)}</p>` +
   note(1, "Bush, <em>Atlantic</em>, p. 108.") +
   note(2, `See <a href="https://example.org/">the source</a>.`) +
+  `<p>${anchored("First.", 1)} ${anchored("Second.", 2)}</p>` +
   `<p>Plain.</p>`;
 
 test("turns GFM footnotes into the SidenoteRef/Sidenote markup contract", () => {
@@ -60,7 +63,7 @@ test("removes the footnotes section entirely", () => {
   expect(out).not.toContain("↩");
 });
 
-test("places each note after the top-level block that first references it", () => {
+test("places each note before the top-level block that first references it", () => {
   const html = squash(
     transform(`
 <p>One.<sup><a href="#user-content-fn-1" id="user-content-fnref-1" data-footnote-ref>1</a></sup></p>
@@ -71,7 +74,7 @@ test("places each note after the top-level block that first references it", () =
 </ol></section>`),
   );
   expect(html).toBe(
-    squash(`<p>One.${ref(1)}</p>${note(1, "A.")}<blockquote><p>Quoted.${ref(2)}</p></blockquote>${note(2, "B.")}`),
+    squash(`${note(1, "A.")}<p>${anchored("One.", 1)}</p>${note(2, "B.")}<blockquote><p>${anchored("Quoted.", 2)}</p></blockquote>`),
   );
 });
 
@@ -86,7 +89,17 @@ test("a repeated reference links to the same note without duplicating it or its 
   );
   expect(html.match(/<aside/g)).toHaveLength(1);
   expect(html).toContain(`id="fnref-1-2"`);
-  expect(html).toContain(`<p>Again.<sup class="sidenote-ref"><a href="#fn-1" id="fnref-1-2"`);
+  expect(html).toContain(`<p><span class="sidenote-anchor">Again.<sup class="sidenote-ref"><a href="#fn-1" id="fnref-1-2"`);
+});
+
+test("notes from 10 up carry the two-digit class", () => {
+  const items = Array.from({ length: 10 }, (_, i) => i + 1);
+  const html = transform(
+    `<p>${items.map((n) => `x<sup><a href="#user-content-fn-${n}" id="user-content-fnref-${n}" data-footnote-ref>${n}</a></sup>`).join(" ")}</p>` +
+      `<section data-footnotes class="footnotes"><ol>${items.map((n) => `<li id="user-content-fn-${n}"><p>N${n}.</p></li>`).join("")}</ol></section>`,
+  );
+  expect(html).toContain(`<sup class="sidenote-ref sidenote-ref--2"><a href="#fn-10"`);
+  expect(html).toContain(`<sup class="sidenote-ref"><a href="#fn-9"`);
 });
 
 test("leaves a document without footnotes untouched", () => {
@@ -100,6 +113,6 @@ test("works on the real remark-gfm pipeline output", async () => {
   const tree = await processor.run(processor.parse(md));
   rehypeSidenotes()(tree);
   expect(squash(toHtml(tree))).toBe(
-    squash(`<p>Bush closed on the record.${ref(1)}</p>${note(1, "<em>The Atlantic</em>, July 1945, p. 108.")}<p>Next paragraph.</p>`),
+    squash(`${note(1, "<em>The Atlantic</em>, July 1945, p. 108.")}<p>Bush closed on the ${anchored("record.", 1)}</p><p>Next paragraph.</p>`),
   );
 });

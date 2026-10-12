@@ -50,7 +50,7 @@ const Heading = `h${level}` as "h2" | "h3" | "h4";
   .source-card {
     margin: 1.5rem 0;
     padding-top: 0.75rem;
-    border-top: 1px solid var(--ink);
+    border-top: var(--rule-ink);
   }
 
   .source-card__name {
@@ -64,7 +64,7 @@ const Heading = `h${level}` as "h2" | "h3" | "h4";
 
   .source-card__facts > div {
     padding-block: 0.375rem;
-    border-top: 1px solid var(--rule);
+    border-top: var(--rule-hair);
   }
 
   .source-card__facts dt {
@@ -83,12 +83,21 @@ const Heading = `h${level}` as "h2" | "h3" | "h4";
     gap: 0.25rem var(--gutter);
     margin: 0;
     padding-top: 0.5rem;
-    border-top: 1px solid var(--rule);
+    border-top: var(--rule-hair);
     font-size: var(--step--1);
+  }
+
+  /* The link stands alone: a 24px target (WCAG 2.2 SC 2.5.8). */
+  .source-card__foot a {
+    display: inline-block;
+    min-height: 24px;
+    line-height: 24px;
   }
 
   .source-card__foot .mono {
     color: var(--ink-light);
+    font-size: var(--step--2);
+    line-height: 24px;
   }
 
   @media (min-width: 900px) {

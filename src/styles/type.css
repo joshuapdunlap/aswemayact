@@ -24,14 +24,27 @@ h3 {
   font-size: var(--step-1);
 }
 
+h1,
+h2,
+h3 {
+  text-wrap: balance;
+}
+
 p {
   margin: 0 0 1em;
+  text-wrap: pretty;
 }
 
 .small-caps {
   font-family: var(--font-grotesque);
   font-variant-caps: all-small-caps;
+  font-weight: 600; /* one weight for every label; the faces carry no true small caps */
   letter-spacing: 0.08em;
+}
+
+/* A statute number kept on one line (src/lib/typography.ts). */
+.nobr {
+  white-space: nowrap;
 }
 
 .mono,
@@ -45,6 +58,6 @@ samp {
 .rule,
 hr {
   border: 0;
-  border-top: 1px solid var(--rule);
+  border-top: var(--rule-hair);
   margin: 1.5rem 0;
 }

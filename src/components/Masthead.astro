@@ -1,5 +1,7 @@
 ---
-// Front-door masthead: imprint name and the standing line beneath it.
+// Front-door nameplate: the imprint across the full page, the standing line beneath it,
+// and a thick-and-thin rule closing the head, as a periodical's front page is set.
+// Placed in Periodical's "masthead" slot so it spans all twelve columns.
 ---
 
 <header class="masthead">
@@ -9,14 +11,28 @@
 
 <style>
   .masthead {
-    padding-block: 1rem 2rem;
+    margin-bottom: 2rem;
+    padding-top: 0.5rem;
+    text-align: center;
+  }
+
+  /* Thick over thin, 3px apart: the one place the heavier rule pair appears. */
+  .masthead::after {
+    content: "";
+    display: block;
+    height: 6px;
+    margin-top: 1.25rem;
+    border-top: 2px solid var(--ink);
+    border-bottom: 1px solid var(--ink);
   }
 
   .masthead-name {
     margin: 0;
     font-family: var(--font-grotesque);
     font-weight: 700;
-    font-size: var(--step-4);
+    /* Display step at full width; scales down on a phone so the name keeps one line. */
+    font-size: clamp(2.25rem, 10.5vw, var(--step-4));
+    letter-spacing: 0.04em;
     line-height: 1;
   }
 
@@ -25,6 +41,7 @@
     font-family: var(--font-text);
     font-style: italic;
     font-size: var(--step-1);
+    line-height: 1.3;
     color: var(--ink-light);
   }
 </style>

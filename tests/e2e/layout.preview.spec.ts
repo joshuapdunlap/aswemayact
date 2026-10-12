@@ -24,7 +24,9 @@ test("mobile: builder preview below form, no horizontal scroll, no sidenote colu
     .evaluateAll((els) =>
       els
         .map((e) => ({ id: e.id || e.textContent, r: e.getBoundingClientRect() }))
-        .filter(({ r }) => r.width < 24 || r.height < 24)
+        // A control that is not rendered (the proxy name until "for someone else" is
+        // chosen) is not a target; every rendered one must be at least 24×24.
+        .filter(({ r }) => r.width + r.height > 0 && (r.width < 24 || r.height < 24))
         .map(({ id }) => id),
     );
   expect(small).toEqual([]);

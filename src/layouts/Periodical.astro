@@ -18,6 +18,9 @@ interface Props {
   title: string;
   section: string;
   reviewed?: Date;
+  /** For pages with no review date: the date the folio carries instead (a trail's dateline). */
+  dated?: Date;
+  datedPrecision?: "day" | "month";
   description?: string;
   wide?: boolean;
   /** "essay" sets the measure on columns 3–9 (spec §4.3); default is columns 1–7. */
@@ -30,6 +33,8 @@ const {
   title,
   section,
   reviewed,
+  dated,
+  datedPrecision = "day",
   description,
   wide = false,
   variant = "default",
@@ -78,7 +83,7 @@ const SITE_NAME = "As We May Act";
             </span>
           )
         }
-        {reviewed && <Folio reviewed={reviewed} />}
+        {(reviewed || dated) && <Folio reviewed={reviewed} dated={dated} precision={datedPrecision} />}
         <nav class="running-head__nav no-print" aria-label="Site">
           <a href="/search/" aria-current={Astro.url.pathname === "/search/" ? "page" : undefined}>Search</a>
         </nav>
@@ -88,6 +93,7 @@ const SITE_NAME = "As We May Act";
         data-pagefind-body={noindex ? undefined : ""}
         data-pagefind-ignore={noindex ? "all" : undefined}
         class:list={["grid", { wide, essay: variant === "essay" }]}>
+        <slot name="masthead" />
         <div class="measure">
           <slot />
         </div>

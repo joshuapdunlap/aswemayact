@@ -13,6 +13,8 @@ const trails = (await getCollection("trails")).sort(
   title="Trails · As We May Act"
   section="Trails"
   description="Signed trails through Arkansas public records, each ending in something you can do."
+  dated={trails[0] ? new Date(trails[0].data.dateline) : undefined}
+  datedPrecision="month"
 >
   <h1>Trails</h1>
   <p class="trails-summary">
@@ -24,7 +26,7 @@ const trails = (await getCollection("trails")).sort(
       trails.map((t) => (
         <li>
           <h2 class="trail-index__title">
-            <a href={`/trails/${t.data.slug}/`}>{t.data.title}</a>
+            <a class="headline-link" href={`/trails/${t.data.slug}/`}>{t.data.title}</a>
           </h2>
           <p class="trail-index__summary">{t.data.summary}</p>
           <p class="trail-index__meta mono">
@@ -51,7 +53,7 @@ const trails = (await getCollection("trails")).sort(
 
   .trail-index > li {
     padding-block: 1rem;
-    border-top: 1px solid var(--rule);
+    border-top: var(--rule-hair);
   }
 
   .trail-index__title {

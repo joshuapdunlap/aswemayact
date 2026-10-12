@@ -32,22 +32,22 @@ const today = new Date(Date.UTC(2026, 9, 11));
 
   <h2>Labels and type</h2>
   <p><SectionLabel>Field manual</SectionLabel></p>
+  <Sidenote n={1}>
+    <span class="mono">§ 25-19-105(e)</span>. The certification names a date and hour within three working days.
+  </Sidenote>
   <p>
     Body text is Newsreader at 18px on a phone and 19px on a desk, in a measure of about 66 characters.
     Statute citations such as <span class="mono">§ 25-19-105(a)(1)(A)</span> are set in Plex Mono. An agency
     that cannot hand over a record in active use must say so in writing.<SidenoteRef n={1} />
   </p>
-  <Sidenote n={1}>
-    <span class="mono">§ 25-19-105(e)</span>. The certification names a date and hour within three working days.
+  <Sidenote n={2}>
+    Spec §4.5: popovers are keyboard-operable and close on Esc. Without JavaScript the number is a plain link
+    to this note.
   </Sidenote>
   <p>
     Links are underlined, never color alone. Footnotes become sidenotes in the margin on a wide screen and
     open at the foot of the screen on a phone.<SidenoteRef n={2} />
   </p>
-  <Sidenote n={2}>
-    Spec §4.5: popovers are keyboard-operable and close on Esc. Without JavaScript the number is a plain link
-    to this note.
-  </Sidenote>
 
   <h2>Manual step list</h2>
   <StepList>

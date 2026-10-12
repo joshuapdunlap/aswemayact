@@ -1,0 +1,35 @@
+---
+// "In this section": the margin index beside a long page (spec §4.3, columns 9–12). Takes
+// the page's h2s, or a trail's stops with their marks. Shown from 900px; on a phone the page
+// is its own index. Kept out of site search, which already indexes the headings.
+interface Item {
+  href: string;
+  text: string;
+  /** A trail stop's type, drawn as its mark before the title. */
+  mark?: string;
+}
+
+interface Props {
+  items: Item[];
+}
+
+const { items } = Astro.props;
+---
+
+{
+  items.length > 1 && (
+    <nav class="in-section no-print" aria-labelledby="in-section-title" data-pagefind-ignore="all">
+      <h2 id="in-section-title" class="in-section__title small-caps">In this section</h2>
+      <ol role="list">
+        {items.map((i) => (
+          <li>
+            <a href={i.href}>
+              {i.mark && <span class:list={["mark", `mark--${i.mark}`]} aria-hidden="true" />}
+              <span>{i.text}</span>
+            </a>
+          </li>
+        ))}
+      </ol>
+    </nav>
+  )
+}

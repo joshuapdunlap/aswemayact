@@ -2,13 +2,18 @@
 // Site search (spec §3): the Pagefind UI over the index built by `postbuild`. The index and
 // UI files exist only in a built site, so under `astro dev` this page has no search box.
 // Pagefind's look is mapped to the periodical tokens in components.css (#search).
+import { getCollection } from "astro:content";
 import Periodical from "../layouts/Periodical.astro";
+
+const manual = await getCollection("manual");
+const reviewed = new Date(Math.max(...manual.map((p) => p.data.reviewed.getTime())));
 ---
 
 <Periodical
   title="Search · As We May Act"
   section="Search"
   description="Search the field manual, the trails and the rest of As We May Act."
+  reviewed={reviewed}
   noindex
 >
   <link slot="head" rel="stylesheet" href="/pagefind/pagefind-ui.css" />

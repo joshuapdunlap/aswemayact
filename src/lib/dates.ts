@@ -10,6 +10,11 @@ export function formatFolio(d: Date): string {
   return `${d.getUTCDate()} ${MONTHS[d.getUTCMonth()]} ${d.getUTCFullYear()}`;
 }
 
+/** Folio date to the month, for pages dated by issue rather than reviewed: "Oct 2026". */
+export function formatFolioMonth(d: Date): string {
+  return `${MONTHS[d.getUTCMonth()]} ${d.getUTCFullYear()}`;
+}
+
 const MONTHS_LONG = [
   "January", "February", "March", "April", "May", "June",
   "July", "August", "September", "October", "November", "December",

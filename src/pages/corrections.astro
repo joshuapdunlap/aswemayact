@@ -13,6 +13,7 @@ const entries = (await getCollection("corrections")).sort(
   title="Corrections · As We May Act"
   section="Corrections"
   description="Every correction to As We May Act, dated, with what each page said and what it says now."
+  dated={entries[0]?.data.date}
 >
   <h1>Corrections</h1>
   <p class="corrections-summary">
@@ -42,6 +43,6 @@ const entries = (await getCollection("corrections")).sort(
 
   .corrections-log {
     margin-top: 2rem;
-    border-bottom: 1px solid var(--rule);
+    border-bottom: var(--rule-hair);
   }
 </style>

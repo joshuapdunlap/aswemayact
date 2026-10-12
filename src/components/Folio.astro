@@ -1,13 +1,30 @@
 ---
-import { formatFolio } from "../lib/dates";
+// The folio, right of the running head, in Plex Mono. A page with a review date says when
+// it was last reviewed; a page dated by issue (a trail, the corrections log) carries that
+// date alone, to the day or to the month.
+import { formatFolio, formatFolioMonth } from "../lib/dates";
 import { isUnderReview } from "../lib/content-rules";
 
 interface Props {
-  reviewed: Date;
+  reviewed?: Date;
+  dated?: Date;
+  precision?: "day" | "month";
 }
 
-const { reviewed } = Astro.props;
-const underReview = isUnderReview(reviewed, new Date());
+const { reviewed, dated, precision = "day" } = Astro.props;
+const underReview = reviewed ? isUnderReview(reviewed, new Date()) : false;
+const date = reviewed ?? dated;
+const iso = date ? date.toISOString().slice(0, precision === "month" ? 7 : 10) : "";
 ---
 
-<span class="folio mono">Last reviewed {formatFolio(reviewed)}{underReview && " · Under review"}</span>
+{
+  reviewed ? (
+    <span class="folio mono">Last reviewed {formatFolio(reviewed)}{underReview && " · Under review"}</span>
+  ) : (
+    dated && (
+      <span class="folio mono">
+        <time datetime={iso}>{precision === "month" ? formatFolioMonth(dated) : formatFolio(dated)}</time>
+      </span>
+    )
+  )
+}
