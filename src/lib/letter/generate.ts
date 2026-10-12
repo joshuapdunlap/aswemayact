@@ -252,6 +252,10 @@ export function generateFollowUp(i: LetterInput, kind: "silent" | "equivocal", t
         basis: "§ 25-19-105(a)(3)",
       },
       {
+        text: "A custodian who knowingly fails to give that written response is subject to the penalties in § 25-19-104.",
+        basis: "§ 25-19-105(a)(5)",
+      },
+      {
         text: "A citizen denied the rights the act grants may appeal immediately to circuit court, and I would rather resolve this with you.",
         basis: "§ 25-19-107(a)",
       },

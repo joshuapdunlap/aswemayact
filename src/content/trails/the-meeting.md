@@ -41,7 +41,7 @@ Bond votes run on a clock of their own. Under Act 992 of 2025, a court can undo 
 
 A meeting leaves records behind: the agenda, any packet handed to members, the minutes, and a recording. Once those exist, they are public records, and you can ask for them like any other. Ask for each by name, and ask for the recording as the original audio or video file.
 
-Recordings have decided cases. In 2024 the West Memphis School District settled a suit over special meetings it held without notice and did not record, agreeing to pay the plaintiffs’ fees and a $1,500 fine, [the Democrat-Gazette reported](https://www.pressreader.com/usa/arkansas-democrat-gazette/20240227/281822878740580).
+Recordings have decided cases. In 2024 the West Memphis School District settled a suit over special meetings it held without notice and did not record, agreeing to pay the plaintiffs’ fees and a $1,500 fine, [the Democrat-Gazette reported](https://www.arkansasonline.com/news/2024/feb/26/school-district-found-guilty-of-violating-the/).
 
 ## Stop 4
 

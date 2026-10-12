@@ -16,7 +16,7 @@ stops:
     locator: "Arkansas Advocate, Oct. 10, 2023"
   - type: concept
     title: "Working papers belong to an office"
-    source: "https://arkansasadvocate.com/?p=24099"
+    source: "https://arkansasadvocate.com/2026/03/16/arkansas-explained-how-to-use-the-arkansas-freedom-of-information-act/"
     locator: "Arkansas Advocate, Mar. 16, 2026; § 25-19-105(b)(7)"
   - type: record
     title: "The legislative audit"
@@ -28,7 +28,7 @@ stops:
     locator: "Arkansas Advocate, May 7, 2024"
   - type: action
     title: "Ask the office the exemption doesn’t reach"
-    source: "https://arkansasadvocate.com/?p=24099"
+    source: "https://arkansasadvocate.com/2026/03/16/arkansas-explained-how-to-use-the-arkansas-freedom-of-information-act/"
     locator: "Arkansas Advocate, Mar. 16, 2026, on requests to non-exempt agencies"
 ---
 

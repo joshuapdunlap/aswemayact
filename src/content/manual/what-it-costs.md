@@ -1,7 +1,7 @@
 ---
 title: What it costs
 summary: Looking is free. Copies may cost only what it takes to reproduce them, staff time is not part of the bill, and you cannot be made to pay up front unless the estimate is over $25.
-reviewed: 2026-10-11
+reviewed: 2026-10-12
 sources:
   - Arkansas Attorney General, Freedom of Information Handbook, 22nd ed. (2026) https://media.ark.org/ag/APA-045-2026-FOIA-Handbook-22nd-Edition.pdf
   - Reporters Committee for Freedom of the Press, Open Government Guide, Arkansas https://www.rcfp.org/open-government-guide/arkansas/
@@ -85,7 +85,7 @@ If the custodian agrees, staff time on that work beyond two hours can be charged
 <p class="law">§ 25-19-109(b)(1): “may charge the actual, verifiable costs of personnel time exceeding two (2) hours associated with the tasks”</p>
 <!-- handbook p. 24 -->
 
-**Police, jail and dispatch recordings.** Law enforcement agencies, dispatch centers, jails and their record vendors have their own fee rule for audio and video. A request that takes three hours or less of staff and equipment time is free apart from the media. Past three hours, the charge is capped by the running time of the recording, and the agency may ask for payment in advance.
+**Police, jail and dispatch recordings.** Law enforcement agencies, dispatch centers, jails and their record vendors have their own fee rule for audio and video. A request that takes three hours or less of staff and equipment time is free apart from the media. Past three hours, the charge can be no more than $20 for each hour of the recording's running time, prorated, and the agency may ask for payment in advance.
 
 <p class="law">§ 25-19-112(c)(2)(A): “Requires three (3) hours or less of personnel and equipment time to fulfill the request shall be provided at no charge”</p>
 <!-- handbook pp. 25–26 -->

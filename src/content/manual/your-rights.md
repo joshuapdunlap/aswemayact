@@ -1,7 +1,7 @@
 ---
 title: Your rights in plain words
 summary: Any Arkansas citizen may see and copy public records, in any form, without saying why. Here is what the law covers and what the custodian owes you in writing.
-reviewed: 2026-10-11
+reviewed: 2026-10-12
 sources:
   - Arkansas Attorney General, Freedom of Information Handbook, 22nd ed. (2026) https://media.ark.org/ag/APA-045-2026-FOIA-Handbook-22nd-Edition.pdf
   - Act 879 of 2023 (SB 380), as passed https://arkleg.state.ar.us/Acts/FTPDocument?path=%2FACTS%2F2023R%2FPublic%2F&file=879.pdf&ddBienniumSession=2023%2F2023R
@@ -14,6 +14,7 @@ statutes:
   - "§ 25-19-105(a)(3)"
   - "§ 25-19-105(a)(3)(B)"
   - "§ 25-19-105(a)(3)(C)"
+  - "§ 25-19-105(a)(5)"
 printable: true
 order: 1
 ---
@@ -37,7 +38,7 @@ Anything kept in a public office, or by a public employee doing the job, starts 
 
 What counts is what a record is about, not where it is stored. A personal note on a work computer is not public because of the computer; a message about public business can be.
 
-<p class="law">Pulaski Cnty. v. Ark. Democrat-Gazette (2007), as the handbook summarizes it: “Whether a document is a ‘public record’ ultimately depends on its content.”</p>
+<p class="law">Pulaski Cnty. v. Ark. Democrat-Gazette, Inc., 370 Ark. 435 (2007), as the handbook summarizes it: “Whether a document is a ‘public record’ ultimately depends on its content.”</p>
 <!-- handbook p. 28 -->
 
 The law covers state agencies, cities, counties, school districts and other bodies that run on public money.
@@ -99,6 +100,11 @@ If records exist but the custodian says they are exempt, the answer must name th
 If the office you asked does not control the records, it must tell you who does, when it knows or can easily find out.
 
 <p class="law">§ 25-19-105(a)(3)(C): “the custodian shall respond and identify the appropriate custodian to direct that request to, if known or readily ascertainable.”</p>
+<!-- handbook p. 9 -->
+
+That duty carries a penalty. A custodian who knowingly fails to give the written answer is subject to the act's criminal penalty, a Class C misdemeanor.
+
+<p class="law">§ 25-19-105(a)(5): “If a custodian knowingly fails to respond as required under subdivision (a)(3) of this section, he or she shall be subject to the penalties in § 25-19-104”</p>
 <!-- handbook p. 9 -->
 
 ## What the law does not do

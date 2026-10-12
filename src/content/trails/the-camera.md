@@ -19,8 +19,8 @@ stops:
     locator: "DeFlock map; search “Fort Smith”"
   - type: finding
     title: "Six cities ended their contracts"
-    source: "https://arkansasadvocate.com/?p=28113"
-    locator: "Arkansas Advocate, Aug. 2026"
+    source: "https://arkansasadvocate.com/2026/08/19/several-arkansas-cities-pull-plug-on-flock-cameras/"
+    locator: "Arkansas Advocate, Aug. 19, 2026"
   - type: action
     title: "Request the records, then go to the board"
     source: "https://talkbusiness.net/2026/10/most-fort-smith-board-members-avoid-questions-about-flock-cameras/"

@@ -187,6 +187,7 @@ test("silent follow-up cites the three-day certification and the § 25-19-107 re
   const s = generateFollowUp(FULL, "silent");
   expect(s.find(x => x.basis === "§ 25-19-105(e)")).toBeTruthy();
   expect(s.find(x => x.basis?.startsWith("§ 25-19-107"))).toBeTruthy();
+  expect(s.find(x => x.basis === "§ 25-19-105(a)(5)")?.text).toContain("knowingly fails to give that written response");
   const text = texts(s).join(" ");
   expect(text).toContain("On 9 October 2026");
   expect(text).toContain("contracts, non-disclosure agreements and data-sharing logs concerning license-plate reader cameras");
