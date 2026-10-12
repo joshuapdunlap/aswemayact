@@ -306,3 +306,12 @@ test("two panes at 1280px: form on columns 1–6, letter on 7–12", async ({ pa
   expect(preview.x).toBeGreaterThan(form.x + form.width);
   expect(Math.abs(form.width - preview.width)).toBeLessThan(80);
 });
+
+test("the proxy's name field appears only once the request is for someone else", async ({ page }) => {
+  await page.goto("/manual/write/");
+  await expect(page.locator("#proxy-for")).toBeHidden();
+  await page.check("#standing-proxy");
+  await expect(page.locator("#proxy-for")).toBeVisible();
+  await page.check("#standing-citizen");
+  await expect(page.locator("#proxy-for")).toBeHidden();
+});

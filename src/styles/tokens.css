@@ -25,8 +25,15 @@
   --step-3: 2.5rem;     /* h1 */
   --step-4: 3.5rem;     /* display, front door only */
 
-  /* Layout */
-  --measure: 66ch;
+  /* Rules: hairline between items, ink under a heading or around a sheet, heavy for a
+     section break. The nameplate's thick-and-thin pair is the only other weight. */
+  --rule-hair: 1px solid var(--rule);
+  --rule-ink: 1px solid var(--ink);
+  --rule-heavy: 2px solid var(--ink);
+
+  /* Layout. The measure is set in em, not ch: Newsreader's average letter is narrower
+     than its "0", so 66ch ran to about 75 characters a line. 30em is 64-67. */
+  --measure: 30em;
   --gutter: 16px;
   --bp-grid: 900px; /* reference only: custom properties cannot be used in media queries */
   --max-width: 1120px;

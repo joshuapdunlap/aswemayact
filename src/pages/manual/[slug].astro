@@ -7,6 +7,7 @@ import Periodical from "../../layouts/Periodical.astro";
 import ManualSources from "../../components/ManualSources.astro";
 import PrintButton from "../../components/PrintButton.astro";
 import SourceCard from "../../components/SourceCard.astro";
+import InSection from "../../components/InSection.astro";
 
 // Card order on /manual/sources/: guides first, then helpers, data sites and maps.
 const SOURCE_ORDER = [
@@ -36,7 +37,8 @@ export async function getStaticPaths() {
 }
 
 const { entry } = Astro.props;
-const { Content } = await render(entry);
+const { Content, headings } = await render(entry);
+const sections = headings.filter((h) => h.depth === 2).map((h) => ({ href: `#${h.slug}`, text: h.text }));
 const { title, summary, reviewed, sources, printable } = entry.data;
 const isSources = entry.id === "sources";
 const cards = isSources
@@ -65,5 +67,6 @@ const cards = isSources
       {cards.map(({ data }) => <SourceCard {...data} />)}
     </div>
   )}
+  {sections.length > 1 && <InSection slot="aside" items={sections} />}
   {sources.length > 0 && <ManualSources slot="aside" sources={sources} />}
 </Periodical>

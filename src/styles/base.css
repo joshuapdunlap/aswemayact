@@ -35,6 +35,11 @@ a {
   text-decoration-color: var(--stamp);
 }
 
+::selection {
+  background: var(--stamp);
+  color: var(--paper);
+}
+
 :focus-visible {
   outline: 2px solid var(--stamp);
   outline-offset: 2px;

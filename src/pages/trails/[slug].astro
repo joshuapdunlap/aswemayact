@@ -5,6 +5,7 @@ import { getCollection } from "astro:content";
 import Periodical from "../../layouts/Periodical.astro";
 import Kicker from "../../components/Kicker.astro";
 import TrailStop from "../../components/TrailStop.astro";
+import InSection from "../../components/InSection.astro";
 import { splitStopsHtml } from "../../lib/trail";
 
 export async function getStaticPaths() {
@@ -15,9 +16,16 @@ export async function getStaticPaths() {
 const { entry } = Astro.props;
 const { title, dateline, author, summary, stops } = entry.data;
 const { intro, stops: narration } = splitStopsHtml(entry.rendered?.html ?? "");
+const index = stops.map((s, i) => ({ href: `#stop-${i + 1}`, text: s.title, mark: s.type }));
 ---
 
-<Periodical title={`${title} · Trails · As We May Act`} section="Trails" description={summary}>
+<Periodical
+  title={`${title} · Trails · As We May Act`}
+  section="Trails"
+  description={summary}
+  dated={new Date(dateline)}
+  datedPrecision="month"
+>
   <p class="manual-back no-print"><a href="/trails/">Trails</a></p>
   <Kicker date={new Date(dateline)} />
   <h1>{title}</h1>
@@ -35,6 +43,7 @@ const { intro, stops: narration } = splitStopsHtml(entry.rendered?.html ?? "");
     }
   </ol>
   <p class="signature">— {author}</p>
+  <InSection slot="aside" items={index} />
 </Periodical>
 
 <style>
@@ -48,7 +57,7 @@ const { intro, stops: narration } = splitStopsHtml(entry.rendered?.html ?? "");
     margin: 2rem 0 0;
     padding: 0;
     list-style: none;
-    border-bottom: 1px solid var(--rule);
+    border-bottom: var(--rule-hair);
   }
 
   .signature {

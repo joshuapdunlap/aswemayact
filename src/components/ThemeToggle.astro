@@ -8,14 +8,22 @@
 
 <style>
   .theme-toggle {
-    padding: 0.125rem 0.5rem;
+    min-height: 24px;
+    padding: 0 0.5rem 0.125rem;
     border: 1px solid var(--ink-light);
     border-radius: 0;
     background: transparent;
     color: var(--ink);
     font-family: var(--font-grotesque);
-    font-size: var(--step--2);
+    font-size: var(--step--1);
+    font-weight: 600;
+    font-variant-caps: all-small-caps;
+    letter-spacing: 0.06em;
     cursor: pointer;
+  }
+
+  .theme-toggle:hover {
+    border-color: var(--ink);
   }
 
   /* Without JavaScript the button could do nothing, so it is not shown. */

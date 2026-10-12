@@ -14,7 +14,7 @@
   counter-increment: step;
   position: relative;
   padding: 0.75rem 0 0.25rem 2.5rem;
-  border-top: 1px solid var(--rule);
+  border-top: var(--rule-hair);
 }
 
 .step-list > li::before {
@@ -35,7 +35,7 @@
   padding: 0.625rem 0.875rem 0.75rem;
   background: var(--paper-2);
   font-family: var(--font-mono);
-  font-size: 0.875em;
+  font-size: var(--step--1);
   line-height: 1.5;
 }
 
@@ -56,7 +56,7 @@
 .callout {
   margin: 1.5rem 0;
   padding: 0.25rem 0 0.25rem var(--gutter);
-  border-left: 3px solid var(--stamp);
+  border-left: 2px solid var(--stamp);
 }
 
 .callout--warning {
@@ -86,8 +86,8 @@
 table {
   width: 100%;
   border-collapse: collapse;
-  border-top: 1px solid var(--ink);
-  border-bottom: 1px solid var(--ink);
+  border-top: var(--rule-ink);
+  border-bottom: var(--rule-ink);
   font-size: var(--step--1);
 }
 
@@ -99,12 +99,16 @@ td {
 }
 
 th {
-  border-bottom: 1px solid var(--rule);
+  border-bottom: var(--rule-hair);
   font-family: var(--font-grotesque);
   font-weight: 600;
 }
 
 /* ---- Sidenotes (see Sidenote.astro for the markup contract) ---- */
+
+.sidenote-anchor {
+  white-space: nowrap;
+}
 
 .sidenote-ref {
   vertical-align: baseline;
@@ -125,27 +129,36 @@ th {
   font-weight: 600;
 }
 
-/* Number centred in its 24px box; negative margins on both sides keep the box from
-   pushing the text apart (it still takes pointer input). Fits one- and two-digit notes. */
+/* Number centred in its 24px box. Negative margins take back everything but the
+   numeral's own width (1ch, or 2ch for notes 10 and up), so the box takes pointer input
+   without pushing the text apart. */
 .sidenote-ref a {
   position: relative;
   top: -0.7em;
-  margin-inline: -6px -4px;
+  margin-inline: calc(0.5ch - 12px);
   text-align: center;
   text-decoration-thickness: 1px;
 }
 
+.sidenote-ref--2 a {
+  margin-inline: calc(1ch - 12px);
+}
+
+/* The note's number hangs left of its text, inside the hairline. */
 .sidenote {
+  position: relative;
   margin: 0 0 1em;
-  padding-left: var(--gutter);
-  border-left: 1px solid var(--rule);
+  padding-left: calc(var(--gutter) + 1.5em);
+  border-left: var(--rule-hair);
   color: var(--ink-light);
   font-size: var(--step--1);
   line-height: 1.45;
 }
 
 .sidenote__n {
-  margin-left: -6px;
+  position: absolute;
+  top: -1px;
+  left: calc(var(--gutter) - 6px);
   text-align: left;
 }
 
@@ -170,10 +183,10 @@ th {
     width: auto;
     max-height: 50vh;
     margin: 0;
-    padding: 1rem var(--gutter) 1.25rem;
+    padding: 1rem var(--gutter) 1.25rem calc(var(--gutter) + 1.75em);
     overflow: auto;
     border: 0;
-    border-top: 1px solid var(--ink);
+    border-top: var(--rule-ink);
     background: var(--paper);
     color: var(--ink);
   }
@@ -199,9 +212,13 @@ th {
 
 /* ---- Field manual pages ([slug].astro, printables.astro) ---- */
 
+/* The way back up, set as a small-caps label above the title. */
 .manual-back {
   margin: 0 0 0.5rem;
   font-family: var(--font-grotesque);
+  font-variant-caps: all-small-caps;
+  font-weight: 600;
+  letter-spacing: 0.08em;
   font-size: var(--step--1);
 }
 
@@ -248,8 +265,27 @@ th {
 
 /* ---- Essays (about.astro) ---- */
 
-/* Drop cap on the essay's first paragraph only, in Rubric (spec §4.1). */
-.essay-title + p::first-letter {
+/* Drop cap on the essay's first paragraph only, in Rubric (spec §4.1); the rest of its
+   first line runs on in small caps, so the opening word does not read as broken off. */
+/* The essay's first paragraph follows the title, or the margin notes that sit before it.
+   It is its own formatting context, so its drop cap never stacks under a margin note. */
+.essay-title + p,
+.essay-title + .sidenote + p,
+.essay-title + .sidenote + .sidenote + p {
+  display: flow-root;
+}
+
+/* The essay's first paragraph follows the title, or the margin notes that sit before it. */
+.essay-title + p::first-line,
+.essay-title + .sidenote + p::first-line,
+.essay-title + .sidenote + .sidenote + p::first-line {
+  font-variant-caps: all-small-caps;
+  letter-spacing: 0.04em;
+}
+
+.essay-title + p::first-letter,
+.essay-title + .sidenote + p::first-letter,
+.essay-title + .sidenote + .sidenote + p::first-letter {
   float: left;
   margin: 0.08em 0.1em 0 0;
   font-family: var(--font-text);
@@ -275,9 +311,20 @@ th {
 }
 
 #search .pagefind-ui__search-input {
+  padding-inline-start: 0.75rem;
   font-family: var(--font-grotesque);
   font-weight: 400;
   color: var(--ink);
+}
+
+/* No magnifier: the five trail marks are the site's only icons. */
+#search .pagefind-ui__form::before {
+  display: none;
+}
+
+#search .pagefind-ui__search-input:focus {
+  outline: 2px solid var(--stamp);
+  outline-offset: 2px;
 }
 
 #search .pagefind-ui__search-input::placeholder {
@@ -290,6 +337,19 @@ th {
   color: var(--ink);
   font-family: var(--font-grotesque);
   min-height: 24px;
+}
+
+#search .pagefind-ui__button {
+  border: 1px solid var(--ink);
+  background: transparent;
+  font-size: var(--step--1);
+  font-weight: 600;
+  font-variant-caps: all-small-caps;
+  letter-spacing: 0.06em;
+}
+
+#search .pagefind-ui__button:hover {
+  background: var(--paper-2);
 }
 
 #search .pagefind-ui__search-clear {
@@ -308,11 +368,18 @@ th {
 }
 
 #search .pagefind-ui__result-link {
-  color: var(--stamp);
-  font-family: var(--font-text);
+  color: var(--ink);
+  font-family: var(--font-grotesque);
+  font-weight: 600;
   text-decoration-line: underline;
+  text-decoration-color: var(--rule);
   text-decoration-thickness: 1px;
   text-underline-offset: 3px;
+}
+
+#search .pagefind-ui__result-link:hover,
+#search .pagefind-ui__result-link:focus-visible {
+  text-decoration-color: var(--stamp);
 }
 
 #search .pagefind-ui__result-excerpt {
@@ -320,8 +387,125 @@ th {
   color: var(--ink);
 }
 
+/* A match is marked by weight and a stamp underline; Rubric stays out of running text. */
 #search mark {
   background: none;
-  color: var(--rubric);
+  color: var(--ink);
   font-weight: 600;
+  text-decoration: underline 1px var(--stamp);
+  text-underline-offset: 3px;
+}
+
+/* ---- Headline links (front door, manual and trails indexes) ----
+   A headline that is also a link reads as a headline: ink, underlined in the rule colour,
+   the underline taking the stamp on hover and focus. Still underlined, never colour alone. */
+.headline-link {
+  color: var(--ink);
+  text-decoration-color: var(--rule);
+}
+
+.headline-link:hover,
+.headline-link:focus-visible {
+  text-decoration-color: var(--stamp);
+}
+
+/* ---- "In this section": the margin index beside a manual page or a trail ---- */
+.in-section {
+  margin-bottom: 2rem;
+}
+
+.in-section__title {
+  margin: 0 0 0.5rem;
+  color: var(--ink-light);
+  font-size: var(--step--1);
+}
+
+.in-section ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-bottom: var(--rule-hair);
+}
+
+.in-section li {
+  border-top: var(--rule-hair);
+}
+
+.in-section a {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  min-height: 24px;
+  padding-block: 0.3125rem;
+  line-height: 1.35;
+}
+
+.in-section .mark {
+  flex: none;
+}
+
+/* The index serves the margin column; on a phone the page is its own index. */
+@media (max-width: 899.98px) {
+  .in-section {
+    display: none;
+  }
+}
+
+/* ---- Trail marks: passage, record, concept, finding, action ----
+   Drawn, not set: none of the three faces has these glyphs, so as text they fell back to
+   whatever symbol font the system had. Each is a mask filled with the current colour, at
+   the label's stroke weight. The glyph stays in the markup (aria-hidden) as the fallback
+   and the name of the mark; the type is also named in words beside it. */
+.mark {
+  display: inline-block;
+  flex: none;
+  width: 0.8125rem;
+  height: 0.8125rem;
+  overflow: hidden;
+  color: var(--ink);
+  font-size: 0;
+  line-height: 0;
+  background-color: currentColor;
+  -webkit-mask: var(--mark-shape) center / contain no-repeat;
+  mask: var(--mark-shape) center / contain no-repeat;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+.mark--passage {
+  --mark-shape: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3.6 14C2 14 1 12.8 1 11.3c0-3 1.9-5.9 4.9-7.7l.9 1.1C5 6 4 7.4 3.8 8.7c1.5 0 2.6 1.1 2.6 2.6S5.2 14 3.6 14zm8 0C10 14 9 12.8 9 11.3c0-3 1.9-5.9 4.9-7.7l.9 1.1C13 6 12 7.4 11.8 8.7c1.5 0 2.6 1.1 2.6 2.6S13.2 14 11.6 14z'/%3E%3C/svg%3E");
+}
+
+.mark--record {
+  --mark-shape: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect x='1.4' y='3.9' width='13.2' height='8.2' fill='none' stroke='%23000' stroke-width='1.8'/%3E%3C/svg%3E");
+  color: var(--stamp);
+}
+
+.mark--concept {
+  --mark-shape: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ccircle cx='8' cy='8' r='6.1' fill='none' stroke='%23000' stroke-width='1.8'/%3E%3C/svg%3E");
+}
+
+.mark--finding,
+.arrow {
+  --mark-shape: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M1 8h12.2M8.6 3.2 13.4 8l-4.8 4.8' fill='none' stroke='%23000' stroke-width='1.8'/%3E%3C/svg%3E");
+}
+
+.mark--action {
+  --mark-shape: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect x='2' y='2' width='12' height='12'/%3E%3C/svg%3E");
+  color: var(--rubric);
+}
+
+/* The arrow after a link that leads on ("Draft a request letter →"), drawn the same way. */
+.arrow {
+  display: inline-block;
+  width: 0.8em;
+  height: 0.8em;
+  margin-left: 0.3em;
+  overflow: hidden;
+  vertical-align: -0.05em;
+  text-indent: 1em; /* the glyph, kept for copy-and-paste, sits outside the box */
+  white-space: nowrap;
+  background-color: currentColor;
+  -webkit-mask: var(--mark-shape) center / contain no-repeat;
+  mask: var(--mark-shape) center / contain no-repeat;
 }

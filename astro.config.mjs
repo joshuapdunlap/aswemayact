@@ -3,6 +3,7 @@ import { defineConfig } from "astro/config";
 import { unified } from "@astrojs/markdown-remark";
 import sitemap from "@astrojs/sitemap";
 import rehypeSidenotes from "./src/lib/rehype-sidenotes.ts";
+import rehypeTypography from "./src/lib/typography.ts";
 
 // https://astro.build/config
 export default defineConfig({
@@ -14,7 +15,8 @@ export default defineConfig({
   devToolbar: { enabled: false },
   markdown: {
     // The remark/rehype pipeline, so essay footnotes ([^n]) can become margin sidenotes
-    // (src/lib/rehype-sidenotes.ts emits the Sidenote.astro markup contract).
-    processor: unified({ rehypePlugins: [rehypeSidenotes] }),
+    // (src/lib/rehype-sidenotes.ts emits the Sidenote.astro markup contract), and so
+    // citations are tied to their numbers (src/lib/typography.ts).
+    processor: unified({ rehypePlugins: [rehypeSidenotes, rehypeTypography] }),
   },
 });

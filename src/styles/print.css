@@ -1,6 +1,11 @@
 /* Print: black on white, URLs expanded after every link (internal ones with the site's
    address in front, fragment-only links left alone). Spec §4.6. */
 
+/* A sheet's margins; the letter builder names its own page ("letter"). */
+@page {
+  margin: 18mm 20mm 20mm;
+}
+
 @media print {
   /* Same specificity as the dark selectors in tokens.css; loaded later, so it wins. */
   :root,
@@ -11,9 +16,25 @@
     --paper-2: #fff;
     --ink: #000;
     --ink-light: #000;
-    --rule: #000;
+    --rule: #8c8c8c;
     --rubric: #000;
     --stamp: #000;
+    /* Hairlines stay hairlines on paper: grey and fine, with the ink rules black. */
+    --rule-hair: 0.5pt solid #8c8c8c;
+    --rule-ink: 0.75pt solid #000;
+    --rule-heavy: 1.5pt solid #000;
+  }
+
+  p,
+  li {
+    orphans: 3;
+    widows: 3;
+  }
+
+  h1,
+  h2,
+  h3 {
+    break-after: avoid;
   }
 
   html,
@@ -29,7 +50,8 @@
   a[href^="http"]::after,
   a[href^="/"]:not(.no-print)::after {
     content: " (" attr(href) ")";
-    font-size: 0.875em;
+    font-family: var(--font-mono);
+    font-size: 0.8em;
     word-break: break-all;
   }
 
@@ -55,7 +77,10 @@
     line-height: 1.4;
   }
 
+  /* An extract on paper: no tint, a fine rule down its left side. */
   .manual-body .law {
+    padding: 0 0 0 0.75em;
+    border-left: 1pt solid #000;
     font-size: 9pt;
     break-inside: avoid;
   }
@@ -65,6 +90,7 @@
   }
 
   .manual-sources {
+    margin-top: 1.5em;
     font-size: 8.5pt;
   }
 }

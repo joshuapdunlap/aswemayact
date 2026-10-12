@@ -1,6 +1,6 @@
 ---
 // In-text reference to a sidenote: a numbered superscript that is a real in-page
-// anchor. Pair with <Sidenote n={n}> after the paragraph. Markup contract: Sidenote.astro.
+// anchor. Pair with <Sidenote n={n}> before the paragraph. Markup contract: Sidenote.astro.
 interface Props {
   n: number;
 }
@@ -8,7 +8,7 @@ interface Props {
 const { n } = Astro.props;
 ---
 
-<sup class="sidenote-ref"><a
+<sup class:list={["sidenote-ref", { "sidenote-ref--2": n >= 10 }]}><a
     href={`#fn-${n}`}
     id={`fnref-${n}`}
     data-popover-target={`fn-${n}`}

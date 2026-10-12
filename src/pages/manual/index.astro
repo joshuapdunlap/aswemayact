@@ -28,7 +28,7 @@ const latest = new Date(Math.max(...pages.map((p) => p.data.reviewed.getTime()))
       pages.map((p) => (
         <li>
           <h2 class="manual-index__title">
-            <a href={`/manual/${p.id}/`}>{p.data.title}</a>
+            <a class="headline-link" href={`/manual/${p.id}/`}>{p.data.title}</a>
           </h2>
           <p class="manual-index__summary">{p.data.summary}</p>
           <p class="manual-index__reviewed mono">Reviewed {formatFolio(p.data.reviewed)}</p>
@@ -42,7 +42,7 @@ const latest = new Date(Math.max(...pages.map((p) => p.data.reviewed.getTime()))
   .manual-lead {
     margin: 1.5rem 0 0;
     padding-top: 0.75rem;
-    border-top: 1px solid var(--rule);
+    border-top: var(--rule-hair);
   }
 
   .manual-lead strong {
@@ -60,7 +60,7 @@ const latest = new Date(Math.max(...pages.map((p) => p.data.reviewed.getTime()))
     counter-increment: page;
     position: relative;
     padding: 1rem 0 1rem 2.5rem;
-    border-top: 1px solid var(--rule);
+    border-top: var(--rule-hair);
   }
 
   .manual-index > li::before {

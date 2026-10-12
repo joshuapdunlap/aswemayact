@@ -32,14 +32,16 @@ const { label = "Print this page", sheet } = Astro.props;
     display: none;
     min-height: 44px;
     margin: 0.5rem 0 1rem;
-    padding: 0.5rem 1rem;
+    padding: 0.375rem 0.75rem 0.5rem;
     border: 1px solid var(--ink);
     border-radius: 0;
-    background: var(--paper);
+    background: transparent;
     color: var(--ink);
     font-family: var(--font-grotesque);
     font-size: var(--step--1);
     font-weight: 600;
+    font-variant-caps: all-small-caps;
+    letter-spacing: 0.06em;
     cursor: pointer;
   }
 

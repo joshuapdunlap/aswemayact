@@ -5,6 +5,7 @@
 // mark or its color alone. The default slot is the editor's narration.
 import type { StopType } from "../lib/content-rules";
 import { isUrl, hostLabel } from "../lib/cite";
+import { tieShortWords } from "../lib/typography";
 
 interface Props {
   n: number;
@@ -28,10 +29,11 @@ const MARKS: Record<StopType, string> = {
 const { n, type, title, source, locator, archived, level = 2 } = Astro.props;
 const Heading = `h${level}` as "h2" | "h3" | "h4";
 const typeName = type[0].toUpperCase() + type.slice(1);
+const locatorText = locator ? tieShortWords(locator) : undefined;
 ---
 
 <article class:list={["trail-stop", `trail-stop--${type}`]} id={`stop-${n}`} aria-labelledby={`stop-${n}-title`}>
-  <span class="mark" aria-hidden="true">{MARKS[type]}</span>
+  <span class:list={["mark", `mark--${type}`]} aria-hidden="true">{MARKS[type]}</span>
   <div class="trail-stop__body">
     <p class="trail-stop__label small-caps">Stop {n} · {typeName}</p>
     <Heading class="trail-stop__title" id={`stop-${n}-title`}>{title}</Heading>
@@ -42,7 +44,7 @@ const typeName = type[0].toUpperCase() + type.slice(1);
     )}
     <p class="trail-stop__source mono">
       <cite>{isUrl(source) ? <a href={source}>{hostLabel(source)}</a> : source}</cite>
-      {locator && <span>{locator}</span>}
+      {locatorText && <span>{locatorText}</span>}
       {archived && <span><a href={archived}>Archived copy</a></span>}
     </p>
   </div>
@@ -55,27 +57,13 @@ const typeName = type[0].toUpperCase() + type.slice(1);
     align-items: baseline; /* the mark sits on the label's baseline */
     margin: 0;
     padding-block: 1rem 1.25rem;
-    border-top: 1px solid var(--rule);
+    border-top: var(--rule-hair);
   }
 
+  /* The mark (drawn in components.css) sits in its column on the label's line, its
+     foot a little below the baseline so it centres on the small capitals. */
   .mark {
-    font-family: var(--font-grotesque);
-    font-size: var(--step-0);
-    line-height: 1;
-    color: var(--ink);
-  }
-
-  /* ❝ draws small beside the other marks; set it larger on the same baseline. */
-  .trail-stop--passage .mark {
-    font-size: var(--step-2);
-  }
-
-  .trail-stop--record .mark {
-    color: var(--stamp);
-  }
-
-  .trail-stop--action .mark {
-    color: var(--rubric);
+    margin-bottom: -0.125rem;
   }
 
   .trail-stop__label {
@@ -97,6 +85,8 @@ const typeName = type[0].toUpperCase() + type.slice(1);
   .trail-stop__source {
     margin: 0;
     color: var(--ink-light);
+    font-size: var(--step--1);
+    line-height: 1.5;
   }
 
   .trail-stop__source cite {

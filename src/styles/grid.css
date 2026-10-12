@@ -16,21 +16,22 @@
   font-size: var(--step--1);
 }
 
+/* Phone: site and section on the left, Search on the right, the folio on its own line
+   flush right beneath them. From 640px all three share one line. */
 .running-head {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
   align-items: baseline;
-  gap: 0.25rem var(--gutter);
+  gap: 0.125rem var(--gutter);
   padding-block: 0.75rem;
-  border-bottom: 1px solid var(--rule);
+  border-bottom: var(--rule-hair);
   margin-bottom: 2rem;
   color: var(--ink-light);
   font-size: var(--step--1);
 }
 
 .site-footer {
-  border-top: 1px solid var(--rule);
+  border-top: var(--rule-hair);
   margin-top: 3rem;
   padding-block: 1.5rem 2rem;
   color: var(--ink-light);
@@ -71,8 +72,13 @@
 
   .grid > .aside {
     grid-column: 9 / -1;
-    border-left: 1px solid var(--rule);
+    border-left: var(--rule-hair);
     padding-left: var(--gutter);
+  }
+
+  /* The front door's nameplate spans the page above the columns. */
+  .grid > .masthead {
+    grid-column: 1 / -1;
   }
 
   .grid.wide > .measure {
@@ -90,7 +96,35 @@
 /* The running head's section label holds the left; folio and site nav pack to the right. */
 .running-head > .section-label,
 .running-head__title {
-  margin-inline-end: auto;
+  grid-column: 1;
+  grid-row: 1;
+}
+
+.running-head__nav {
+  grid-column: 2;
+  grid-row: 1;
+}
+
+.running-head > .folio {
+  font-size: var(--step--2);
+  grid-column: 1 / -1;
+  grid-row: 2;
+  justify-self: end;
+}
+
+@media (min-width: 640px) {
+  .running-head {
+    grid-template-columns: minmax(0, 1fr) auto auto;
+  }
+
+  .running-head > .folio {
+    grid-column: 2;
+    grid-row: 1;
+  }
+
+  .running-head__nav {
+    grid-column: 3;
+  }
 }
 
 .running-head__title {

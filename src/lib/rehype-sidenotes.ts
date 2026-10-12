@@ -4,7 +4,8 @@
 // each reference becomes <sup class="sidenote-ref"><a href="#fn-n" id="fnref-n"
 // data-popover-target="fn-n" data-popover-media="…">…</a></sup>, and each note becomes an
 // <aside class="sidenote" id="fn-n" role="note"> placed as a direct child of the document
-// (the .measure flow) right after the top-level block that first references it. The
+// (the .measure flow) right before the top-level block that first references it, so in the
+// margin it floats level with that block's first line rather than the block after. The
 // default footnotes <section> is removed. Notes are numbered in the order remark-gfm
 // numbers them, so `[^label]` names work as well as `[^1]`.
 import type { Root, RootContent, Element, ElementContent, Text } from "hast";
@@ -68,7 +69,8 @@ function refMarkup(n: number, id: string): Element {
   return {
     type: "element",
     tagName: "sup",
-    properties: { className: ["sidenote-ref"] },
+    // Two-digit numerals take back less of the 24px target (components.css).
+    properties: { className: n >= 10 ? ["sidenote-ref", "sidenote-ref--2"] : ["sidenote-ref"] },
     children: [
       {
         type: "element",
@@ -111,6 +113,24 @@ function asideMarkup(note: Note): Element {
 }
 
 /**
+ * The reference, joined to the word before it in a no-wrap span so the number never starts
+ * a line of its own. Takes that word out of the preceding text node (mutating it); when
+ * there is no word right before the reference, the reference stands alone.
+ */
+function anchorWithPrecedingWord(prev: ElementContent | RootContent | undefined, ref: Element): Element {
+  if (prev?.type !== "text") return ref;
+  const m = prev.value.match(/\S+$/);
+  if (!m) return ref;
+  prev.value = prev.value.slice(0, -m[0].length);
+  return {
+    type: "element",
+    tagName: "span",
+    properties: { className: ["sidenote-anchor"] },
+    children: [text(m[0]), ref],
+  };
+}
+
+/**
  * Rewrite footnote references under `node`; return the notes first referenced there, in
  * order. `seen` counts references per note so a repeat gets its own id (fnref-n-2…).
  */
@@ -123,7 +143,8 @@ function rewriteRefs(node: Element | Root, notes: Map<string, Note>, seen: Map<n
       if (note) {
         const count = (seen.get(note.n) ?? 0) + 1;
         seen.set(note.n, count);
-        node.children[i] = refMarkup(note.n, count === 1 ? `fnref-${note.n}` : `fnref-${note.n}-${count}`);
+        const ref = refMarkup(note.n, count === 1 ? `fnref-${note.n}` : `fnref-${note.n}-${count}`);
+        node.children[i] = anchorWithPrecedingWord(node.children[i - 1], ref);
         if (!note.placed) {
           note.placed = true;
           out.push(note);
@@ -157,11 +178,12 @@ export default function rehypeSidenotes() {
     const seen = new Map<number, number>();
     const children: RootContent[] = [];
     for (const block of tree.children) {
+      if (isElement(block)) {
+        const first: Note[] = [];
+        rewriteRefs(block, notes, seen, first);
+        for (const note of first) children.push(asideMarkup(note), text("\n"));
+      }
       children.push(block);
-      if (!isElement(block)) continue;
-      const first: Note[] = [];
-      rewriteRefs(block, notes, seen, first);
-      for (const note of first) children.push(text("\n"), asideMarkup(note));
     }
     tree.children = children;
   };

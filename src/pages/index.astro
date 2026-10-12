@@ -18,8 +18,9 @@ const manualReviewed = new Date(Math.max(...manual.map((p) => p.data.reviewed.ge
   title="As We May Act"
   section="As We May Act"
   description="Public records in Arkansas, and what to do with them: a field manual, a letter builder and signed trails."
+  reviewed={manualReviewed}
 >
-  <Masthead />
+  <Masthead slot="masthead" />
 
   <figure class="epigraph">
     <blockquote>
@@ -29,19 +30,19 @@ const manualReviewed = new Date(Math.max(...manual.map((p) => p.data.reviewed.ge
   </figure>
 
   <article class="entry">
-    <h2><a href="/manual/">Get a record</a></h2>
+    <h2><a class="headline-link" href="/manual/">Get a record</a></h2>
     <p>The field manual: what the Arkansas Freedom of Information Act lets you see, what it costs and how fast it must come, and a builder that drafts the letter with you.</p>
-    <p class="entry__more"><a href="/manual/write/">Draft a request letter →</a></p>
+    <p class="entry__more"><a href="/manual/write/">Draft a request letter<span class="arrow" aria-hidden="true"> →</span></a></p>
     <p class="entry__meta mono">Last reviewed {formatFolio(manualReviewed)}</p>
   </article>
 
   <article class="entry">
-    <h2><a href="/trails/">Follow a trail</a></h2>
+    <h2><a class="headline-link" href="/trails/">Follow a trail</a></h2>
     <p>Short, signed paths that run from a passage or a public record to something you can do. Three to start: the lectern, the meeting and the camera.</p>
   </article>
 
   <article class="entry">
-    <h2><a href="/about/">Why “As We May Act”</a></h2>
+    <h2><a class="headline-link" href="/about/">Why “As We May Act”</a></h2>
     <p>The name finishes a sentence Vannevar Bush left open in 1945. The essay behind it covers where the idea comes from and what is wrong with where it comes from.</p>
   </article>
 
@@ -62,26 +63,31 @@ const manualReviewed = new Date(Math.max(...manual.map((p) => p.data.reviewed.ge
 
 <style>
   .epigraph {
-    margin: 0 0 2.5rem;
-    padding-block: 1rem;
-    border-block: 1px solid var(--rule);
+    margin: 0 0 1.5rem;
+    padding-block: 0 1.5rem;
+    border-bottom: var(--rule-hair);
   }
 
   .epigraph blockquote {
     margin: 0;
   }
 
+  /* The opening quotation mark hangs in the margin so the text aligns on its letters. */
   .epigraph p {
     margin: 0;
     font-style: italic;
     font-size: var(--step-1);
     line-height: 1.4;
+    text-indent: -0.4em;
   }
 
   .epigraph figcaption {
-    margin-top: 0.5rem;
+    margin-top: 0.75rem;
     color: var(--ink-light);
     font-family: var(--font-grotesque);
+    font-variant-caps: all-small-caps;
+    font-weight: 600;
+    letter-spacing: 0.08em;
     font-size: var(--step--1);
   }
 
@@ -90,7 +96,7 @@ const manualReviewed = new Date(Math.max(...manual.map((p) => p.data.reviewed.ge
   }
 
   .entry + .entry {
-    border-top: 1px solid var(--rule);
+    border-top: var(--rule-hair);
     padding-top: 1rem;
   }
 
@@ -126,8 +132,8 @@ const manualReviewed = new Date(Math.max(...manual.map((p) => p.data.reviewed.ge
 
   .recent__heading {
     margin: 0 0 0.5rem;
-    font-size: var(--step-0);
-    font-weight: 600;
+    color: var(--ink-light);
+    font-size: var(--step--1);
   }
 
   .recent ol {
@@ -138,7 +144,7 @@ const manualReviewed = new Date(Math.max(...manual.map((p) => p.data.reviewed.ge
 
   .recent li {
     padding-block: 0.5rem;
-    border-top: 1px solid var(--rule);
+    border-top: var(--rule-hair);
   }
 
   .recent li a {
@@ -148,6 +154,7 @@ const manualReviewed = new Date(Math.max(...manual.map((p) => p.data.reviewed.ge
 
   .recent time {
     color: var(--ink-light);
+    font-size: var(--step--2);
   }
 
   @media (min-width: 900px) {
