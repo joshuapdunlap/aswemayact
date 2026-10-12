@@ -17,13 +17,13 @@ npm run preview    # serves dist/ locally
 npm test           # unit tests, then browser tests against the built site
 ```
 
-`npm run build` runs a content check first: every passage quotation is capped at 25 words and must carry a locator, every statute citation must be well-formed, every external link must answer, and an optional local list of excluded names (`.content-rules/excluded.txt`, not committed) must match nothing in the tree.
+`npm run build` runs a content check first: every passage quotation is capped at 25 words and must carry a locator, every statute citation must be well-formed, every external link must answer, and an optional local list of excluded names (`.content-rules/excluded.txt`, not committed) must match nothing in the tree. With a local copy of the Attorney General's handbook text, every "What the law says" quotation in the manual must appear in the handbook on the page its note gives; `npm run handbook` downloads the PDF and writes that copy to `.content-rules/handbook-22.txt` (not committed; needs `pdftotext`).
 
 Deployment and operations are in [docs/DEPLOY.md](docs/DEPLOY.md).
 
 ## Layout
 
-- `src/content/manual/` — the field manual, one Markdown file per page. Each "What the law says" block quotes the Attorney General's current FOIA handbook, with the page noted in a comment.
+- `src/content/manual/` — the field manual, one Markdown file per page. Each "What the law says" block quotes the Attorney General's current FOIA handbook, with the page noted in a comment (`<!-- handbook p. 15 -->`), or names its other source (`<!-- not in the handbook: … -->`).
 - `src/content/sources/` — source cards.
 - `src/content/trails/` — trails, with typed stops in frontmatter and narration under `## Stop n` headings.
 - `src/content/essays/` — signed essays. Footnotes become sidenotes at build time.

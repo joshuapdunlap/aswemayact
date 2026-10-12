@@ -3,6 +3,9 @@
 // Prints each violation as `path: rule: detail` and exits 1 if there are any.
 // The excluded-names rule reads every tracked text file (not only src/content) plus
 // public/llms.txt; without .content-rules/excluded.txt it is skipped with a warning.
+// The law-quote rule checks every "What the law says" quotation in the field manual, and
+// its page note, against the AG's handbook text in .content-rules/handbook-22.txt (written
+// by `npm run handbook`); without that file it is skipped with a warning.
 // --skip-links      skip the external URL check (offline builds)
 // --strict-network  treat unverifiable links (network errors, bot challenges) as violations, not warnings
 import { readFile } from "node:fs/promises";
@@ -22,9 +25,11 @@ import {
   isTransientStatus,
   excludedNameScanFiles,
 } from "../src/lib/content-rules";
+import { checkLawBlock, indexHandbook, lawBlocks, type HandbookIndex } from "../src/lib/handbook";
 
 const CONTENT_DIR = "src/content";
 const EXCLUDED_FILE = ".content-rules/excluded.txt";
+const HANDBOOK_FILE = ".content-rules/handbook-22.txt";
 const LINK_TIMEOUT_MS = 10_000;
 const LINK_CONCURRENCY = 6;
 const USER_AGENT = "aswemayact-link-check/1.0 (+https://aswemayact.org)";
@@ -154,6 +159,8 @@ async function checkLinks(urlFiles: Map<string, Set<string>>) {
 async function main() {
   const files = (await fg(`${CONTENT_DIR}/**/*.md`)).sort();
   const excluded = await loadExcludedNames();
+  const handbook: HandbookIndex | null = existsSync(HANDBOOK_FILE) ? indexHandbook(await readFile(HANDBOOK_FILE, "utf8")) : null;
+  let lawChecked = 0;
   const urlFiles = new Map<string, Set<string>>();
 
   for (const path of files) {
@@ -169,10 +176,22 @@ async function main() {
 
     checkStops(path, data.stops, content);
     checkStatutes(path, data.statutes);
+    if (handbook && path.startsWith(`${CONTENT_DIR}/manual/`)) {
+      for (const block of lawBlocks(raw)) {
+        lawChecked++;
+        for (const problem of checkLawBlock(handbook, block)) report(path, "law-quote", problem);
+      }
+    }
     for (const url of extractUrls(raw)) {
       if (!urlFiles.has(url)) urlFiles.set(url, new Set());
       urlFiles.get(url)!.add(path);
     }
+  }
+
+  if (handbook === null) {
+    console.warn(`warn: ${HANDBOOK_FILE} not found — law-quote rule skipped (run npm run handbook)`);
+  } else {
+    console.log(`check-content: law-quote rule checked ${lawChecked} law blocks against the handbook`);
   }
 
   if (excluded === null) {

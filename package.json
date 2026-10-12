@@ -15,6 +15,7 @@
     "test:unit": "vitest run",
     "test:e2e": "playwright test",
     "check": "tsx scripts/check-content.ts",
+    "handbook": "tsx scripts/fetch-handbook.ts",
     "prebuild": "tsx scripts/recent-changes.ts",
     "postbuild": "pagefind --site dist",
     "archive": "tsx scripts/archive-links.ts",
