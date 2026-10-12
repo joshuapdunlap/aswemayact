@@ -6,7 +6,7 @@ sources:
   - Arkansas Attorney General, Freedom of Information Handbook, 22nd ed. (2026) https://media.ark.org/ag/APA-045-2026-FOIA-Handbook-22nd-Edition.pdf
   - Arkansas Advocate, Judge dismisses FOIA lawsuit against Arkansas governor, May 7, 2024 https://arkansasadvocate.com/2024/05/07/judge-dismisses-foia-lawsuit-against-arkansas-governor-by-blogger-who-revealed-lectern-purchase/
   - Arkansas Attorney General, Pulaski County Circuit Court grants Attorney General's motion, dismisses blogger's lawsuit against Governor, May 7, 2024 https://arkansasag.gov/news-release/pulaski-county-circuit-court-grants-attorney-generals-motion-dismisses-bloggers-lawsuit-against-governor/
-  - In re Arkansas Rules of Civil Procedure, 366 Ark. 644 (2006), setting out Rule 4(i)
+  - Arkansas Judiciary, Civil & Criminal Benchbook (updated 2022), on Ark. R. Civ. P. 4(i) https://arcourts.gov/sites/default/files/Civil%20&%20Criminal%20Benchbook%202022.pdf
   - National Freedom of Information Coalition, Knight FOI Fund FAQs https://www.nfoic.org/knight/knight-foi-fund-faqs
   - Arkansas Press Association, Contact us https://arkansaspress.org/contact-us/
   - National Freedom of Information Coalition, FOI hotlines https://www.nfoic.org/foi-hotlines/

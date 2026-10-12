@@ -24,7 +24,7 @@ statutes:
   - "§ 25-19-106(g)"
   - "§ 25-19-106(i)(1)"
   - "§ 25-19-106(i)(3)"
-printable: false
+printable: true
 order: 8
 ---
 

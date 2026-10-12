@@ -9,7 +9,7 @@ import { settle, widthClass } from "./helpers";
 
 for (const route of ALL_ROUTES) {
   test(`axe WCAG 2.2 AA clean: ${route}`, async ({ page }, testInfo) => {
-    // Two axe passes over a long page (the printables run all three sheets) can pass 30 s
+    // Two axe passes over a long page (the printables run all four sheets) can pass 30 s
     // on the mobile projects when the whole suite runs in parallel.
     test.setTimeout(60_000);
     await settle(page, route);

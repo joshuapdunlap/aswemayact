@@ -139,10 +139,10 @@ test("manual pages carry a folio, law blocks and a sources list", async ({ page 
   }
 });
 
-test("printables lists the three printable pages with print buttons", async ({ page }) => {
+test("printables lists the four printable pages with print buttons", async ({ page }) => {
   await page.goto("/manual/printables/");
-  await expect(page.locator(".printable-sheet")).toHaveCount(3);
-  await expect(page.locator(".printables-list li")).toHaveCount(3);
+  await expect(page.locator(".printable-sheet")).toHaveCount(4);
+  await expect(page.locator(".printables-list li")).toHaveCount(4);
   await expect(page.locator("button.print-button").first()).toBeVisible();
   await expect(page.locator("main")).toContainText("Without JavaScript");
 });
