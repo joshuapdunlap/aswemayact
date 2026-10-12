@@ -216,8 +216,8 @@ const dayFour = generateDeadlineCard(DEFAULTS).dayFour;
   .builder {
     display: grid;
     grid-template-columns: minmax(0, 1fr);
-    row-gap: 2rem;
-    margin-top: 1.5rem;
+    row-gap: var(--line);
+    margin-top: var(--line);
   }
 
   @media (min-width: 900px) {
@@ -255,12 +255,60 @@ const dayFour = generateDeadlineCard(DEFAULTS).dayFour;
     }
   }
 
+  /* Phone: the letter follows the form, so its toolbar (Copy, Download, Print, Clear) pins to
+     the foot of the screen while the form is being filled in, in reach of the thumb, and
+     settles above the letter once the reader gets there. The letter pane's box is dropped
+     (display: contents) so the toolbar's sticky range is the whole builder, not the pane. */
+  @media (max-width: 899.98px) {
+    .builder {
+      display: flex;
+      flex-direction: column;
+      row-gap: 0;
+    }
+
+    .builder__form {
+      margin-bottom: var(--line);
+    }
+
+    .builder__letter {
+      display: contents;
+    }
+
+    .builder__letter > .toolbar {
+      position: sticky;
+      bottom: 0;
+      z-index: 1;
+      margin: 0 calc(-1 * var(--gutter)) var(--line-half);
+      padding: var(--line-4th) var(--gutter);
+      border-top: var(--rule-ink);
+      background: var(--paper);
+    }
+
+    .builder__letter > .toolbar {
+      row-gap: var(--line-4th);
+    }
+
+    /* Kept low: Clear is a text control (24px target), and the status line takes no row
+       of the pinned bar until it has something to say. It stays rendered, so the live
+       region still announces. */
+    .builder__letter > .toolbar #clear {
+      min-height: 24px;
+      padding-block: 0;
+    }
+
+    .builder__letter > .toolbar .status:empty {
+      position: absolute;
+    }
+
+    /* A field reached by Tab scrolls clear of the pinned toolbar (WCAG 2.4.11). */
+    .builder__form :is(input, textarea) {
+      scroll-margin-bottom: 6rem;
+    }
+  }
+
   /* The proxy's name matters only when the request is made for someone else. */
   .builder__form:not(:has(#standing-proxy:checked)) .field:has(#proxy-for) {
     display: none;
-  }
-
-  @media (min-width: 900px) {
   }
 
   :global(html:not(.js)) .needs-js {
@@ -588,7 +636,7 @@ const dayFour = generateDeadlineCard(DEFAULTS).dayFour;
   /* ---- Follow-ups and deadline card ---- */
   .outputs {
     max-width: var(--measure);
-    margin-top: 3rem;
+    margin-top: var(--line-2);
     padding-top: 0.5rem;
     border-top: var(--rule-heavy);
   }
@@ -672,9 +720,14 @@ const dayFour = generateDeadlineCard(DEFAULTS).dayFour;
     font-size: var(--step--1);
   }
 
-  /* A letter sheet: the margins a typed letter would have. */
+  /* A letter sheet: the margins a typed letter would have, and none of the site's sheet
+     furniture (print.css) but the page number, which a second sheet needs. */
   @page letter {
     margin: 25mm 25mm 22mm;
+
+    @top-left {
+      content: none;
+    }
   }
 
   /* ---- Print: the letter only, black on white (print.css sets the colours) ---- */

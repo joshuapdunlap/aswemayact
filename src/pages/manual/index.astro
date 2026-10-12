@@ -12,6 +12,7 @@ const latest = new Date(Math.max(...pages.map((p) => p.data.reviewed.getTime()))
   title="Field manual · As We May Act"
   section="Field manual"
   reviewed={latest}
+  contents
   description="A plain-language guide to getting public records under the Arkansas Freedom of Information Act."
 >
   <h1>Field manual</h1>
@@ -23,7 +24,7 @@ const latest = new Date(Math.max(...pages.map((p) => p.data.reviewed.getTime()))
     <strong>Ready to write?</strong> The <a href="/manual/write/">letter builder</a> drafts a request with you in
     your browser, citing the statute behind each sentence. Nothing you type is stored or sent.
   </p>
-  <ol class="manual-index" role="list">
+  <ol class="manual-index contents-list" role="list">
     {
       pages.map((p) => (
         <li>
@@ -31,7 +32,7 @@ const latest = new Date(Math.max(...pages.map((p) => p.data.reviewed.getTime()))
             <a class="headline-link" href={`/manual/${p.id}/`}>{p.data.title}</a>
           </h2>
           <p class="manual-index__summary">{p.data.summary}</p>
-          <p class="manual-index__reviewed mono">Reviewed {formatFolio(p.data.reviewed)}</p>
+          <p class="manual-index__reviewed contents-ref mono">Reviewed {formatFolio(p.data.reviewed)}</p>
         </li>
       ))
     }
@@ -40,8 +41,8 @@ const latest = new Date(Math.max(...pages.map((p) => p.data.reviewed.getTime()))
 
 <style>
   .manual-lead {
-    margin: 1.5rem 0 0;
-    padding-top: 0.75rem;
+    margin: var(--line) 0 0;
+    padding-top: var(--line-half);
     border-top: var(--rule-hair);
   }
 
@@ -50,7 +51,7 @@ const latest = new Date(Math.max(...pages.map((p) => p.data.reviewed.getTime()))
   }
 
   .manual-index {
-    margin: 1.5rem 0 0;
+    margin: var(--line) 0 0;
     padding: 0;
     list-style: none;
     counter-reset: page;
@@ -59,7 +60,7 @@ const latest = new Date(Math.max(...pages.map((p) => p.data.reviewed.getTime()))
   .manual-index > li {
     counter-increment: page;
     position: relative;
-    padding: 1rem 0 1rem 2.5rem;
+    padding: var(--line-half) 0 var(--line-half) 2.5rem;
     border-top: var(--rule-hair);
   }
 
@@ -67,7 +68,7 @@ const latest = new Date(Math.max(...pages.map((p) => p.data.reviewed.getTime()))
     content: counter(page);
     position: absolute;
     left: 0;
-    top: 1rem;
+    top: var(--line-half);
     font-family: var(--font-grotesque);
     font-weight: 700;
     font-size: var(--step-1);
@@ -88,5 +89,17 @@ const latest = new Date(Math.max(...pages.map((p) => p.data.reviewed.getTime()))
     margin: 0;
     color: var(--ink-light);
     font-size: var(--step--1);
+  }
+
+  /* On the contents grid the page number keeps its own column: the entry's text, not the
+     list item, takes the indent, so the item's columns line up with the page's. */
+  @media (min-width: 900px) {
+    .manual-index > li {
+      padding-left: 0;
+    }
+
+    .manual-index > li > :not(.contents-ref) {
+      padding-left: 2.5rem;
+    }
   }
 </style>

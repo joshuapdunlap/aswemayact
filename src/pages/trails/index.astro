@@ -15,13 +15,14 @@ const trails = (await getCollection("trails")).sort(
   description="Signed trails through Arkansas public records, each ending in something you can do."
   dated={trails[0] ? new Date(trails[0].data.dateline) : undefined}
   datedPrecision="month"
+  contents
 >
   <h1>Trails</h1>
   <p class="trails-summary">
     A trail is a short path through the public record. Each stop is a passage, a record, an idea or a reported
     finding, and every trail ends with something you can do. Each one is signed by the editor who wrote it.
   </p>
-  <ol class="trail-index" role="list">
+  <ol class="trail-index contents-list" role="list">
     {
       trails.map((t) => (
         <li>
@@ -29,7 +30,7 @@ const trails = (await getCollection("trails")).sort(
             <a class="headline-link" href={`/trails/${t.data.slug}/`}>{t.data.title}</a>
           </h2>
           <p class="trail-index__summary">{t.data.summary}</p>
-          <p class="trail-index__meta mono">
+          <p class="trail-index__meta contents-ref mono">
             {t.data.stops.length} stops · {formatFolio(new Date(t.data.dateline))}
           </p>
         </li>
@@ -46,13 +47,13 @@ const trails = (await getCollection("trails")).sort(
   }
 
   .trail-index {
-    margin: 2rem 0 0;
+    margin: var(--line) 0 0;
     padding: 0;
     list-style: none;
   }
 
   .trail-index > li {
-    padding-block: 1rem;
+    padding-block: var(--line-half);
     border-top: var(--rule-hair);
   }
 

@@ -1,5 +1,7 @@
 ---
 // One entry in the corrections log: date, the page corrected, what it said, what it says now.
+// In the log (a contents list, see components.css) the date is the entry's margin reference:
+// columns 9–12 from 900px; on a phone it leads the entry's first line, before the page.
 import { formatFolio } from "../lib/dates";
 import { isLinkable } from "../lib/cite";
 
@@ -14,10 +16,10 @@ const { page, date, was, now } = Astro.props;
 ---
 
 <article class="correction-entry">
-  <p class="correction-entry__head">
-    <time class="mono" datetime={date.toISOString().slice(0, 10)}>{formatFolio(date)}</time>
-    <span class="correction-entry__page">{isLinkable(page) ? <a href={page}>{page}</a> : page}</span>
+  <p class="correction-entry__date contents-ref mono">
+    <time datetime={date.toISOString().slice(0, 10)}>{formatFolio(date)}</time>
   </p>
+  <p class="correction-entry__page">{isLinkable(page) ? <a href={page}>{page}</a> : page}</p>
   <dl class="correction-entry__change">
     <dt class="small-caps">Was</dt>
     <dd>{was}</dd>
@@ -28,27 +30,42 @@ const { page, date, was, now } = Astro.props;
 
 <style>
   .correction-entry {
-    padding-block: 0.75rem 1rem;
+    padding-block: var(--line-half);
     border-top: var(--rule-hair);
   }
 
-  .correction-entry__head {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0 var(--gutter);
-    margin: 0 0 0.5rem;
-    font-family: var(--font-grotesque);
+  /* Phone: date, then page, on the first line. (From 900px the contents grid places them.) */
+  @media (max-width: 899.98px) {
+    .correction-entry {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr);
+      column-gap: var(--gutter);
+      align-items: baseline;
+    }
+
+    .correction-entry__change {
+      grid-column: 1 / -1;
+    }
+  }
+
+  .correction-entry__date,
+  .correction-entry__page {
+    margin: 0 0 var(--line-4th);
     font-size: var(--step--1);
   }
 
-  .correction-entry__head .mono {
+  .correction-entry__date {
     color: var(--ink-light);
+  }
+
+  .correction-entry__page {
+    font-family: var(--font-grotesque);
   }
 
   .correction-entry__change {
     display: grid;
     grid-template-columns: 3.5rem minmax(0, 1fr);
-    gap: 0.25rem var(--gutter);
+    gap: var(--line-4th) var(--gutter);
     align-items: baseline;
     margin: 0;
   }

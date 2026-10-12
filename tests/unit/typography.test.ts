@@ -20,3 +20,12 @@ test("wraps whole statute numbers in a no-wrap span and leaves the text as writt
   );
   expect(splitStatutes("no citation here")).toEqual([{ type: "text", value: "no citation here" }]);
 });
+
+import { breakUrls } from "../../src/lib/typography";
+test("lets a web address wrap at its joints, and escapes the rest", () => {
+  expect(breakUrls("open https://a.gov/Acts/Doc?path=%2FACTS%2F&file=N.pdf with N")).toBe(
+    "open https://a.gov/<wbr>Acts/<wbr>Doc?<wbr>path=<wbr>%2F<wbr>ACTS%2F<wbr>&amp;<wbr>file=<wbr>N.pdf with N",
+  );
+  expect(breakUrls("no address <here> & there")).toBe("no address &lt;here&gt; &amp; there");
+  expect(breakUrls("https://a.gov/x.")).toBe("https://a.gov/<wbr>x.");
+});

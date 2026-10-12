@@ -27,6 +27,31 @@ export function splitStatutes(s: string): ElementContent[] {
   return out;
 }
 
+const WEB_ADDRESS = /https?:\/\/[^\s<>"“”]+/g;
+
+const escapeHtml = (t: string) =>
+  t.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+
+/**
+ * HTML for a plain-text field in which every web address may wrap at its joints: a <wbr>
+ * after each "/", "?", "&", "=" and encoded slash ("%2F") past the scheme, so a long
+ * address breaks where a reader copying it by hand would expect, not mid-word. The
+ * characters are unchanged (a <wbr> adds none) and everything else is escaped.
+ */
+export function breakUrls(s: string): string {
+  let out = "";
+  let last = 0;
+  for (const m of s.matchAll(WEB_ADDRESS)) {
+    const at = m.index ?? 0;
+    const url = m[0];
+    const scheme = url.indexOf("://") + 3;
+    const joints = url.slice(scheme).split(/(?<=[/?&=]|%2F)/i);
+    out += escapeHtml(s.slice(last, at)) + escapeHtml(url.slice(0, scheme)) + joints.map(escapeHtml).join("<wbr>");
+    last = at + url.length;
+  }
+  return out + escapeHtml(s.slice(last));
+}
+
 const SKIP = new Set(["code", "pre", "script", "style"]);
 
 function walk(node: Root | Element): void {

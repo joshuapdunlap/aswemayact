@@ -23,24 +23,52 @@
   grid-template-columns: minmax(0, 1fr) auto;
   align-items: baseline;
   gap: 0.125rem var(--gutter);
-  padding-block: 0.75rem;
+  padding-block: var(--line-half);
   border-bottom: var(--rule-hair);
-  margin-bottom: 2rem;
+  margin-bottom: var(--line);
   color: var(--ink-light);
   font-size: var(--step--1);
 }
 
+/* The footer is the issue's colophon: closed by the nameplate's rule pair turned over (thin
+   above thick), then the licences and the address in the text face, centred under it, and
+   one small-caps line of the site's own furniture. Roman, not italic: the italic face would
+   add 25 KB to every page that does not already set it. */
 .site-footer {
-  border-top: var(--rule-hair);
-  margin-top: 3rem;
-  padding-block: 1.5rem 2rem;
+  margin-top: var(--line-2);
+  padding-block: 0 var(--line-1-5);
   color: var(--ink-light);
-  font-family: var(--font-grotesque);
-  font-size: var(--step--2);
+  font-size: var(--step--1);
+  line-height: 1.45;
+  text-align: center;
+}
+
+.site-footer::before {
+  content: "";
+  display: block;
+  height: 6px;
+  margin-bottom: var(--line);
+  border-top: 1px solid var(--ink);
+  border-bottom: 2px solid var(--ink);
 }
 
 .site-footer p {
-  margin: 0 0 0.5rem;
+  margin: 0 auto var(--line-4th);
+  max-width: var(--measure);
+  text-wrap: balance;
+}
+
+.site-footer__line {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: baseline;
+  gap: 0 0.5em;
+  margin-top: var(--line-half);
+  font-family: var(--font-grotesque);
+  font-variant-caps: all-small-caps;
+  font-weight: 600;
+  letter-spacing: 0.08em;
 }
 
 @media (min-width: 900px) {
@@ -150,7 +178,12 @@
   flex-wrap: wrap;
   align-items: baseline;
   gap: 0 0.5em;
-  margin: 0 0 0.75rem;
+}
+
+/* The theme control follows the links after one more point, as one line of furniture
+   (only with JavaScript, without which the control is not shown). */
+.js .site-footer__nav::after {
+  content: "·" / "";
 }
 
 .site-footer__nav a {
