@@ -1,5 +1,10 @@
 [
   {
+    "path": "/manual/denied/",
+    "title": "Denied, now what",
+    "date": "2026-10-12"
+  },
+  {
     "path": "/manual/meetings/",
     "title": "Public meetings",
     "date": "2026-10-12"
@@ -12,11 +17,6 @@
   {
     "path": "/manual/sources/",
     "title": "Source cards",
-    "date": "2026-10-12"
-  },
-  {
-    "path": "/manual/denied/",
-    "title": "Denied, now what",
     "date": "2026-10-12"
   },
   {
