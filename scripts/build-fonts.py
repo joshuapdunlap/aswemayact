@@ -8,6 +8,15 @@ narrows the variable axes to the weights the site sets, so every page stays insi
   Libre Franklin     wght 400–700 (UI 400, labels 600, headings 700)
   IBM Plex Mono      400, copied as is (static already)
 
+Newsreader's optical-size axis (opsz 6–72) is deliberately dropped: the files are instanced
+from the wght-only subset, which is set at opsz 18, Newsreader's default and the size of the
+text it sets (18–19px body). Measured on the Fontsource 5.3 Latin subsets, keeping opsz with
+wght 400–700 makes the roman 94.9 KB instead of 40.9 KB and the italic 63.8 KB instead of
+24.6 KB (narrowing it to opsz 12–72 saves only 3.6 KB), which would take the fonts past the
+120 KB font budget and most pages past 200 KB. Neither these subsets nor the full Google Fonts
+sources of Newsreader and Libre Franklin carry onum, lnum, smcp or c2sc, so figures stay the
+faces' default lining figures and small capitals are synthesized (see type.css).
+
 It then writes the size-adjusted fallback faces into src/styles/fonts.css (between the
 GENERATED markers), so the swap from the system face to the web face barely moves the text
 (spec §4.1: font-display swap with size-adjusted fallbacks). Method, as next/font and

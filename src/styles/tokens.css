@@ -31,12 +31,27 @@
   --rule-ink: 1px solid var(--ink);
   --rule-heavy: 2px solid var(--ink);
 
+  /* Vertical rhythm: every space between blocks is a fraction or multiple of the body
+     line (body size × 1.55), so blocks fall on the same beat as the text. The body steps
+     from 18px to 19px at 900px, and the line steps with it (27.9px, then 29.45px). */
+  --line: calc(1.125rem * 1.55);
+  --line-4th: calc(var(--line) / 4);
+  --line-half: calc(var(--line) / 2);
+  --line-1-5: calc(var(--line) * 1.5);
+  --line-2: calc(var(--line) * 2);
+
   /* Layout. The measure is set in em, not ch: Newsreader's average letter is narrower
      than its "0", so 66ch ran to about 75 characters a line. 30em is 64-67. */
   --measure: 30em;
   --gutter: 16px;
   --bp-grid: 900px; /* reference only: custom properties cannot be used in media queries */
   --max-width: 1120px;
+}
+
+@media (min-width: 900px) {
+  :root {
+    --line: calc(1.1875rem * 1.55);
+  }
 }
 
 /* Dark ("microfilm"): follows the system unless the reader chose light. */

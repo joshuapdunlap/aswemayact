@@ -1,8 +1,10 @@
 ---
 // Source card: where a kind of record lives, what it costs, its limits, and when
-// the editor last checked the link.
+// the editor last checked the link. Set as a catalogue entry: one ink rule over the name,
+// each fact a short paragraph led by its small-caps head, the link and the date beneath.
 import { formatFolio } from "../lib/dates";
 import { hostLabel } from "../lib/cite";
+import { breakUrls } from "../lib/typography";
 
 interface Props {
   name: string;
@@ -25,19 +27,19 @@ const Heading = `h${level}` as "h2" | "h3" | "h4";
   <dl class="source-card__facts">
     <div>
       <dt class="small-caps">Held by</dt>
-      <dd>{holder}</dd>
+      <dd set:html={breakUrls(holder)} />
     </div>
     <div>
       <dt class="small-caps">What it holds</dt>
-      <dd>{whatItHolds}</dd>
+      <dd set:html={breakUrls(whatItHolds)} />
     </div>
     <div>
       <dt class="small-caps">Cost</dt>
-      <dd>{cost}</dd>
+      <dd set:html={breakUrls(cost)} />
     </div>
     <div>
       <dt class="small-caps">Limits</dt>
-      <dd>{limits}</dd>
+      <dd set:html={breakUrls(limits)} />
     </div>
   </dl>
   <p class="source-card__foot">
@@ -48,13 +50,13 @@ const Heading = `h${level}` as "h2" | "h3" | "h4";
 
 <style>
   .source-card {
-    margin: 1.5rem 0;
-    padding-top: 0.75rem;
+    margin: 0 0 var(--line-1-5);
+    padding-top: var(--line-half);
     border-top: var(--rule-ink);
   }
 
   .source-card__name {
-    margin: 0 0 0.75rem;
+    margin: 0 0 var(--line-half);
     font-size: var(--step-1);
   }
 
@@ -62,12 +64,18 @@ const Heading = `h${level}` as "h2" | "h3" | "h4";
     margin: 0;
   }
 
+  /* A run-in head: the label leads its paragraph on the same line. */
   .source-card__facts > div {
-    padding-block: 0.375rem;
-    border-top: var(--rule-hair);
+    margin: 0 0 var(--line-4th);
+  }
+
+  .source-card__facts dt,
+  .source-card__facts dd {
+    display: inline;
   }
 
   .source-card__facts dt {
+    margin-right: 0.375em;
     color: var(--ink-light);
     font-size: var(--step--1);
   }
@@ -80,10 +88,9 @@ const Heading = `h${level}` as "h2" | "h3" | "h4";
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
-    gap: 0.25rem var(--gutter);
-    margin: 0;
-    padding-top: 0.5rem;
-    border-top: var(--rule-hair);
+    align-items: baseline;
+    gap: 0 var(--gutter);
+    margin: var(--line-half) 0 0;
     font-size: var(--step--1);
   }
 
@@ -98,14 +105,5 @@ const Heading = `h${level}` as "h2" | "h3" | "h4";
     color: var(--ink-light);
     font-size: var(--step--2);
     line-height: 24px;
-  }
-
-  @media (min-width: 900px) {
-    .source-card__facts > div {
-      display: grid;
-      grid-template-columns: 9rem 1fr;
-      gap: var(--gutter);
-      align-items: baseline;
-    }
   }
 </style>

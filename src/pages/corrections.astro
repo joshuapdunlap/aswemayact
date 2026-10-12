@@ -14,13 +14,14 @@ const entries = (await getCollection("corrections")).sort(
   section="Corrections"
   description="Every correction to As We May Act, dated, with what each page said and what it says now."
   dated={entries[0]?.data.date}
+  contents
 >
   <h1>Corrections</h1>
   <p class="corrections-summary">
     Every change that corrects this site is logged here, newest first: the date, the page, what it said and what
     it says now.
   </p>
-  <div class="corrections-log">
+  <div class="corrections-log contents-list">
     {entries.map(({ data }) => <CorrectionEntry {...data} />)}
   </div>
 
@@ -42,7 +43,7 @@ const entries = (await getCollection("corrections")).sort(
   }
 
   .corrections-log {
-    margin-top: 2rem;
+    margin-top: var(--line);
     border-bottom: var(--rule-hair);
   }
 </style>

@@ -1,9 +1,38 @@
 /* Print: black on white, URLs expanded after every link (internal ones with the site's
    address in front, fragment-only links left alone). Spec §4.6. */
 
-/* A sheet's margins; the letter builder names its own page ("letter"). */
+/* A sheet's margins and its running furniture: the imprint at the head of every sheet
+   after the first (the first carries the page's own running head) and the page number at
+   the foot, so loose sheets stay in order. The letter builder names its own page
+   ("letter") and drops the imprint there. Margin boxes do not see the page's custom
+   properties, so the faces are named outright. */
 @page {
   margin: 18mm 20mm 20mm;
+
+  @top-left {
+    content: "As We May Act";
+    font-family: "Libre Franklin Variable", "Libre Franklin Fallback", Arial, sans-serif;
+    font-size: 7.5pt;
+    font-weight: 600;
+    font-variant-caps: all-small-caps;
+    letter-spacing: 0.08em;
+    vertical-align: bottom;
+    padding-bottom: 4mm;
+  }
+
+  @bottom-right {
+    content: counter(page);
+    font-family: "IBM Plex Mono", "IBM Plex Mono Fallback", "Courier New", monospace;
+    font-size: 8pt;
+    vertical-align: top;
+    padding-top: 4mm;
+  }
+}
+
+@page :first {
+  @top-left {
+    content: none;
+  }
 }
 
 @media print {
@@ -37,6 +66,24 @@
     break-after: avoid;
   }
 
+  /* Headings at sheet sizes, in points, over a 10.5pt text. */
+  h1 {
+    font-size: 20pt;
+  }
+
+  h2 {
+    font-size: 14pt;
+  }
+
+  h3 {
+    font-size: 11.5pt;
+  }
+
+  /* The imprint in the running head is set, not linked. */
+  .running-head a {
+    text-decoration: none;
+  }
+
   html,
   body {
     background: #fff;
@@ -52,7 +99,8 @@
     content: " (" attr(href) ")";
     font-family: var(--font-mono);
     font-size: 0.8em;
-    word-break: break-all;
+    /* An address starts on the line it belongs to and breaks only where it must. */
+    overflow-wrap: anywhere;
   }
 
   a[href^="/"]:not(.no-print)::after {
@@ -79,8 +127,9 @@
 
   /* An extract on paper: no tint, a fine rule down its left side. */
   .manual-body .law {
+    margin-left: 0.75em;
     padding: 0 0 0 0.75em;
-    border-left: 1pt solid #000;
+    border-left: 0.75pt solid #000;
     font-size: 9pt;
     break-inside: avoid;
   }
@@ -89,8 +138,17 @@
     break-inside: avoid;
   }
 
+  /* The sources and the colophon close the sheet together, never one alone on a page. */
   .manual-sources {
     margin-top: 1.5em;
     font-size: 8.5pt;
+    break-inside: avoid;
+  }
+
+  .site-footer {
+    margin-top: 1.5em;
+    padding-bottom: 0;
+    font-size: 8pt;
+    break-inside: avoid;
   }
 }

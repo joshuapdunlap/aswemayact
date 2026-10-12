@@ -25,6 +25,8 @@ interface Props {
   wide?: boolean;
   /** "essay" sets the measure on columns 3–9 (spec §4.3); default is columns 1–7. */
   variant?: "default" | "essay";
+  /** A contents page: entries in a `.contents-list` carry a `.contents-ref` set in the margin. */
+  contents?: boolean;
   /** Keep the page out of search engines and out of the site's own Pagefind index (the styleguide, search). */
   noindex?: boolean;
 }
@@ -38,6 +40,7 @@ const {
   description,
   wide = false,
   variant = "default",
+  contents = false,
   noindex = false,
 } = Astro.props;
 const hasAside = Astro.slots.has("aside");
@@ -92,7 +95,7 @@ const SITE_NAME = "As We May Act";
         id="main"
         data-pagefind-body={noindex ? undefined : ""}
         data-pagefind-ignore={noindex ? "all" : undefined}
-        class:list={["grid", { wide, essay: variant === "essay" }]}>
+        class:list={["grid", { wide, contents, essay: variant === "essay" }]}>
         <slot name="masthead" />
         <div class="measure">
           <slot />
@@ -106,14 +109,16 @@ const SITE_NAME = "As We May Act";
       <footer class="site-footer">
         <p>Manual, source cards and letter-builder text: CC BY 4.0. Essays and trails: CC BY-ND 4.0.</p>
         <p>Contact: <a href="mailto:editor@aswemayact.org">editor@aswemayact.org</a></p>
-        <nav class="site-footer__nav no-print" aria-label="Footer">
-          <a href="/about/">About</a>
-          <span aria-hidden="true">·</span>
-          <a href="/corrections/">Corrections</a>
-          <span aria-hidden="true">·</span>
-          <a href="/search/">Search</a>
-        </nav>
-        <ThemeToggle />
+        <div class="site-footer__line no-print">
+          <nav class="site-footer__nav" aria-label="Footer">
+            <a href="/about/">About</a>
+            <span aria-hidden="true">·</span>
+            <a href="/corrections/">Corrections</a>
+            <span aria-hidden="true">·</span>
+            <a href="/search/">Search</a>
+          </nav>
+          <ThemeToggle />
+        </div>
       </footer>
     </div>
     <script>

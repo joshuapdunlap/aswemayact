@@ -7,23 +7,34 @@
 </button>
 
 <style>
+  /* A quiet small-caps control in the colophon's line, set like the builder's tabs: a
+     hairline under it while off, an ink rule under it while on. */
   .theme-toggle {
     min-height: 24px;
-    padding: 0 0.5rem 0.125rem;
-    border: 1px solid var(--ink-light);
+    padding: 0 0 1px; /* the pressed rule is 1px heavier; the box keeps its height */
+    border: 0;
+    border-bottom: 1px solid var(--rule);
     border-radius: 0;
     background: transparent;
-    color: var(--ink);
+    color: var(--ink-light);
     font-family: var(--font-grotesque);
     font-size: var(--step--1);
     font-weight: 600;
     font-variant-caps: all-small-caps;
-    letter-spacing: 0.06em;
+    letter-spacing: 0.08em;
+    line-height: 1.45;
     cursor: pointer;
   }
 
   .theme-toggle:hover {
-    border-color: var(--ink);
+    color: var(--ink);
+    border-bottom-color: var(--ink);
+  }
+
+  .theme-toggle[aria-pressed="true"] {
+    padding-bottom: 0;
+    border-bottom: 2px solid var(--ink);
+    color: var(--ink);
   }
 
   /* Without JavaScript the button could do nothing, so it is not shown. */

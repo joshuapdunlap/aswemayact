@@ -5,7 +5,7 @@
 
 .step-list {
   counter-reset: step;
-  margin: 1.5rem 0;
+  margin: var(--line) 0;
   padding: 0;
   list-style: none;
 }
@@ -13,7 +13,7 @@
 .step-list > li {
   counter-increment: step;
   position: relative;
-  padding: 0.75rem 0 0.25rem 2.5rem;
+  padding: var(--line-half) 0 var(--line-4th) 2.5rem;
   border-top: var(--rule-hair);
 }
 
@@ -21,7 +21,7 @@
   content: counter(step);
   position: absolute;
   left: 0;
-  top: 0.75rem;
+  top: var(--line-half);
   font-family: var(--font-grotesque);
   font-weight: 700;
   font-size: var(--step-1);
@@ -29,32 +29,42 @@
   color: var(--ink);
 }
 
-/* A statute quotation; set in Plex Mono under its label wherever it appears. */
+/* A statute quotation, set as a printed manual sets an extract: indented, in Plex Mono, a
+   fine ink rule down its left side, no panel. It follows the sentence it supports closely
+   and leaves a full line before the text resumes. The same in both themes and on paper. */
 .law {
-  margin: 0 0 1em;
-  padding: 0.625rem 0.875rem 0.75rem;
-  background: var(--paper-2);
+  margin: 0 0 var(--line);
+  padding: 0 0 0 var(--line-half);
+  border-left: var(--rule-ink);
   font-family: var(--font-mono);
   font-size: var(--step--1);
   line-height: 1.5;
 }
 
+@media (min-width: 900px) {
+  .law {
+    margin-left: var(--line-half);
+  }
+}
+
+/* The label is a quiet heading over the extract, never a band across it. */
 .law::before {
   content: "What the law says";
   display: block;
-  margin-bottom: 0.25rem;
+  margin-bottom: var(--line-4th);
   color: var(--ink-light);
   font-family: var(--font-grotesque);
   font-variant-caps: all-small-caps;
   font-weight: 600;
   letter-spacing: 0.08em;
   font-size: var(--step--1);
+  line-height: 1.2;
 }
 
 /* ---- Callouts (Callout.astro, or the same markup written in Markdown) ---- */
 
 .callout {
-  margin: 1.5rem 0;
+  margin: var(--line) 0;
   padding: 0.25rem 0 0.25rem var(--gutter);
   border-left: 2px solid var(--stamp);
 }
@@ -229,6 +239,21 @@ th {
   line-height: 24px;
 }
 
+/* The line above a manual page's title: the way back up on the left, and, on a page that
+   prints as a sheet, the Print control flush right on the same line. */
+.manual-head {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 0 var(--gutter);
+  margin: 0 0 var(--line-4th);
+}
+
+.manual-head > .manual-back {
+  margin: 0;
+}
+
 .manual-summary {
   font-size: var(--step-1);
   line-height: 1.4;
@@ -249,11 +274,13 @@ th {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
   column-gap: var(--gutter);
-  margin-top: 2rem;
+  margin-top: var(--line);
 }
 
+/* A long address breaks at its own joints (the <wbr>s from lib/typography.ts breakUrls),
+   and only mid-word if one segment is still wider than the column. */
 .source-grid dd {
-  overflow-wrap: anywhere;
+  overflow-wrap: break-word;
 }
 
 @media (min-width: 900px) {
@@ -276,10 +303,13 @@ th {
 }
 
 /* The essay's first paragraph follows the title, or the margin notes that sit before it. */
+/* Newsreader has no small capitals, so the browser scales its capitals down and they come
+   out lighter than the lowercase beside them; a half-step of weight puts the colour back. */
 .essay-title + p::first-line,
 .essay-title + .sidenote + p::first-line,
 .essay-title + .sidenote + .sidenote + p::first-line {
   font-variant-caps: all-small-caps;
+  font-weight: 520;
   letter-spacing: 0.04em;
 }
 
@@ -295,6 +325,32 @@ th {
   color: var(--rubric);
 }
 
+/* Essay sections open on a side-head: on a phone a quiet heading at the h3 step; from 900px
+   it hangs in the empty columns 1–2 in small caps, level with the first line of its
+   section, as a periodical sets a side-head. The heading takes no height of its own there
+   (its text overflows a zero-height box), so the text column and its margin notes run on
+   undisturbed, a line lower. */
+.grid.essay > .measure h2 {
+  font-size: var(--step-1);
+}
+
+@media (min-width: 900px) {
+  .grid.essay > .measure h2 {
+    --col: calc((100cqi - 11 * var(--gutter)) / 12);
+    width: calc(2 * var(--col) + var(--gutter));
+    height: 0;
+    margin: var(--line) 0 0 calc(-2 * (var(--col) + var(--gutter)));
+    padding-top: 1px; /* keeps the heading's margins from collapsing through it */
+    font-size: var(--step--1);
+    font-weight: 600;
+    font-variant-caps: all-small-caps;
+    letter-spacing: 0.08em;
+    line-height: var(--line);
+    text-align: right;
+    text-wrap: balance;
+  }
+}
+
 /* Search (src/pages/search.astro): Pagefind's default UI on the periodical tokens. The UI is
    rendered by script, so these rules are global, scoped by #search. */
 #search {
@@ -307,7 +363,7 @@ th {
   --pagefind-ui-border-width: 1px;
   --pagefind-ui-border-radius: 0;
   --pagefind-ui-font: var(--font-grotesque);
-  margin-block: 1.5rem 2rem;
+  margin-block: var(--line) var(--line-2);
 }
 
 #search .pagefind-ui__search-input {
@@ -322,9 +378,10 @@ th {
   display: none;
 }
 
+/* One ring, laid over the box's own hairline rather than drawn a step outside it. */
 #search .pagefind-ui__search-input:focus {
   outline: 2px solid var(--stamp);
-  outline-offset: 2px;
+  outline-offset: -1px;
 }
 
 #search .pagefind-ui__search-input::placeholder {
@@ -367,10 +424,19 @@ th {
   color: var(--ink-light);
 }
 
+/* A result is an entry in an index: the page in Franklin, the passage beneath it in the
+   text face at the small step. Each title link stands alone, so it gets a 24px target. */
+#search .pagefind-ui__result {
+  padding-block: var(--line-half);
+}
+
 #search .pagefind-ui__result-link {
+  display: inline-block;
+  min-height: 24px;
   color: var(--ink);
   font-family: var(--font-grotesque);
   font-weight: 600;
+  line-height: 1.35;
   text-decoration-line: underline;
   text-decoration-color: var(--rule);
   text-decoration-thickness: 1px;
@@ -383,8 +449,45 @@ th {
 }
 
 #search .pagefind-ui__result-excerpt {
+  margin-top: var(--line-4th);
   font-family: var(--font-text);
+  font-size: var(--step--1);
+  line-height: 1.45;
   color: var(--ink);
+}
+
+/* Sections within a page: indented under a hairline like a sub-entry in an index, with no
+   arrow (the five trail marks are the site's only icons). */
+#search .pagefind-ui__result-nested {
+  margin-top: var(--line-half);
+  padding-left: var(--line-half);
+  border-left: var(--rule-hair);
+}
+
+#search .pagefind-ui__result-nested .pagefind-ui__result-link {
+  font-size: var(--step--1);
+}
+
+#search .pagefind-ui__result-nested .pagefind-ui__result-link::before {
+  content: none;
+}
+
+/* From 900px the count of results is a margin reference in columns 9–12, level with the
+   first result (an absolute box keeps its place in the flow's height, only moved across). */
+@media (min-width: 900px) {
+  #search {
+    position: relative;
+  }
+
+  #search .pagefind-ui__message {
+    --col: calc((100cqi - 11 * var(--gutter)) / 12);
+    position: absolute;
+    left: calc(8 * (var(--col) + var(--gutter)));
+    width: calc(4 * var(--col) + 3 * var(--gutter));
+    margin: 0;
+    padding-left: var(--gutter);
+    border-left: var(--rule-hair);
+  }
 }
 
 /* A match is marked by weight and a stamp underline; Rubric stays out of running text. */
@@ -409,9 +512,66 @@ th {
   text-decoration-color: var(--stamp);
 }
 
+/* ---- Contents pages (the manual and trails indexes, the corrections log) ----
+   Set like a contents page: each entry ruled across the full width, its text in columns
+   1–7, and its date or count in columns 9–12 on the title's baseline, where a contents page
+   sets the page number, with a hairline between the columns. On a phone the reference
+   stays where it is in the entry. Periodical.astro's `contents` prop sets `.contents`. */
+.contents-list {
+  border-bottom: var(--rule-hair);
+}
+
+@media (min-width: 900px) {
+  .grid.contents > .measure {
+    grid-column: 1 / -1;
+    max-width: none;
+  }
+
+  /* The measure of the body text (30em at 19px), held in rem so a larger dek or title
+     keeps the same right edge as the text. */
+  .grid.contents > .measure > * {
+    max-width: calc(30 * 1.1875rem);
+  }
+
+  .grid.contents > .measure > .contents-list {
+    max-width: none;
+  }
+
+  .contents-list > * {
+    --col: calc((100cqi - 11 * var(--gutter)) / 12);
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: var(--gutter);
+    align-items: baseline;
+  }
+
+  .contents-list > * > * {
+    grid-column: 1 / span 7;
+    max-width: calc(30 * 1.1875rem);
+  }
+
+  .contents-list > * > .contents-ref {
+    grid-column: 9 / -1;
+    grid-row: 1;
+    margin: 0;
+    padding-left: var(--gutter);
+  }
+
+  /* The column rule, from rule to rule, at the left edge of column 9. */
+  .contents-list > *::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: calc(8 * (var(--col) + var(--gutter)));
+    border-left: var(--rule-hair);
+  }
+}
+
 /* ---- "In this section": the margin index beside a manual page or a trail ---- */
 .in-section {
-  margin-bottom: 2rem;
+  margin-bottom: var(--line);
 }
 
 .in-section__title {

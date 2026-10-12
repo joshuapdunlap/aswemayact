@@ -56,7 +56,7 @@ const locatorText = locator ? tieShortWords(locator) : undefined;
     grid-template-columns: 2rem minmax(0, 1fr);
     align-items: baseline; /* the mark sits on the label's baseline */
     margin: 0;
-    padding-block: 1rem 1.25rem;
+    padding-block: var(--line-half) var(--line-half);
     border-top: var(--rule-hair);
   }
 
@@ -74,12 +74,12 @@ const locatorText = locator ? tieShortWords(locator) : undefined;
   }
 
   .trail-stop__title {
-    margin: 0.125rem 0 0.5rem;
+    margin: 0.125rem 0 var(--line-4th);
     font-size: var(--step-1);
   }
 
   .trail-stop__narration > :global(:last-child) {
-    margin-bottom: 0.75rem;
+    margin-bottom: var(--line-half);
   }
 
   .trail-stop__source {

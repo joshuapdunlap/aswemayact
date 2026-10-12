@@ -54,10 +54,12 @@ const cards = isSources
   wide={isSources}
 >
   <div class="manual-text">
-    <p class="manual-back no-print"><a href="/manual/">Field manual</a></p>
+    <div class="manual-head no-print">
+      <p class="manual-back"><a href="/manual/">Field manual</a></p>
+      {printable && <PrintButton />}
+    </div>
     <h1>{title}</h1>
     <p class="manual-summary">{summary}</p>
-    {printable && <PrintButton />}
     <div class="manual-body">
       <Content />
     </div>
