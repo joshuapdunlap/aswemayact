@@ -187,6 +187,9 @@ external URL; later runs submit only pages changed since the last tag. Results a
 appended to `.archive-log.jsonl` (gitignored; keep it, it stops re-submissions). If two
 deploys happen on one UTC day, tag the second `deployed-YYYY-MM-DD-2`.
 
+`npm run archive -- --external-only` submits the cited external URLs and none of the site's
+pages. Use it to save sources before a deploy, when the live pages may still be the old ones.
+
 If Save Page Now answers 429 (rate limited), or three 5xx in a row, the run stops and
 exits 1 with `archive: stopped: …`. Wait an hour and run `npm run archive` again before
 tagging; URLs already saved are skipped.
