@@ -19,11 +19,3 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-
----
-
-This licence covers the source code. The written content of the site
-(everything under src/content/ and the page copy) is licensed separately:
-the field manual, source cards and letter-builder text under CC BY 4.0, and
-the essays and trails under CC BY-ND 4.0, as stated on the site. The fonts
-in src/fonts/ are under the SIL Open Font License, Version 1.1.
