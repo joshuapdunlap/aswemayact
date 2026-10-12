@@ -130,9 +130,10 @@ test("the-clock states immediate access and the $25 rule appears on what-it-cost
 });
 
 test("manual pages carry a folio, law blocks and a sources list", async ({ page }) => {
+  const reviewed: Record<string, string> = { "who-may-request": "12 Oct 2026" };
   for (const slug of ["your-rights", "who-may-request", "what-it-costs", "the-clock", "exemptions", "write-a-request", "denied"]) {
     await page.goto(`/manual/${slug}/`);
-    await expect(page.locator(".folio")).toContainText("Last reviewed 11 Oct 2026");
+    await expect(page.locator(".folio")).toContainText(`Last reviewed ${reviewed[slug] ?? "11 Oct 2026"}`);
     expect(await page.locator(".law").count()).toBeGreaterThan(0);
     expect(await page.locator(".manual-sources a").count()).toBeGreaterThan(0);
   }
@@ -200,7 +201,7 @@ test("front door links each entry and shows the manual's last-reviewed date", as
   expect(hrefs).toEqual(["/manual/", "/trails/", "/about/"]);
   await expect(page.locator(".entry").first().locator('a[href="/manual/write/"]')).toHaveText("Draft a request letter →");
   await expect(page.locator(".epigraph")).toContainText("Vannevar Bush, 1945, p. 108");
-  await expect(page.locator("main")).toContainText("Last reviewed 11 Oct 2026");
+  await expect(page.locator("main")).toContainText("Last reviewed 12 Oct 2026");
 });
 
 test("the essay's footnotes become sidenotes with no footnotes section left", async ({ page }) => {
@@ -242,7 +243,7 @@ test("a trail carries a kicker, a signature and the action links somewhere to ac
 
 test("corrections lists the launch entry and the right of reply", async ({ page }) => {
   await page.goto("/corrections/");
-  await expect(page.locator(".correction-entry")).toHaveCount(1);
+  await expect(page.locator(".correction-entry", { hasText: "Launched with the front door" })).toHaveCount(1);
   await expect(page.locator("main")).toContainText("48 hours");
   await expect(page.locator("main a[href='mailto:editor@aswemayact.org']")).toHaveCount(1);
 });

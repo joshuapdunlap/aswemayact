@@ -122,7 +122,7 @@ test("basis label appears under a sentence on keyboard focus; proxy tooltip cite
   await page.check("#standing-proxy");
   await page.fill("#proxy-for", "A. Reader");
   const standing = page.locator("#preview [data-basis]", { hasText: "on behalf of A. Reader" });
-  await expect(standing).toHaveAttribute("title", /Op\. Att'y Gen\. 2008-191, 97-071, 96-190/);
+  await expect(standing).toHaveAttribute("title", /Op\. Att'y Gen\. 97-071, 96-190/);
 });
 
 test("electronic-format and original-media options add and remove their sentences", async ({ page }) => {
@@ -262,8 +262,8 @@ test("deadline card counts three working days and says holidays are not skipped"
   await expect(card).toContainText("Fri 9 Oct 2026");
   await expect(card).toContainText("Wed 14 Oct 2026");
   await expect(card).toContainText("Send the follow-up for a silent response");
-  await expect(card).toContainText(/weekends are skipped/i);
-  await expect(card).toContainText(/holidays are not/i);
+  await expect(card).toContainText(/skips weekends but not state holidays/i);
+  await expect(card).toContainText(/does not define “working days”/i);
   await expect(card.locator('a[href="/manual/denied/"]')).toHaveCount(1);
 });
 

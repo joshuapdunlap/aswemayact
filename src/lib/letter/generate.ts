@@ -137,7 +137,7 @@ function standing(i: LetterInput): Sentence {
     const name = clean(i.proxyFor);
     const who = name ? `${name},` : "a person";
     return {
-      text: `${base}, on behalf of ${who} who is not an Arkansas citizen, as permitted by the Attorney General's opinions.`,
+      text: `${base}, on behalf of ${who} who is not an Arkansas citizen, as Attorney General opinions have acknowledged.`,
       basis: "§ 25-19-105(a)(2)(A)",
       opinions: PROXY_OPINIONS,
     };

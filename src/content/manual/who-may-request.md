@@ -1,7 +1,7 @@
 ---
 title: Who may request
 summary: The right belongs to Arkansas citizens, and agencies check. What counts as a citizen, who is shut out, and how someone outside the state can still get a record.
-reviewed: 2026-10-11
+reviewed: 2026-10-12
 sources:
   - Arkansas Attorney General, Freedom of Information Handbook, 22nd ed. (2026) https://media.ark.org/ag/APA-045-2026-FOIA-Handbook-22nd-Edition.pdf
   - Reporters Committee for Freedom of the Press, Open Government Guide, Arkansas https://www.rcfp.org/open-government-guide/arkansas/
@@ -54,7 +54,7 @@ Arkansas offices put the rule in writing. Little Rock's [City Attorney](https://
 
 ## If you live outside Arkansas
 
-The Attorney General has said, in opinions the Reporters Committee lists as 2008-191, 97-071 and 96-190, that an Arkansas citizen may request records on behalf of someone who is not one ([RCFP guide](https://www.rcfp.org/open-government-guide/arkansas/)). The citizen is then the requester: the request goes out in that person's name, the answer comes back to that person, and any follow-up runs through that person too. Attorney General opinions are advice, not rulings, but agencies and courts read them.
+Two Attorney General opinions, 97-071 and 96-190, note in passing that someone outside Arkansas can have an Arkansas citizen make the request for them. The [Reporters Committee's guide](https://www.rcfp.org/open-government-guide/arkansas/) cites a third, 2008-191, but that opinion restates the citizen rule and does not address a citizen asking for someone else. The citizen is then the requester: the request goes out in that person's name, the answer comes back to that person, and any follow-up runs through that person too. Attorney General opinions are advice, not rulings, but agencies and courts read them.
 
 ## In practice
 

@@ -29,13 +29,13 @@ stops:
 
 ## Stop 1
 
-Since August 5, 2025, an Arkansas public body that has a website or a social media page has to post its meetings there. That means the time, place and date, and the most current agenda, at least three days before a regular meeting and at least two hours before a special or emergency one. Nothing gathers these postings in one place, so you go to each body’s own site. The manual’s page on [the clock](/manual/the-clock/) sets out the deadlines.
+Since August 5, 2025, an Arkansas public body that has a website or a social media page has to post its meetings there: the time, place and date, and the most current agenda. The agenda has to go up at least three days before a regular meeting and at least two hours before a special or emergency one. Nothing gathers these postings in one place, so you go to each body’s own site. The manual’s page on [the clock](/manual/the-clock/) sets out the deadlines.
 
 ## Stop 2
 
 Here is one. The City of Little Rock posts its Board of Directors agendas on the city’s website. The agenda for the October 5, 2026 meeting lists the resolutions and ordinances the board planned to take up, each with a line on what it does. Item M-3 is an ordinance to issue limited tax general obligation capital improvement bonds.
 
-Bond votes run on a clock of their own. Under Act 992 of 2025, a court can undo a vote authorizing debt over an open-meetings violation only if the challenge comes within thirty days ([the clock](/manual/the-clock/) has the details). An agenda tells you what will be decided and when. It doesn’t tell you what was said.
+Bond votes run on a clock of their own. Under Act 992 of 2025, a court can undo a vote authorizing debt over an open-meetings violation only within thirty days of the vote ([the clock](/manual/the-clock/) has the details). An agenda tells you what will be decided and when. It doesn’t tell you what was said.
 
 ## Stop 3
 

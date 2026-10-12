@@ -201,7 +201,8 @@ const dayFour = generateDeadlineCard(DEFAULTS).dayFour;
     <ol class="card__list">{dayFour.map((d) => <li>{d}</li>)}</ol>
   </div>
   <p class="card__note">
-    Weekends are skipped; state holidays are not, so if one falls in the window, count one day more.
+    This card skips weekends but not state holidays. If a holiday falls in the window, add a day.
+    The statute does not define “working days”; counting holidays as non-working is the cautious reading.
     If the answer is no, read <a href="/manual/denied/">Denied, now what</a>.
   </p>
 </section>

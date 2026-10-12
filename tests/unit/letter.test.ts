@@ -115,7 +115,7 @@ test("standing sentence uses the brief's fixed copy", () => {
   expect(standing?.basis).toBe("§ 25-19-105(a)(2)(A)");
   const proxy = generateLetter({ ...DEFAULTS, standing: "proxy", proxyFor: "A. Reader" }).find(x => x.text.startsWith("I am a citizen"));
   expect(proxy?.text).toBe(
-    "I am a citizen of the State of Arkansas and make this request under the Arkansas Freedom of Information Act, Ark. Code Ann. § 25-19-101 et seq., on behalf of A. Reader, who is not an Arkansas citizen, as permitted by the Attorney General's opinions.",
+    "I am a citizen of the State of Arkansas and make this request under the Arkansas Freedom of Information Act, Ark. Code Ann. § 25-19-101 et seq., on behalf of A. Reader, who is not an Arkansas citizen, as Attorney General opinions have acknowledged.",
   );
 });
 
