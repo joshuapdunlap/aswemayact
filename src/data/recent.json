@@ -1,5 +1,15 @@
 [
   {
+    "path": "/manual/who-may-request/",
+    "title": "Who may request",
+    "date": "2026-10-12"
+  },
+  {
+    "path": "/trails/the-meeting/",
+    "title": "The meeting",
+    "date": "2026-10-12"
+  },
+  {
     "path": "/corrections/",
     "title": "Corrections",
     "date": "2026-10-11"
@@ -12,16 +22,6 @@
   {
     "path": "/manual/denied/",
     "title": "Denied, now what",
-    "date": "2026-10-11"
-  },
-  {
-    "path": "/manual/exemptions/",
-    "title": "Exemptions that matter",
-    "date": "2026-10-11"
-  },
-  {
-    "path": "/manual/printables/",
-    "title": "Printables",
     "date": "2026-10-11"
   }
 ]
