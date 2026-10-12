@@ -1,5 +1,5 @@
 ---
-// Field manual index: the nine pages in order, each with its summary and review date.
+// Field manual index: the ten pages in order, each with its summary and review date.
 import { getCollection } from "astro:content";
 import Periodical from "../../layouts/Periodical.astro";
 import { formatFolio } from "../../lib/dates";
@@ -17,7 +17,7 @@ const latest = new Date(Math.max(...pages.map((p) => p.data.reviewed.getTime()))
 >
   <h1>Field manual</h1>
   <p class="manual-summary">
-    How to get a public record in Arkansas, in nine short pages. Each one quotes the statute it relies on and
+    How to get a public record in Arkansas, in ten short pages. Each one quotes the statute it relies on and
     shows the date it was last checked against the law.
   </p>
   <p class="manual-lead">

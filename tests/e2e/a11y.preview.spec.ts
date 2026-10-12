@@ -9,6 +9,9 @@ import { settle, widthClass } from "./helpers";
 
 for (const route of ALL_ROUTES) {
   test(`axe WCAG 2.2 AA clean: ${route}`, async ({ page }, testInfo) => {
+    // Two axe passes over a long page (the printables run all three sheets) can pass 30 s
+    // on the mobile projects when the whole suite runs in parallel.
+    test.setTimeout(60_000);
     await settle(page, route);
     const results = await new AxeBuilder({ page }).withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "wcag22aa"]).analyze();
     expect(results.violations.map((v) => `${v.id}: ${v.nodes.map((n) => n.target.join(" ")).join(" | ")}`)).toEqual([]);

@@ -115,9 +115,9 @@ for (const width of [375, 1280]) {
   }
 }
 
-test("manual index lists nine pages with reviewed dates", async ({ page }) => {
+test("manual index lists ten pages with reviewed dates", async ({ page }) => {
   await page.goto("/manual/");
-  await expect(page.locator(".manual-index li")).toHaveCount(9);
+  await expect(page.locator(".manual-index li")).toHaveCount(10);
   await expect(page.locator(".folio")).toContainText("Last reviewed");
 });
 
@@ -130,10 +130,10 @@ test("the-clock states immediate access and the $25 rule appears on what-it-cost
 });
 
 test("manual pages carry a folio, law blocks and a sources list", async ({ page }) => {
-  const reviewed: Record<string, string> = { "who-may-request": "12 Oct 2026" };
-  for (const slug of ["your-rights", "who-may-request", "what-it-costs", "the-clock", "exemptions", "write-a-request", "denied"]) {
+  const reviewed: Record<string, string> = { "write-a-request": "11 Oct 2026" };
+  for (const slug of ["your-rights", "who-may-request", "what-it-costs", "the-clock", "exemptions", "write-a-request", "denied", "meetings"]) {
     await page.goto(`/manual/${slug}/`);
-    await expect(page.locator(".folio")).toContainText(`Last reviewed ${reviewed[slug] ?? "11 Oct 2026"}`);
+    await expect(page.locator(".folio")).toContainText(`Last reviewed ${reviewed[slug] ?? "12 Oct 2026"}`);
     expect(await page.locator(".law").count()).toBeGreaterThan(0);
     expect(await page.locator(".manual-sources a").count()).toBeGreaterThan(0);
   }
