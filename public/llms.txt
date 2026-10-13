@@ -6,16 +6,17 @@ As We May Act explains, in plain words, what Arkansas public records a citizen m
 
 ## Field manual
 
-- [Field manual](https://aswemayact.org/manual/): the nine manual pages, with summaries and review dates.
+- [Field manual](https://aswemayact.org/manual/): the ten manual pages, with summaries and review dates.
 - [Your rights in plain words](https://aswemayact.org/manual/your-rights/): any Arkansas citizen may see and copy public records, in any form, without saying why; what the law covers and what the custodian owes in writing.
 - [Who may request](https://aswemayact.org/manual/who-may-request/): the right belongs to Arkansas citizens; what counts as a citizen, and how someone outside the state can still get a record.
 - [What it costs](https://aswemayact.org/manual/what-it-costs/): looking is free, copies cost only actual reproduction, staff time is not billable, and advance payment applies only above $25.
-- [The clock](https://aswemayact.org/manual/the-clock/): records are due when asked; three working days needs a written certificate; meeting-notice and bond-challenge deadlines.
+- [The clock](https://aswemayact.org/manual/the-clock/): records are due when asked; three working days needs a written certificate; meeting-notice deadlines and the thirty-day limit on undoing bond votes.
 - [Exemptions that matter](https://aswemayact.org/manual/exemptions/): the exemptions agencies most often cite, what each covers, and common claims that are not exemptions.
 - [Writing a request that can't be dodged](https://aswemayact.org/manual/write-a-request/): name the document types, the format and the files, and ask for a plain statement of what exists.
 - [Denied, now what](https://aswemayact.org/manual/denied/): the moves that cost nothing, then the fast hearing, fee shifting and the service deadline.
+- [Public meetings](https://aswemayact.org/manual/meetings/): notice, recording, executive sessions, remote attendance, the bans on polls and informal meetings, and what a court can undo.
 - [Source cards](https://aswemayact.org/manual/sources/): where common Arkansas public records are kept, who holds them, what they cost and their limits.
-- [Printables](https://aswemayact.org/manual/printables/): your rights, writing a request and what to do after a denial, set for paper.
+- [Printables](https://aswemayact.org/manual/printables/): your rights, writing a request, what to do after a denial and public meetings, set for paper.
 - [Letter builder](https://aswemayact.org/manual/write/): drafts an Arkansas FOIA request letter in the browser, each sentence tied to its subsection.
 
 ## Trails

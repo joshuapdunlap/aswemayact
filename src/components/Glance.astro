@@ -1,0 +1,99 @@
+---
+// "The law in three lines": who can ask, how fast, what it costs, set under the summary of
+// the longer records pages. Each line links to the page that explains it, except on that
+// page itself. Ruled top and bottom like a table; the labels in small caps.
+interface Props {
+  /** The manual page it sits on, so its own line is not a link to itself. */
+  current: string;
+}
+
+const { current } = Astro.props;
+
+const LINES = [
+  {
+    slug: "who-may-request",
+    label: "Who can ask",
+    text: "Any Arkansas citizen, including a business operating in the state.",
+  },
+  {
+    slug: "the-clock",
+    label: "How fast",
+    text: "At once, unless the custodian certifies in writing that the record is in use or storage; then within three working days.",
+  },
+  {
+    slug: "what-it-costs",
+    label: "What it costs",
+    text: "Looking is free. Copies cost what copying costs, not staff time, and you can be asked to pay first only above $25.",
+  },
+];
+---
+
+<div class="glance">
+  <p class="glance__label small-caps">The law in three lines</p>
+  <dl>
+    {
+      LINES.map((l) => (
+        <div class="glance__line">
+          <dt class="small-caps">{l.slug === current ? l.label : <a href={`/manual/${l.slug}/`}>{l.label}</a>}</dt>
+          <dd>{l.text}</dd>
+        </div>
+      ))
+    }
+  </dl>
+</div>
+
+<style>
+  .glance {
+    margin: 0 0 var(--line);
+    padding-block: var(--line-half);
+    border-top: var(--rule-ink);
+    border-bottom: var(--rule-ink);
+    font-size: var(--step--1);
+    line-height: 1.45;
+  }
+
+  .glance__label {
+    margin: 0 0 var(--line-4th);
+    color: var(--ink-light);
+    line-height: 1.2;
+  }
+
+  .glance dl {
+    margin: 0;
+  }
+
+  .glance__line {
+    display: grid;
+    grid-template-columns: 7rem minmax(0, 1fr);
+    gap: 0 var(--gutter);
+    align-items: baseline;
+    padding-block: var(--line-4th);
+  }
+
+  .glance__line + .glance__line {
+    border-top: var(--rule-hair);
+  }
+
+  .glance dt a {
+    display: inline-block;
+    min-height: 24px; /* WCAG 2.2 target size: the label is a bare link, not one in a sentence */
+    line-height: 24px;
+  }
+
+  .glance dd {
+    margin: 0;
+  }
+
+  @media print {
+    .glance {
+      border-top: 0.75pt solid #000;
+      border-bottom: 0.75pt solid #000;
+      font-size: 9.5pt;
+      break-inside: avoid;
+    }
+
+    .glance__line + .glance__line {
+      border-top: 0.5pt solid #999;
+    }
+  }
+</style>

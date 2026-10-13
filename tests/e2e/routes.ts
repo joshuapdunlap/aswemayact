@@ -24,5 +24,6 @@ export const ALL_ROUTES = [
   "/manual/exemptions/",
   "/manual/write-a-request/",
   "/manual/denied/",
+  "/manual/meetings/",
   "/trails/the-meeting/",
 ] as const;

@@ -5,7 +5,7 @@ reviewed: 2026-10-11
 sources: []
 statutes: []
 printable: false
-order: 8
+order: 9
 ---
 
 Most requests go wrong before they are sent, because the requester asks the wrong office. A record usually lives with the body that made it or the one that must keep it: a contract with the agency that signed it, a meeting recording with the board that met, a court file with the circuit clerk. Each card below names one kind of record, the office that holds it, what a copy costs, and the limits worth knowing before you ask.

@@ -2,6 +2,7 @@ node_modules/
 dist/
 .astro/
 .content-rules/excluded.txt
+.content-rules/handbook-22.txt
 .archive-log.jsonl
 test-results/
 playwright-report/

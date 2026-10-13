@@ -1,7 +1,7 @@
 ---
 title: Exemptions that matter
 summary: The exemptions you are most likely to be told about, what each one actually covers, and the common claims that are not exemptions at all.
-reviewed: 2026-10-11
+reviewed: 2026-10-12
 sources:
   - Arkansas Attorney General, Freedom of Information Handbook, 22nd ed. (2026) https://media.ark.org/ag/APA-045-2026-FOIA-Handbook-22nd-Edition.pdf
   - Reporters Committee for Freedom of the Press, Open Government Guide, Arkansas https://www.rcfp.org/open-government-guide/arkansas/
@@ -53,7 +53,7 @@ The September 2023 special session added an exemption for records about security
 <p class="law">§ 25-19-105(b)(28): “Records that reflect the planning or provision of security services provided to the” Governor, the other constitutional officers, legislators and appellate judges.</p>
 <!-- handbook p. 13 -->
 
-[Act 7 of 2023](https://arkleg.state.ar.us/Acts/FTPDocument?path=%2FACTS%2F2023S1%2FPublic%2F&file=7.pdf&ddBienniumSession=2023%2F2023S1) did more than add the exemption. It created that exemption and made the Governor's part of it reach back to June 1, 2022. It amended a separate statute on Governor's Mansion security information, § 12-8-108(c), with the same reach-back date. It also requires the State Police to report the Governor's protection-detail expenses to the Legislative Council every quarter, by month and budget category.
+[Act 7 of 2023](https://arkleg.state.ar.us/Acts/FTPDocument?path=%2FACTS%2F2023S1%2FPublic%2F&file=7.pdf&ddBienniumSession=2023%2F2023S1) did more than add the exemption. It created that exemption and made the Governor's part of it reach back to June 1, 2022. It amended a separate statute on Governor's Mansion security information, § 12-8-108(c), with the same reach-back date. It also requires the State Police to report the Governor's protection-detail expenses every quarter, by month and budget category, to the Legislative Council, or to the Joint Budget Committee while the General Assembly is in session.
 
 <p class="law">Act 7 of 2023 (1st Ex. Sess.), § 4(b): “Arkansas Code § 25-19-105(b)(28)(A), created in Section 3 of this act, is retroactive to June 1, 2022.”</p>
 <!-- not in the handbook: Act 7 of 2023 (1st Ex. Sess.) as passed, arkleg PDF p. 2, § 4(b) -->

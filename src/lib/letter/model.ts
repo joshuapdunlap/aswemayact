@@ -47,7 +47,7 @@ export interface Sentence {
 }
 
 /** Attorney General's opinions on requests made for a non-citizen. */
-export const PROXY_OPINIONS = "Op. Att'y Gen. 2008-191, 97-071, 96-190";
+export const PROXY_OPINIONS = "Op. Att'y Gen. 97-071, 96-190";
 
 export interface DeadlineCard {
   requestDate: string;

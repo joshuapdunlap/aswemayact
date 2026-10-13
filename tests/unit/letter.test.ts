@@ -115,7 +115,7 @@ test("standing sentence uses the brief's fixed copy", () => {
   expect(standing?.basis).toBe("§ 25-19-105(a)(2)(A)");
   const proxy = generateLetter({ ...DEFAULTS, standing: "proxy", proxyFor: "A. Reader" }).find(x => x.text.startsWith("I am a citizen"));
   expect(proxy?.text).toBe(
-    "I am a citizen of the State of Arkansas and make this request under the Arkansas Freedom of Information Act, Ark. Code Ann. § 25-19-101 et seq., on behalf of A. Reader, who is not an Arkansas citizen, as permitted by the Attorney General's opinions.",
+    "I am a citizen of the State of Arkansas and make this request under the Arkansas Freedom of Information Act, Ark. Code Ann. § 25-19-101 et seq., on behalf of A. Reader, who is not an Arkansas citizen, as Attorney General opinions have acknowledged.",
   );
 });
 
@@ -187,6 +187,7 @@ test("silent follow-up cites the three-day certification and the § 25-19-107 re
   const s = generateFollowUp(FULL, "silent");
   expect(s.find(x => x.basis === "§ 25-19-105(e)")).toBeTruthy();
   expect(s.find(x => x.basis?.startsWith("§ 25-19-107"))).toBeTruthy();
+  expect(s.find(x => x.basis === "§ 25-19-105(a)(5)")?.text).toContain("knowingly fails to give that written response");
   const text = texts(s).join(" ");
   expect(text).toContain("On 9 October 2026");
   expect(text).toContain("contracts, non-disclosure agreements and data-sharing logs concerning license-plate reader cameras");

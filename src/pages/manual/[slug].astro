@@ -8,6 +8,7 @@ import ManualSources from "../../components/ManualSources.astro";
 import PrintButton from "../../components/PrintButton.astro";
 import SourceCard from "../../components/SourceCard.astro";
 import InSection from "../../components/InSection.astro";
+import Glance from "../../components/Glance.astro";
 
 // Card order on /manual/sources/: guides first, then helpers, data sites and maps.
 const SOURCE_ORDER = [
@@ -24,6 +25,9 @@ const SOURCE_ORDER = [
   "deflock",
   "atlas-of-surveillance",
 ];
+// Records pages that open with "The law in three lines" under their summary.
+const GLANCE_PAGES = ["your-rights", "who-may-request", "what-it-costs", "the-clock", "exemptions", "write-a-request", "denied"];
+
 const rank = (id: string) => {
   const i = SOURCE_ORDER.indexOf(id);
   return i === -1 ? SOURCE_ORDER.length : i;
@@ -60,6 +64,7 @@ const cards = isSources
     </div>
     <h1>{title}</h1>
     <p class="manual-summary">{summary}</p>
+    {GLANCE_PAGES.includes(entry.id) && <Glance current={entry.id} />}
     <div class="manual-body">
       <Content />
     </div>

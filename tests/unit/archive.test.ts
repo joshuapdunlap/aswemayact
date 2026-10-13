@@ -121,10 +121,11 @@ test("archiveList puts changed pages first, drops saved and duplicate citations,
   expect(archiveList({ pages: ["/"], external: ["https://a.org/"], limit: 0 })).toEqual([]);
 });
 
-test("parseArchiveArgs reads --dry-run and --limit", () => {
+test("parseArchiveArgs reads --dry-run, --external-only and --limit", () => {
   expect(parseArchiveArgs([])).toEqual({ dryRun: false });
   expect(parseArchiveArgs(["--dry-run", "--limit", "5"])).toEqual({ dryRun: true, limit: 5 });
   expect(parseArchiveArgs(["--limit=3"])).toEqual({ dryRun: false, limit: 3 });
+  expect(parseArchiveArgs(["--external-only", "--dry-run"])).toEqual({ dryRun: true, externalOnly: true });
   expect(() => parseArchiveArgs(["--limit", "x"])).toThrow();
   expect(() => parseArchiveArgs(["--now"])).toThrow();
 });

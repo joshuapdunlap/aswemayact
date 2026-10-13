@@ -65,8 +65,8 @@ test("html: sentences carry data-basis, title and a focusable basis label; text 
 
 test("html: proxy standing tooltip appends the Attorney General's opinions", () => {
   const html = letterHtml(generateLetter({ ...DEFAULTS, standing: "proxy", proxyFor: "A. Reader" }));
-  expect(PROXY_OPINIONS).toBe("Op. Att'y Gen. 2008-191, 97-071, 96-190");
-  expect(html).toContain(`title="Rests on § 25-19-105(a)(2)(A); Op. Att&#39;y Gen. 2008-191, 97-071, 96-190"`);
+  expect(PROXY_OPINIONS).toBe("Op. Att'y Gen. 97-071, 96-190");
+  expect(html).toContain(`title="Rests on § 25-19-105(a)(2)(A); Op. Att&#39;y Gen. 97-071, 96-190"`);
   const citizen = letterHtml(generateLetter(DEFAULTS));
   expect(citizen).not.toContain("Op. Att");
 });

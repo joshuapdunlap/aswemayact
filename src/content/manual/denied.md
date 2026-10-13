@@ -1,10 +1,12 @@
 ---
 title: Denied, now what
 summary: Arkansas has no appeals office. Before court there are moves that cost nothing; after them come a fast hearing, fee shifting, and one deadline that has ended cases.
-reviewed: 2026-10-11
+reviewed: 2026-10-12
 sources:
   - Arkansas Attorney General, Freedom of Information Handbook, 22nd ed. (2026) https://media.ark.org/ag/APA-045-2026-FOIA-Handbook-22nd-Edition.pdf
   - Arkansas Advocate, Judge dismisses FOIA lawsuit against Arkansas governor, May 7, 2024 https://arkansasadvocate.com/2024/05/07/judge-dismisses-foia-lawsuit-against-arkansas-governor-by-blogger-who-revealed-lectern-purchase/
+  - Arkansas Attorney General, Pulaski County Circuit Court grants Attorney General's motion, dismisses blogger's lawsuit against Governor, May 7, 2024 https://arkansasag.gov/news-release/pulaski-county-circuit-court-grants-attorney-generals-motion-dismisses-bloggers-lawsuit-against-governor/
+  - Arkansas Judiciary, Civil & Criminal Benchbook (updated 2022), on Ark. R. Civ. P. 4(i) https://arcourts.gov/sites/default/files/Civil%20&%20Criminal%20Benchbook%202022.pdf
   - National Freedom of Information Coalition, Knight FOI Fund FAQs https://www.nfoic.org/knight/knight-foi-fund-faqs
   - Arkansas Press Association, Contact us https://arkansaspress.org/contact-us/
   - National Freedom of Information Coalition, FOI hotlines https://www.nfoic.org/foi-hotlines/
@@ -18,6 +20,7 @@ statutes:
   - "§ 25-19-107(e)(1)"
   - "§ 25-19-107(e)(2)(B)"
   - "§ 25-19-104"
+  - "§ 25-19-105(a)(5)"
 printable: true
 order: 7
 ---
@@ -34,7 +37,7 @@ There is no ombudsman or commission to appeal to in Arkansas ([RCFP guide](https
 <ol class="step-list" role="list">
 <li>
 
-**Read the answer closely.** Did it say in writing whether records exist? Did it name an exemption? An answer that does neither falls short of the written-response duty on [Your rights](/manual/your-rights/#a-written-answer). Reply and ask for the statement the law requires.
+**Read the answer closely.** Did it say in writing whether records exist? Did it name an exemption? An answer that does neither falls short of the written-response duty on [Your rights](/manual/your-rights/#a-written-answer). Reply and ask for the statement the law requires. A knowing failure to give it carries the penalty at the end of this page.
 
 </li>
 <li>
@@ -90,7 +93,7 @@ Against the State itself the rule is different. The court may not award fees aga
 
 ## The deadline that ends cases
 
-A lawsuit has to be formally served on the defendant, and the court rules set a time limit for it. In *Campbell v. Sanders*, a Pulaski County case against the Governor's office, the suit was dismissed on May 7, 2024, after the Attorney General's office argued that the summons and complaint were not delivered within 120 days of filing ([Arkansas Advocate, May 7, 2024](https://arkansasadvocate.com/2024/05/07/judge-dismisses-foia-lawsuit-against-arkansas-governor-by-blogger-who-revealed-lectern-purchase/)). A fast hearing does not help a case that is never served.
+A lawsuit has to be formally served on the defendant. Rule 4(i) of the Arkansas Rules of Civil Procedure allows 120 days from filing. The court can extend that only on a motion made before the time runs out and a showing of good cause; otherwise the case is dismissed. In *Campbell v. Sanders*, a Pulaski County case against the Governor's office, the suit was dismissed on May 7, 2024, after the Attorney General's office argued that the summons and complaint were not delivered within 120 days of filing ([Arkansas Advocate, May 7, 2024](https://arkansasadvocate.com/2024/05/07/judge-dismisses-foia-lawsuit-against-arkansas-governor-by-blogger-who-revealed-lectern-purchase/); [Attorney General's release](https://arkansasag.gov/news-release/pulaski-county-circuit-court-grants-attorney-generals-motion-dismisses-bloggers-lawsuit-against-governor/)). A fast hearing does not help a case that is never served.
 
 ## Help with the cost
 
@@ -109,3 +112,8 @@ A negligent violation of the act is a misdemeanor.
 
 <p class="law">§ 25-19-104: “Any person who negligently violates any of the provisions of this chapter shall be guilty of a Class C misdemeanor.”</p>
 <!-- handbook p. 8 -->
+
+The same penalty reaches a custodian who knowingly fails to give the written answer a written request requires.
+
+<p class="law">§ 25-19-105(a)(5): “If a custodian knowingly fails to respond as required under subdivision (a)(3) of this section, he or she shall be subject to the penalties in § 25-19-104”</p>
+<!-- handbook p. 9 -->

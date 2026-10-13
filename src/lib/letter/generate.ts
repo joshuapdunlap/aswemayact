@@ -137,7 +137,7 @@ function standing(i: LetterInput): Sentence {
     const name = clean(i.proxyFor);
     const who = name ? `${name},` : "a person";
     return {
-      text: `${base}, on behalf of ${who} who is not an Arkansas citizen, as permitted by the Attorney General's opinions.`,
+      text: `${base}, on behalf of ${who} who is not an Arkansas citizen, as Attorney General opinions have acknowledged.`,
       basis: "§ 25-19-105(a)(2)(A)",
       opinions: PROXY_OPINIONS,
     };
@@ -250,6 +250,10 @@ export function generateFollowUp(i: LetterInput, kind: "silent" | "equivocal", t
       {
         text: "Please send the records now or, for each item, the written response § 25-19-105(a)(3) requires.",
         basis: "§ 25-19-105(a)(3)",
+      },
+      {
+        text: "A custodian who knowingly fails to give that written response is subject to the penalties in § 25-19-104.",
+        basis: "§ 25-19-105(a)(5)",
       },
       {
         text: "A citizen denied the rights the act grants may appeal immediately to circuit court, and I would rather resolve this with you.",

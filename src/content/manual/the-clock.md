@@ -1,9 +1,10 @@
 ---
 title: The clock
 summary: Records are due when you ask. Three working days is an exception that needs a written certificate. Meetings have their own deadlines, and a 2025 law put a 30-day clock on bond votes.
-reviewed: 2026-10-11
+reviewed: 2026-10-12
 sources:
   - Arkansas Attorney General, Freedom of Information Handbook, 22nd ed. (2026) https://media.ark.org/ag/APA-045-2026-FOIA-Handbook-22nd-Edition.pdf
+  - Arkansas Attorney General, Opinion No. 2006-093 (July 19, 2006)
   - Act 505 of 2025 (SB 227), as passed https://arkleg.state.ar.us/Acts/FTPDocument?path=%2FACTS%2F2025R%2FPublic%2F&file=505.pdf&ddBienniumSession=2025%2F2025R
   - Act 992 of 2025 (SB 614), as passed https://arkleg.state.ar.us/Acts/FTPDocument?path=%2FACTS%2F2025R%2FPublic%2F&file=992.pdf&ddBienniumSession=2025%2F2025R
   - SB 614 of 2025, bill history https://arkleg.state.ar.us/Bills/Detail?id=SB614&ddBienniumSession=2025%2F2025R
@@ -40,6 +41,16 @@ If a record is "in active use or storage," the custodian must say so in writing 
 
 So the three working days are not a grace period every office gets. They are an exception with two conditions: the record is in use or in storage, and you get a written certification with a date and hour.
 
+The handbook counts them as business days, so weekends do not count. Neither the statute nor the handbook says whether state holidays do; if one falls in the window, the cautious reading adds a day.
+
+<p class="law">AG Handbook, Questions &amp; Answers, asked whether the three days are business or calendar days: “Three business days.”</p>
+<!-- handbook p. 43 -->
+
+An office also may not make three days its habit. The Attorney General has said a standing practice of waiting three days to answer has no footing in the act, and that an office that can tell at once that a request is too vague, or will be denied, should say so promptly.
+
+<p class="law">Op. Att’y Gen. 2006-093: “there is no basis in the FOIA for any standard policy of waiting for three days to respond to FOIA requests.”</p>
+<!-- not in the handbook: Op. Att’y Gen. 2006-093, pp. 6–7 -->
+
 Requests for personnel and evaluation records run on their own short clock: the custodian has twenty-four hours to decide whether they are exempt and to try to tell you and the employee. What happens next is on [Exemptions that matter](/manual/exemptions/).
 
 <p class="law">§ 25-19-105(c)(3)(A): “determine within twenty-four (24) hours of the receipt of the request whether the records are exempt from disclosure”</p>
@@ -60,7 +71,7 @@ If the records are not handed over or sent, ask whether they are in active use o
 </li>
 <li>
 
-If you got neither the records nor a written certificate, they are already late. At the latest, a certificate's date can be the third working day after your request.
+If you got neither the records nor a written certificate, they are already late. At the latest, a certificate's date can be the third working day after your request; count a day more if a state holiday falls in between.
 
 </li>
 <li>

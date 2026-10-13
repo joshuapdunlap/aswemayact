@@ -137,14 +137,15 @@ export function archiveList(opts: {
   return limit === undefined ? all : all.slice(0, Math.max(0, limit));
 }
 
-export type ArchiveArgs = { dryRun: boolean; limit?: number };
+export type ArchiveArgs = { dryRun: boolean; externalOnly?: boolean; limit?: number };
 
-/** `--dry-run` and `--limit N` (or `--limit=N`). Throws on anything else. */
+/** `--dry-run`, `--external-only` and `--limit N` (or `--limit=N`). Throws on anything else. */
 export function parseArchiveArgs(argv: string[]): ArchiveArgs {
   const args: ArchiveArgs = { dryRun: false };
   for (let i = 0; i < argv.length; i++) {
     const a = argv[i];
     if (a === "--dry-run") args.dryRun = true;
+    else if (a === "--external-only") args.externalOnly = true;
     else if (a === "--limit" || a.startsWith("--limit=")) {
       const v = a === "--limit" ? argv[++i] : a.slice("--limit=".length);
       const n = Number(v);
