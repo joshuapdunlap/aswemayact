@@ -16,7 +16,8 @@ corrections log starts at launch, and nothing before it goes in the log.
 - [x] Legal pass against primary sources (2026-10-12), and the build check of every handbook
       quotation.
 - [x] DMARC record, `p=none` with reports to Cloudflare DMARC Management (2026-10-15).
-- [x] Atom feed at `/feed.xml`, linked from every page's head and footer.
+- [x] Atom feed at `/feed.xml`, linked from every page's head and footer (merged, not yet deployed).
+- [x] Fourth trail, *The bill*, merged (PR #4, 2026-10-15).
 
 ## Before launch
 
@@ -24,10 +25,12 @@ corrections log starts at launch, and nothing before it goes in the log.
    UA Little Rock law school's FOIA scholar, the Arkansas Press Association (to reach its
    counsel), and the SPJ Arkansas chapter's FOI Committee. Send, wait, fix what they find.
    Credit the reviewers on About only with their agreement.
-2. **Fourth trail.** "The bill" (draft in this branch) needs the editor's read and sign-off;
-   it is written in the editor's voice and signed.
-3. **Source archive.** `npm run archive -- --external-only`, signed in (DEPLOY.md, step 6).
-   Anonymous Save Page Now has refused this connection on every try so far.
+2. **Deploy `main`.** The fourth trail, *The bill*, and the Atom feed are merged (PR #4,
+   2026-10-15) but not live yet. Deploy whenever you want to see them in place; it does not
+   announce anything.
+3. **Source archive.** The 52 sources cited at the first deploy are saved. The 10 new ones in
+   *The bill* are not: `npm run archive -- --external-only`, signed in or once Save Page
+   Now stops answering 429 (DEPLOY.md, step 6).
 4. **Pick the date.** A weekday morning, not in the week of a holiday, so the first days of
    corrections mail get answered inside 48 hours.
 
