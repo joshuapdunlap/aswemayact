@@ -104,14 +104,17 @@ export function dedupeUrls(urls: string[]): string[] {
 
 export type ArchiveLogEntry = { url: string; status: number; timestamp: string; error?: string };
 
-/** URLs the log records as saved (2xx/3xx). Unparseable lines are ignored. */
-export function archivedUrls(logText: string): Set<string> {
+/** URLs the log records as saved (2xx/3xx), at or after `since` (ISO 8601) if given.
+ *  Unparseable lines are ignored. */
+export function archivedUrls(logText: string, since?: string): Set<string> {
   const done = new Set<string>();
+  const from = since === undefined ? -Infinity : Date.parse(since);
   for (const line of logText.split("\n")) {
     if (!line.trim()) continue;
     try {
       const e = JSON.parse(line) as ArchiveLogEntry;
-      if (typeof e.url === "string" && e.status >= 200 && e.status < 400) done.add(e.url);
+      if (typeof e.url !== "string" || e.status < 200 || e.status >= 400) continue;
+      if (Date.parse(e.timestamp) >= from) done.add(e.url);
     } catch {
       // a partial line from an interrupted run
     }
@@ -120,32 +123,39 @@ export function archivedUrls(logText: string): Set<string> {
 }
 
 /**
- * The submission list: changed site pages (always, as absolute URLs) first, then external
- * citations not yet saved according to the log ("newly cited"), deduped, cut to `limit`.
+ * The submission list: changed site pages (as absolute URLs, less any in `pagesSaved`, the
+ * pages already saved since this deploy) first, then external citations not yet saved
+ * according to the log ("newly cited"), deduped, cut to `limit`.
  */
 export function archiveList(opts: {
   pages: string[];
   external: string[];
   alreadyArchived?: Set<string>;
+  pagesSaved?: Set<string>;
   limit?: number;
   origin?: string;
 }): string[] {
-  const { pages, external, alreadyArchived = new Set(), limit, origin = SITE_ORIGIN } = opts;
-  const site = pages.map((p) => `${origin}${p}`);
+  const { pages, external, alreadyArchived = new Set(), pagesSaved = new Set(), limit, origin = SITE_ORIGIN } = opts;
+  const site = pages.map((p) => `${origin}${p}`).filter((u) => !pagesSaved.has(u));
   const fresh = dedupeUrls(external).filter((u) => !alreadyArchived.has(u));
   const all = dedupeUrls([...site, ...fresh]);
   return limit === undefined ? all : all.slice(0, Math.max(0, limit));
 }
 
-export type ArchiveArgs = { dryRun: boolean; externalOnly?: boolean; limit?: number };
+export type ArchiveArgs = { dryRun: boolean; externalOnly?: boolean; since?: string; limit?: number };
 
-/** `--dry-run`, `--external-only` and `--limit N` (or `--limit=N`). Throws on anything else. */
+/** `--dry-run`, `--external-only`, `--since ISO` and `--limit N` (or the `=` forms). Throws on anything else. */
 export function parseArchiveArgs(argv: string[]): ArchiveArgs {
   const args: ArchiveArgs = { dryRun: false };
   for (let i = 0; i < argv.length; i++) {
     const a = argv[i];
     if (a === "--dry-run") args.dryRun = true;
     else if (a === "--external-only") args.externalOnly = true;
+    else if (a === "--since" || a.startsWith("--since=")) {
+      const v = a === "--since" ? argv[++i] : a.slice("--since=".length);
+      if (!v || Number.isNaN(Date.parse(v))) throw new Error(`--since needs a date and time, got ${v}`);
+      args.since = v;
+    }
     else if (a === "--limit" || a.startsWith("--limit=")) {
       const v = a === "--limit" ? argv[++i] : a.slice("--limit=".length);
       const n = Number(v);

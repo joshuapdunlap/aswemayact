@@ -108,6 +108,19 @@ test("archivedUrls reads saved URLs from the log, skipping failures and broken l
   expect([...archivedUrls(log)]).toEqual(["https://a.org/"]);
 });
 
+test("archivedUrls with a since time keeps only saves at or after it", () => {
+  const log = [
+    JSON.stringify({ url: "https://aswemayact.org/", status: 200, timestamp: "2026-10-14T13:00:00.000Z" }),
+    JSON.stringify({ url: "https://aswemayact.org/about/", status: 200, timestamp: "2026-10-14T14:00:00.000Z" }),
+  ].join("\n");
+  expect([...archivedUrls(log, "2026-10-14T13:58Z")]).toEqual(["https://aswemayact.org/about/"]);
+});
+
+test("archiveList skips pages already saved since the deploy", () => {
+  const list = archiveList({ pages: ["/", "/about/"], external: [], pagesSaved: new Set(["https://aswemayact.org/"]) });
+  expect(list).toEqual(["https://aswemayact.org/about/"]);
+});
+
 test("archiveList puts changed pages first, drops saved and duplicate citations, honors the limit", () => {
   const list = archiveList({
     pages: ["/", "/manual/the-clock/"],
@@ -129,6 +142,8 @@ test("parseArchiveArgs reads --dry-run, --external-only and --limit", () => {
   expect(parseArchiveArgs(["--dry-run", "--limit", "5"])).toEqual({ dryRun: true, limit: 5 });
   expect(parseArchiveArgs(["--limit=3"])).toEqual({ dryRun: false, limit: 3 });
   expect(parseArchiveArgs(["--external-only", "--dry-run"])).toEqual({ dryRun: true, externalOnly: true });
+  expect(parseArchiveArgs(["--since", "2026-10-14T13:58Z"])).toEqual({ dryRun: false, since: "2026-10-14T13:58Z" });
+  expect(() => parseArchiveArgs(["--since", "soon"])).toThrow(/--since/);
   expect(() => parseArchiveArgs(["--limit", "x"])).toThrow();
   expect(() => parseArchiveArgs(["--now"])).toThrow();
 });

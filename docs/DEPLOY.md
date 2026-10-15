@@ -191,12 +191,22 @@ deploys happen on one UTC day, tag the second `deployed-YYYY-MM-DD-2`.
 pages. Use it to save sources before a deploy, when the live pages may still be the old ones.
 
 If Save Page Now answers 429 (rate limited), or three 5xx in a row, the run stops and
-exits 1 with `archive: stopped: …`. Wait an hour and run `npm run archive` again before
-tagging; URLs already saved are skipped.
+exits 1 with `archive: stopped: …`. Wait an hour and run it again before tagging. Cited
+sources already saved are skipped; for the site's own pages, pass the deploy time,
+`npm run archive -- --since 2026-10-14T13:58Z`, so pages saved since the deploy are skipped
+too. Without it every run starts again from the first page.
 
-Anonymous Save Page Now can refuse a whole connection for hours (on 2026-10-11 and
-2026-10-15 it answered 429 to the first request, and to the save page in a browser on the
-same network). The signed-in API is not held to that limit. Get the S3-style keys at
+**Keep one log.** `.archive-log.jsonl` is how a run knows what is already saved, and it is
+gitignored, so each checkout and worktree has its own. Run the archive from the checkout you
+deploy from; if you must run it elsewhere, copy the log in first and back afterwards. (By
+2026-10-15 the log had split across three checkouts, and a run in a fresh worktree tried to
+resubmit all 52 sources that were already saved. The copies were merged on 2026-10-15; the
+pre-merge copy of the main checkout's log is `.archive-log.jsonl.bak-2026-10-15`.)
+
+Anonymous Save Page Now throttles hard. Between 2026-10-12 and 2026-10-15 the log shows 63 saves
+across many short runs and 41 refusals, and from the evening of 2026-10-14 through
+2026-10-15 it refused the first request every time, even the save page in a browser on the
+same network. The signed-in API is not held to that limit. Get the S3-style keys at
 <https://archive.org/account/s3.php> while signed in, then set them for the run only:
 
 ```sh
@@ -235,7 +245,7 @@ Before-every-deploy checklist, then `npm run deploy`, then step 6 (archive and t
 | ---------- | --- | -------------------------------- | ------------------ | ----- |
 | 2026-10-11 | none (pre-launch) | 200 | `public, max-age=31536000, immutable` | HTML served without `etag` or `; charset=utf-8` (same on workers.dev; pages declare `<meta charset="utf-8">`). Always Use HTTPS turned on. DMARC not yet added. HSTS deliberately left off. First `npm run archive` stopped on a 429 at the first URL; re-run before tagging. |
 | 2026-10-11 | none (pre-launch) | — | — | 22:50 UTC: most likely the Web Analytics beacon (`1e36a64`); the dashboard records no commit. |
-| 2026-10-14 | none (pre-launch) | — | — | 13:59 UTC: most likely `main` at `8d08196`, the last commit before it (Public meetings page, law tightened against primary sources, print styles). On 2026-10-15 the live meetings page and the corrected trail text matched it. |
+| 2026-10-14 | none (pre-launch) | 200 | `public, max-age=31536000, immutable` | 13:59 UTC: `main` at `8d08196` (PR #3: legal audit, Public meetings page, law-quote check), version `08efeb0e`. Cited sources archived beforehand with `--external-only` (52 URLs, 2026-10-12 to -13, many 429 stops); 8 of the 19 public pages archived after the deploy before Save Page Now shut the door. Wrangler re-authorized by OAuth during the deploy. |
 
 Not deploys, recorded here so the zone's state is in one place:
 
@@ -243,5 +253,7 @@ Not deploys, recorded here so the zone's state is in one place:
   `v=DMARC1; p=none; rua=mailto:…@dmarc-reports.cloudflare.net`. Monitor only. Read the
   reports after a few weeks; if nothing but Cloudflare's own forwarding shows up, move to
   `p=quarantine`.
-- 2026-10-15: `npm run archive -- --external-only` stopped on a 429 at the first URL. Run it
-  signed in (above).
+- 2026-10-15: PR #4 (the trail *The bill*, the Atom feed, signed-in archiving, launch
+  docs) merged to `main`; **not deployed**, so the live site is behind `main` until the next
+  deploy. Its 10 newly cited sources are not yet archived (Save Page Now still answering
+  429); run `npm run archive -- --external-only` signed in, or after the block lifts.
