@@ -30,6 +30,7 @@ As We May Act explains, in plain words, what Arkansas public records a citizen m
 
 - [Why "As We May Act"](https://aswemayact.org/about/): the name finishes a sentence Vannevar Bush left open in 1945, about what we do with the common record once we can find our way through it.
 - [Corrections](https://aswemayact.org/corrections/): a dated log of every correction, and the address for corrections and replies.
+- [Feed](https://aswemayact.org/feed.xml): an Atom feed of new trails, the essay and corrections.
 
 ## License
 

@@ -60,6 +60,7 @@ const SITE_NAME = "As We May Act";
     {description && <meta name="description" content={description} />}
     {noindex && <meta name="robots" content="noindex" />}
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="alternate" type="application/atom+xml" title="As We May Act: trails and corrections" href="/feed.xml" />
     <link rel="preload" href={newsreaderRoman} as="font" type="font/woff2" crossorigin />
     <link rel="preload" href={franklin} as="font" type="font/woff2" crossorigin />
     <slot name="head" />
@@ -116,6 +117,8 @@ const SITE_NAME = "As We May Act";
             <a href="/corrections/">Corrections</a>
             <span aria-hidden="true">·</span>
             <a href="/search/">Search</a>
+            <span aria-hidden="true">·</span>
+            <a href="/feed.xml">Feed</a>
           </nav>
           <ThemeToggle />
         </div>
