@@ -7,6 +7,9 @@ import {
   pagePathFromDist,
   parseArchiveArgs,
   archiveStopReason,
+  archiveKeys,
+  saveRequest,
+  saveApiError,
 } from "../../src/lib/archive";
 
 const PAGES = [
@@ -138,4 +141,30 @@ test("archiveStopReason stops at the first 429 or at three 5xx in a row", () => 
   expect(archiveStopReason([200, 502, 503, 520])).toMatch(/three 5xx responses in a row/);
   expect(archiveStopReason([502, 503, 200, 504])).toBeNull(); // the run of 5xx was broken
   expect(archiveStopReason([502, 0, 503, 504])).toBeNull(); // a network error (0) is not a 5xx
+});
+
+test("archiveKeys reads both Internet Archive keys or none", () => {
+  expect(archiveKeys({})).toBeNull();
+  expect(archiveKeys({ IA_S3_ACCESS_KEY: "a" })).toBeNull();
+  expect(archiveKeys({ IA_S3_ACCESS_KEY: " a ", IA_S3_SECRET_KEY: "b" })).toEqual({ access: "a", secret: "b" });
+});
+
+test("saveRequest posts to /save/<url> anonymously, and to the signed-in API with keys", () => {
+  const anon = saveRequest("https://deflock.org/", null);
+  expect(anon.endpoint).toBe("https://web.archive.org/save/https://deflock.org/");
+  expect(anon.init.method).toBe("POST");
+  expect(anon.init.headers).toBeUndefined();
+
+  const signed = saveRequest("https://deflock.org/?a=1&b=2", { access: "AK", secret: "SK" });
+  expect(signed.endpoint).toBe("https://web.archive.org/save");
+  expect(signed.init.headers).toMatchObject({ Accept: "application/json", Authorization: "LOW AK:SK" });
+  const body = new URLSearchParams(String(signed.init.body));
+  expect(body.get("url")).toBe("https://deflock.org/?a=1&b=2");
+  expect(body.get("if_not_archived_within")).toBe("30d");
+});
+
+test("saveApiError reports an error reply and passes an accepted job or HTML", () => {
+  expect(saveApiError('{"status":"error","status_ext":"error:too-many-daily-captures"}')).toBe("error:too-many-daily-captures");
+  expect(saveApiError('{"url":"https://deflock.org/","job_id":"spn2-abc"}')).toBeNull();
+  expect(saveApiError("<html>saved</html>")).toBeNull();
 });
