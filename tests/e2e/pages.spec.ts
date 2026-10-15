@@ -178,7 +178,7 @@ test("front door has three entries in order and the epigraph", async ({ page }) 
 });
 
 test("each trail has 5–8 typed stops and an action stop last", async ({ page }) => {
-  for (const slug of ["the-lectern", "the-meeting", "the-camera"]) {
+  for (const slug of ["the-lectern", "the-meeting", "the-camera", "the-bill"]) {
     await page.goto(`/trails/${slug}/`);
     const stops = page.locator(".trail-stop");
     const n = await stops.count();
@@ -228,10 +228,10 @@ test("about sidenotes sit in the margin at 1280px", async ({ page }) => {
   }
 });
 
-test("trails index lists the three launch trails", async ({ page }) => {
+test("trails index lists the four launch trails", async ({ page }) => {
   await page.goto("/trails/");
   const links = await page.locator(".trail-index a").evaluateAll((els) => els.map((e) => e.getAttribute("href")));
-  expect([...links].sort()).toEqual(["/trails/the-camera/", "/trails/the-lectern/", "/trails/the-meeting/"]);
+  expect([...links].sort()).toEqual(["/trails/the-bill/", "/trails/the-camera/", "/trails/the-lectern/", "/trails/the-meeting/"]);
 });
 
 test("a trail carries a kicker, a signature and the action links somewhere to act", async ({ page }) => {
@@ -276,7 +276,7 @@ test("every public route links home from the running head and carries the footer
     const footer = await page.locator(".site-footer nav a").evaluateAll((els) =>
       els.map((e) => [e.textContent, e.getAttribute("href")]),
     );
-    expect(footer, route).toEqual([["About", "/about/"], ["Corrections", "/corrections/"], ["Search", "/search/"]]);
+    expect(footer, route).toEqual([["About", "/about/"], ["Corrections", "/corrections/"], ["Search", "/search/"], ["Feed", "/feed.xml"]]);
     await expect(page.locator('.site-footer a[href="mailto:editor@aswemayact.org"]'), route).toHaveCount(1);
     await expect(page.locator(".site-footer"), route).toContainText("CC BY 4.0");
   }
@@ -316,4 +316,17 @@ test("manual pages and trails index their sections in the margin at 1280px", asy
   await page.goto("/trails/the-lectern/");
   await expect(page.locator(".in-section li")).toHaveCount(await page.locator(".trail-stop").count());
   await expect(page.locator(".in-section .mark--action")).toHaveCount(1);
+});
+
+test("the Atom feed lists every trail and is linked from each page's head", async ({ page, request }) => {
+  const res = await request.get("/feed.xml");
+  expect(res.status()).toBe(200);
+  const xml = await res.text();
+  expect(xml).toContain('<feed xmlns="http://www.w3.org/2005/Atom">');
+  for (const slug of ["the-lectern", "the-meeting", "the-camera", "the-bill"]) {
+    expect(xml, slug).toContain(`https://aswemayact.org/trails/${slug}/`);
+  }
+  expect(xml).toContain("https://aswemayact.org/corrections/#2026-10-11-launch");
+  await page.goto("/");
+  await expect(page.locator('link[rel="alternate"][type="application/atom+xml"]')).toHaveAttribute("href", "/feed.xml");
 });

@@ -194,6 +194,25 @@ If Save Page Now answers 429 (rate limited), or three 5xx in a row, the run stop
 exits 1 with `archive: stopped: …`. Wait an hour and run `npm run archive` again before
 tagging; URLs already saved are skipped.
 
+Anonymous Save Page Now can refuse a whole connection for hours (on 2026-10-11 and
+2026-10-15 it answered 429 to the first request, and to the save page in a browser on the
+same network). The signed-in API is not held to that limit. Get the S3-style keys at
+<https://archive.org/account/s3.php> while signed in, then set them for the run only:
+
+```sh
+IA_S3_ACCESS_KEY=… IA_S3_SECRET_KEY=… npm run archive
+```
+
+(PowerShell: `$env:IA_S3_ACCESS_KEY="…"; $env:IA_S3_SECRET_KEY="…"; npm run archive`, in a
+shell you then close.) The run prints `; signed in`. Keys are never written to the log or
+the repository. A signed-in 200 means the capture job was accepted; the API skips a URL
+already captured in the last thirty days.
+
+**Before the public launch** (the site is served but not announced), run only
+`npm run archive -- --external-only`, and do not tag. The first `deployed-*` tag goes on at
+launch, after a full `npm run archive`, so the Wayback copy of every page is the page as
+launched. Tagging earlier would make that first full run skip unchanged pages.
+
 ## Later deploys
 
 Before-every-deploy checklist, then `npm run deploy`, then step 6 (archive and tag).
@@ -214,4 +233,15 @@ Before-every-deploy checklist, then `npm run deploy`, then step 6 (archive and t
 
 | Date (UTC) | Tag | Pagefind range request (206/200) | Font cache-control | Notes |
 | ---------- | --- | -------------------------------- | ------------------ | ----- |
-| 2026-10-11 | `deployed-2026-10-11` (pending archive) | 200 | `public, max-age=31536000, immutable` | HTML served without `etag` or `; charset=utf-8` (same on workers.dev; pages declare `<meta charset="utf-8">`). Always Use HTTPS turned on. DMARC not yet added. HSTS deliberately left off. First `npm run archive` stopped on a 429 at the first URL; re-run before tagging. |
+| 2026-10-11 | none (pre-launch) | 200 | `public, max-age=31536000, immutable` | HTML served without `etag` or `; charset=utf-8` (same on workers.dev; pages declare `<meta charset="utf-8">`). Always Use HTTPS turned on. DMARC not yet added. HSTS deliberately left off. First `npm run archive` stopped on a 429 at the first URL; re-run before tagging. |
+| 2026-10-11 | none (pre-launch) | — | — | 22:50 UTC: most likely the Web Analytics beacon (`1e36a64`); the dashboard records no commit. |
+| 2026-10-14 | none (pre-launch) | — | — | 13:59 UTC: most likely `main` at `8d08196`, the last commit before it (Public meetings page, law tightened against primary sources, print styles). On 2026-10-15 the live meetings page and the corrected trail text matched it. |
+
+Not deploys, recorded here so the zone's state is in one place:
+
+- 2026-10-15: DMARC added through Cloudflare DMARC Management,
+  `v=DMARC1; p=none; rua=mailto:…@dmarc-reports.cloudflare.net`. Monitor only. Read the
+  reports after a few weeks; if nothing but Cloudflare's own forwarding shows up, move to
+  `p=quarantine`.
+- 2026-10-15: `npm run archive -- --external-only` stopped on a 429 at the first URL. Run it
+  signed in (above).

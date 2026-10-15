@@ -171,3 +171,54 @@ export function archiveStopReason(statuses: number[]): string | null {
   }
   return null;
 }
+
+export type ArchiveKeys = { access: string; secret: string };
+
+/**
+ * Internet Archive S3-style keys (archive.org/account/s3.php) from IA_S3_ACCESS_KEY and
+ * IA_S3_SECRET_KEY, or null. With keys, saves go through the signed-in Save Page Now API,
+ * whose limits are far above the anonymous ones.
+ */
+export function archiveKeys(env: Record<string, string | undefined>): ArchiveKeys | null {
+  const access = env.IA_S3_ACCESS_KEY?.trim();
+  const secret = env.IA_S3_SECRET_KEY?.trim();
+  return access && secret ? { access, secret } : null;
+}
+
+/**
+ * The Save Page Now request for one URL. Anonymous: POST /save/<url>. Signed in: POST /save
+ * with the URL in the form body, a JSON reply, and if_not_archived_within so a source
+ * captured in the last thirty days is not captured again.
+ */
+export function saveRequest(url: string, keys: ArchiveKeys | null): { endpoint: string; init: RequestInit } {
+  if (!keys) return { endpoint: `https://web.archive.org/save/${url}`, init: { method: "POST", redirect: "manual" } };
+  const body = new URLSearchParams({ url, if_not_archived_within: "30d" }).toString();
+  return {
+    endpoint: "https://web.archive.org/save",
+    init: {
+      method: "POST",
+      redirect: "manual",
+      headers: {
+        Accept: "application/json",
+        Authorization: `LOW ${keys.access}:${keys.secret}`,
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      body,
+    },
+  };
+}
+
+/**
+ * The signed-in API can answer 200 with {"status":"error",...} (a daily cap, a blocked
+ * site). Returns the reason in that case, or null when the job was accepted or the body is
+ * not JSON.
+ */
+export function saveApiError(body: string): string | null {
+  try {
+    const j = JSON.parse(body) as { status?: string; status_ext?: string; message?: string };
+    if (j.status === "error") return j.status_ext ?? j.message ?? "error";
+  } catch {
+    // not JSON: the anonymous endpoint's HTML
+  }
+  return null;
+}

@@ -24,12 +24,14 @@ As We May Act explains, in plain words, what Arkansas public records a citizen m
 - [Trails](https://aswemayact.org/trails/): short, signed paths from a passage or public record to an action.
 - [The lectern](https://aswemayact.org/trails/the-lectern/): a $19,029 lectern, an exemption that follows the office that holds a record, and the agencies it does not reach.
 - [The meeting](https://aswemayact.org/trails/the-meeting/): where a public body has to post its agenda, what a meeting leaves on the record, and how to ask for it.
+- [The bill](https://aswemayact.org/trails/the-bill/): a 2023 bill to narrow the act, heard two days after it was filed, and how to watch for the next one in the 2027 session.
 - [The camera](https://aswemayact.org/trails/the-camera/): license-plate cameras in Arkansas cities, the records behind them, and how to bring those records to the board that decides.
 
 ## About
 
 - [Why "As We May Act"](https://aswemayact.org/about/): the name finishes a sentence Vannevar Bush left open in 1945, about what we do with the common record once we can find our way through it.
 - [Corrections](https://aswemayact.org/corrections/): a dated log of every correction, and the address for corrections and replies.
+- [Feed](https://aswemayact.org/feed.xml): an Atom feed of new trails, the essay and corrections.
 
 ## License
 

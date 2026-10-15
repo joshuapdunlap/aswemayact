@@ -26,4 +26,5 @@ export const ALL_ROUTES = [
   "/manual/denied/",
   "/manual/meetings/",
   "/trails/the-meeting/",
+  "/trails/the-bill/",
 ] as const;

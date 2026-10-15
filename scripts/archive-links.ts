@@ -7,6 +7,8 @@
 // "Changed" means changed since the most recent tag matching deployed-* (every page when
 // there is none). External URLs already saved according to .archive-log.jsonl are skipped.
 // Anonymous Save Page Now allows about 3 requests a minute, so requests are 20 s apart.
+// With IA_S3_ACCESS_KEY and IA_S3_SECRET_KEY set (archive.org/account/s3.php), saves go
+// through the signed-in API instead, which the anonymous limit does not throttle.
 // Each result is appended to .archive-log.jsonl (gitignored) as {url, status, timestamp},
 // timestamps in UTC. The run stops, exiting 1, at the first 429 or at three 5xx in a row;
 // the log keeps what was saved, so a later run picks up the rest.
@@ -16,17 +18,19 @@ import fg from "fast-glob";
 import {
   archiveList,
   archivedUrls,
+  archiveKeys,
   archiveStopReason,
   changedPages,
   externalLinks,
   pagePathFromDist,
   parseArchiveArgs,
+  saveApiError,
+  saveRequest,
   type ArchiveLogEntry,
 } from "../src/lib/archive";
 
 const DIST = "dist";
 const LOG = ".archive-log.jsonl";
-const SAVE = "https://web.archive.org/save/";
 const INTERVAL_MS = 20_000;
 const TIMEOUT_MS = 120_000;
 
@@ -49,10 +53,15 @@ function changedSinceDeploy(): { tag: string | null; files: string[] | null } {
 
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
+const KEYS = archiveKeys(process.env);
+
 async function save(url: string): Promise<ArchiveLogEntry> {
   const timestamp = new Date().toISOString();
   try {
-    const res = await fetch(SAVE + url, { method: "POST", redirect: "manual", signal: AbortSignal.timeout(TIMEOUT_MS) });
+    const { endpoint, init } = saveRequest(url, KEYS);
+    const res = await fetch(endpoint, { ...init, signal: AbortSignal.timeout(TIMEOUT_MS) });
+    const error = KEYS && res.ok ? saveApiError(await res.text()) : null;
+    if (error) return { url, status: 0, timestamp, error };
     return { url, status: res.status, timestamp };
   } catch (e) {
     return { url, status: 0, timestamp, error: e instanceof Error ? e.message : String(e) };
@@ -74,7 +83,7 @@ async function main() {
   const list = archiveList({ pages: sitePages, external, alreadyArchived, limit: args.limit });
 
   const scope = args.externalOnly ? "external sources only" : tag ? `changes since ${tag}` : "no deployed-* tag, all pages";
-  console.log(`archive: ${scope}; ${list.length} URL(s)`);
+  console.log(`archive: ${scope}; ${list.length} URL(s)${KEYS ? "; signed in" : ""}`);
   if (args.dryRun) {
     for (const url of list) console.log(url);
     return;

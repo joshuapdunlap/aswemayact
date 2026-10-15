@@ -1,5 +1,15 @@
 [
   {
+    "path": "/corrections/",
+    "title": "Corrections",
+    "date": "2026-10-15"
+  },
+  {
+    "path": "/trails/the-bill/",
+    "title": "The bill",
+    "date": "2026-10-15"
+  },
+  {
     "path": "/manual/denied/",
     "title": "Denied, now what",
     "date": "2026-10-12"
@@ -12,16 +22,6 @@
   {
     "path": "/manual/printables/",
     "title": "Printables",
-    "date": "2026-10-12"
-  },
-  {
-    "path": "/manual/sources/",
-    "title": "Source cards",
-    "date": "2026-10-12"
-  },
-  {
-    "path": "/manual/exemptions/",
-    "title": "Exemptions that matter",
     "date": "2026-10-12"
   }
 ]
