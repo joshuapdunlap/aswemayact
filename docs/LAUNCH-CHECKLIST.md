@@ -1,30 +1,85 @@
-# aswemayact.org — Release 1 launch checklist
+# aswemayact.org: public launch checklist
 
-Status on 2026-10-11: the site is built, reviewed and in `C:\Users\Joshu\Desktop\aswemayact` as a clean single-commit `main` authored as `Joshua Dunlap <editor@aswemayact.org>`. Nothing is deployed yet. Full human steps are in the repo at `docs/DEPLOY.md`.
+Status on 2026-10-15: the site is **served but not announced**. It has been on
+aswemayact.org since the first deploy on 2026-10-11 (deploys are in the record at the foot
+of [DEPLOY.md](DEPLOY.md)). Until launch day, changes are ordinary repository changes: the
+corrections log starts at launch, and nothing before it goes in the log.
 
-## To do (in order)
+## Done
 
-1. **Set up `editor@aswemayact.org`** — Cloudflare → aswemayact.org → Email → Email Routing → add the address, route it to your inbox, "Add records and enable" (adds MX, SPF and a DKIM TXT). This is the only public contact on the site and the git author address, so do it first.
-2. **Create `.content-rules/excluded.txt`** in the repo (one name per line: every campaign, organization, investigation, vault and site you don't want mentioned). It is gitignored. The build's excluded-names lint warns loudly until it exists; after that it scans every tracked text file.
-3. `npm ci`, then `npm test` once on your machine (Playwright will need `npx playwright install chromium` the first time). Expect 87 unit + 250 e2e green.
-4. `npx wrangler login`, then `npm run deploy` (builds, then deploys to a `*.workers.dev` URL).
-5. **Attach the domain** — Workers & Pages → aswemayact → Settings → Domains & Routes → Add → Custom Domain → `aswemayact.org` (delete any existing apex A/AAAA/CNAME first). Then the `www` → apex Bulk Redirect exactly as `DEPLOY.md` writes it (`https://www.aswemayact.org/*` → `https://aswemayact.org/${1}`, 301).
-6. **Run the curl checks** in `DEPLOY.md` step 4: 200 on `/`, 404 on `/no-such-page/`, 307 trailing-slash redirect, `cache-control: immutable` on `/_astro/*` (confirms `public/_headers` took effect), range request on the Pagefind index.
-7. **Web Analytics** — Analytics & Logs → Web Analytics → add site with the JS snippet (confirm automatic injection is off); paste the beacon token into the commented placeholder in `src/layouts/Periodical.astro`; redeploy.
-8. `npm run archive` once (submits every page and cited URL to the Wayback Machine, 3/min; stops on the first 429), then `git tag deployed-2026-10-DD`.
-9. Create the GitHub repo and push `main`. Add a `LICENSE`/`README` first if you want the code licence stated (content licences are already on About and in `llms.txt`).
-10. Apply to **Cloudflare Project Galileo** once the site is live.
+- [x] `editor@aswemayact.org` routed through Cloudflare Email Routing (MX, SPF, DKIM).
+- [x] `.content-rules/excluded.txt` in place; the build scans every tracked text file.
+- [x] Deployed to Workers static assets; custom domain; `www` → apex 301.
+- [x] Header checks (DEPLOY.md step 4) recorded on 2026-10-11.
+- [x] Web Analytics beacon (cookieless), deployed 2026-10-11.
+- [x] GitHub repository, README, MIT licence.
+- [x] Legal pass against primary sources (2026-10-12), and the build check of every handbook
+      quotation.
+- [x] DMARC record, `p=none` with reports to Cloudflare DMARC Management (2026-10-15).
+- [x] Atom feed at `/feed.xml`, linked from every page's head and footer.
 
-## Known limits left on purpose
+## Before launch
 
-- Fonts are Latin-only subsets; names with ā, ł, ő render in the fallback face.
-- The search page fetches ~215 KB of Pagefind index after a query (page load itself is ~106 KB).
-- The archive script's 200 from Save Page Now does not prove a capture; check the log after the first run.
-- Local builds rewrite `src/data/recent.json` — commit it with content changes.
-- The design spec, implementation plan and decision ledger are kept outside the repo.
+1. **Legal read.** Drafts asking for a one-time accuracy read are in Gmail (not sent): the
+   UA Little Rock law school's FOIA scholar, the Arkansas Press Association (to reach its
+   counsel), and the SPJ Arkansas chapter's FOI Committee. Send, wait, fix what they find.
+   Credit the reviewers on About only with their agreement.
+2. **Fourth trail.** "The bill" (draft in this branch) needs the editor's read and sign-off;
+   it is written in the editor's voice and signed.
+3. **Source archive.** `npm run archive -- --external-only`, signed in (DEPLOY.md, step 6).
+   Anonymous Save Page Now has refused this connection on every try so far.
+4. **Pick the date.** A weekday morning, not in the week of a holiday, so the first days of
+   corrections mail get answered inside 48 hours.
 
-## Release 2 and 3 (from the spec)
+## Launch day (in order)
 
-- R2: Spanish and Marshallese one-pagers for your-rights and write-a-request; public request/response log opened to submissions, reviewed before posting.
-- R3: Act 505 posting audit of the 75 quorum courts and the largest councils and school boards, by county, annual.
-- Cadence: one trail a month; manual re-reviewed quarterly; corrections within 48 hours.
+1. Set the launch entry, `src/content/corrections/2026-10-11-launch.md`: rename the file to
+   the launch date, set `date:` to it, and make `now:` list exactly what ships.
+2. Re-read and re-date the manual pages you have reviewed (`reviewed:` in each file); leave
+   a date alone if you did not re-read the page.
+3. Set the essay's and each trail's `dateline` only if you want them dated to the launch;
+   otherwise leave them as written.
+4. Before-every-deploy checklist (DEPLOY.md), `npm run deploy`, the curl checks.
+5. `npm run archive` (signed in) for every page and source, then the first tag:
+   `git tag deployed-YYYY-MM-DD` and `git push origin --tags`. Add the row to the deploy
+   record.
+6. Announce. Lead with the printables and the letter builder: something to use, not only a
+   link. Partner list: [OUTREACH.md](OUTREACH.md).
+
+## After launch
+
+- **Project Galileo**: apply after launch, not before. The application wants a live public
+  site, and a sponsor is the strongest route. Application text below. The form ends in a
+  bot check, so the editor submits it.
+- **DMARC**: after a few weeks of reports, move to `p=quarantine` if only Cloudflare's own
+  forwarding appears.
+- **2027 session watch**: see [SESSION-2027.md](SESSION-2027.md).
+- **Release 2** (translations): [translation/BRIEF.md](translation/BRIEF.md).
+- **Release 3** (Act 505 audit): [act-505-audit/METHOD.md](act-505-audit/METHOD.md).
+- Cadence: one trail a month; manual re-read quarterly; corrections within 48 hours.
+
+### Project Galileo application text
+
+Form: <https://www.cloudflare.com/galileo/#galileoapplication>. Fields: first and last
+name, organization, website, contact email, country, phone (optional), "Are you currently
+under attack?", circumstances of attacks, and why the organization fits. No EIN or
+registration documents are asked for. A partner sponsorship (Freedom of the Press
+Foundation, EFF, CDT, Access Now, or a press group such as LION Publishers) carries more
+weight than a direct application; ask one first if any of them knows the project.
+
+> **Organization:** As We May Act (aswemayact.org)
+>
+> **Why we fit:** As We May Act is a free, plain-language guide to the Arkansas Freedom of
+> Information Act for ordinary Arkansans. It explains what public records and meetings the
+> law opens, what copies cost, how fast an agency must answer and what to do after a
+> denial, citing the statute behind every rule. It includes a request-letter builder that
+> runs entirely in the reader's browser and stores nothing, printable sheets for use at a
+> counter or a public meeting, and short signed "trails" from a public record to an action a
+> reader can take. It carries no advertising and no tracking beyond cookieless analytics;
+> its content is CC BY and its code is MIT-licensed. It is a one-person, unincorporated,
+> non-commercial project, edited by Joshua Dunlap. Arkansas has no FOIA ombudsman or
+> enforcement office, so a public guide is much of what a first-time requester has. Its
+> trails cite reporting on how public bodies handle records, which can draw hostile
+> attention, and a one-person project has no security staff to absorb it.
+>
+> **Attacks:** None so far. (Update honestly at the time of applying.)
