@@ -4,6 +4,9 @@
 //   npm run archive -- --limit 10     submit at most 10 URLs
 //   npm run archive -- --external-only  cited sources only, none of this site's pages
 //                                       (safe before a deploy: the live pages may be stale)
+//   npm run archive -- --since 2026-10-14T13:58Z
+//                                       skip site pages already saved since that time (the
+//                                       deploy), so a run resumed after a 429 picks up the rest
 // "Changed" means changed since the most recent tag matching deployed-* (every page when
 // there is none). External URLs already saved according to .archive-log.jsonl are skipped.
 // Anonymous Save Page Now allows about 3 requests a minute, so requests are 20 s apart.
@@ -78,9 +81,11 @@ async function main() {
   const pages = files.map(pagePathFromDist);
   const external = files.flatMap((f) => externalLinks(readFileSync(f, "utf8")));
   const { tag, files: changed } = changedSinceDeploy();
-  const alreadyArchived = existsSync(LOG) ? archivedUrls(readFileSync(LOG, "utf8")) : new Set<string>();
+  const logText = existsSync(LOG) ? readFileSync(LOG, "utf8") : "";
+  const alreadyArchived = archivedUrls(logText);
+  const pagesSaved = args.since ? archivedUrls(logText, args.since) : new Set<string>();
   const sitePages = args.externalOnly ? [] : changedPages(changed, pages);
-  const list = archiveList({ pages: sitePages, external, alreadyArchived, limit: args.limit });
+  const list = archiveList({ pages: sitePages, external, alreadyArchived, pagesSaved, limit: args.limit });
 
   const scope = args.externalOnly ? "external sources only" : tag ? `changes since ${tag}` : "no deployed-* tag, all pages";
   console.log(`archive: ${scope}; ${list.length} URL(s)${KEYS ? "; signed in" : ""}`);
