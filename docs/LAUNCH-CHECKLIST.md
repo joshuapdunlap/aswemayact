@@ -21,10 +21,11 @@ corrections log starts at launch, and nothing before it goes in the log.
 
 ## Before launch
 
-1. **Legal read.** Drafts asking for a one-time accuracy read are in Gmail (not sent): the
-   UA Little Rock law school's FOIA scholar, the Arkansas Press Association (to reach its
-   counsel), and the SPJ Arkansas chapter's FOI Committee. Send, wait, fix what they find.
-   Credit the reviewers on About only with their agreement.
+1. **Legal read: on hold** (editor's decision, 2026-10-15). Three drafts asking for a
+   one-time accuracy read stay unsent in Gmail: the UA Little Rock law school's FOIA scholar,
+   the Arkansas Press Association (to reach its counsel), and the SPJ Arkansas chapter's FOI
+   Committee. If it is picked up again: send, wait, fix what they find, and credit reviewers
+   on About only with their agreement.
 2. ~~**Deploy `main`.**~~ Done 2026-10-15: *The bill* and the Atom feed are live (still
    unannounced).
 3. **Source archive.** The 52 sources cited at the first deploy are saved. The 10 new ones in
