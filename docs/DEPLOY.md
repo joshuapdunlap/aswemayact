@@ -246,6 +246,7 @@ Before-every-deploy checklist, then `npm run deploy`, then step 6 (archive and t
 | 2026-10-11 | none (pre-launch) | 200 | `public, max-age=31536000, immutable` | HTML served without `etag` or `; charset=utf-8` (same on workers.dev; pages declare `<meta charset="utf-8">`). Always Use HTTPS turned on. DMARC not yet added. HSTS deliberately left off. First `npm run archive` stopped on a 429 at the first URL; re-run before tagging. |
 | 2026-10-11 | none (pre-launch) | — | — | 22:50 UTC: most likely the Web Analytics beacon (`1e36a64`); the dashboard records no commit. |
 | 2026-10-14 | none (pre-launch) | 200 | `public, max-age=31536000, immutable` | 13:59 UTC: `main` at `8d08196` (PR #3: legal audit, Public meetings page, law-quote check), version `08efeb0e`. Cited sources archived beforehand with `--external-only` (52 URLs, 2026-10-12 to -13, many 429 stops); 8 of the 19 public pages archived after the deploy before Save Page Now shut the door. Wrangler re-authorized by OAuth during the deploy. |
+| 2026-10-15 | none (pre-launch) | 200 | `public, max-age=31536000, immutable` | 22:35 UTC: `main` at `8643e89` (PR #4: the trail *The bill*, the Atom feed, signed-in archiving; PR #5: `--since`, archive record), version `a661acf6`. 35 new or changed assets uploaded. Checked live: `/trails/the-bill/` 200; `/feed.xml` 200 as `application/atom+xml; charset=utf-8` with 6 entries; 404, 307 and `www` 301 as expected; `nosniff` and `referrer-policy` present. The 10 sources new in *The bill* still not archived (Save Page Now 429). |
 
 Not deploys, recorded here so the zone's state is in one place:
 
@@ -253,7 +254,6 @@ Not deploys, recorded here so the zone's state is in one place:
   `v=DMARC1; p=none; rua=mailto:…@dmarc-reports.cloudflare.net`. Monitor only. Read the
   reports after a few weeks; if nothing but Cloudflare's own forwarding shows up, move to
   `p=quarantine`.
-- 2026-10-15: PR #4 (the trail *The bill*, the Atom feed, signed-in archiving, launch
-  docs) merged to `main`; **not deployed**, so the live site is behind `main` until the next
-  deploy. Its 10 newly cited sources are not yet archived (Save Page Now still answering
-  429); run `npm run archive -- --external-only` signed in, or after the block lifts.
+- 2026-10-15: the 10 sources newly cited in *The bill* are not yet archived (Save Page Now
+  still answering 429 at 22:36 UTC); run `npm run archive -- --external-only` signed in, or
+  after the block lifts.
